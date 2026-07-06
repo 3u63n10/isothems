@@ -1,4 +1,4 @@
-
+﻿
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Optimized preamble for achemso SI (cleaned and conflict-free)
@@ -130,7 +130,7 @@
 }
 
 
-% -------------------------------      ← PEGA AQUÍ (entre bgblock y Spacing)
+% -------------------------------      â† PEGA AQUÃ (entre bgblock y Spacing)
 % --- Shinshu colored boxes ---
 % -------------------------------
 \definecolor{BoxBlue}{RGB}{30,100,180}
@@ -173,7 +173,7 @@
 \newcommand{\smalltag}[1]{\textcolor{BoxBlue}{\scriptsize\bfseries #1}}
 \newcommand{\slidenote}[1]{{\scriptsize\textcolor{gray}{#1}}}
 
-% -------------------------------      ← esto ya existía
+% -------------------------------      â† esto ya existÃ­a
 % --- Spacing ---
 % -------------------------------
 \usepackage{setspace}
@@ -3058,6 +3058,132 @@ classification datasets without rederiving the equations in this SI.
 	error metrics, descriptor extraction, and distribution utilities.
 \end{itemize}
 
+\subsection{Notebook-to-LaTeX export policy}
+\label{sec:si_notebook_latex_export}
+
+The notebooks are part of the scientific record, but the SI should not become a
+raw notebook dump. The recommended workflow is to execute the notebooks, export
+stable outputs, and include only the pieces that help the reader reproduce or
+interpret the analysis.
+
+\begin{greenbox}{Recommended manuscript workflow}
+	For this manuscript, notebook results should enter the SI in three controlled
+	forms: (i) figures saved from Python as PDF or high-resolution PNG, (ii)
+	tables exported as \LaTeX{} or CSV-derived summary tables, and (iii) short
+	code fragments that show exactly how a descriptor or diagnostic was produced.
+	The complete executable notebooks remain in the repository, where they are
+	easier to rerun, inspect, and update than inside a compiled manuscript file.
+\end{greenbox}
+
+\noindent\textbf{Option 1: short code fragments with syntax highlighting.}
+For polished supplementary code, convert or copy only the relevant notebook
+cell and typeset it with \texttt{minted}. This requires shell escape during
+compilation and should be used only when the build environment supports it.
+
+\begin{verbatim}
+jupyter nbconvert --to script 01_isotherm_fitting.ipynb
+
+% In the LaTeX preamble, only if shell escape is available:
+\usepackage{minted}
+
+\begin{minted}[fontsize=\small,linenos,breaklines]{python}
+import numpy as np
+from utils_isotherms import fit_all_models, extract_descriptors
+
+fits = fit_all_models(Ce, qe)
+descriptors = extract_descriptors(fits, temperature_K=298.15)
+\end{minted}
+
+pdflatex -shell-escape SI.tex
+\end{verbatim}
+
+\begin{bluebox}{Practical rule for code snippets}
+	Use code snippets to document a convention, not to reproduce the whole
+	notebook. A good snippet is short enough that the reader can see the key
+	operation: for example, Sips fitting with \(K_S C_e^m\), Dubinin fitting with
+	\(C_{\mathrm{ref}}\), or conversion of a legacy \(\sigma_E\) column into the
+	reported intrinsic descriptor \(\sigma_H\).
+\end{bluebox}
+
+\noindent\textbf{Option 2: full notebook export.}
+\texttt{nbconvert} can export an entire notebook to \LaTeX{}, together with a
+folder of figures. This is useful for an archival computational supplement, but
+usually too verbose for the main SI text.
+
+\begin{verbatim}
+jupyter nbconvert --to latex 03_statistical_validation.ipynb
+% Produces 03_statistical_validation.tex and associated figure files.
+% Include only after manual cleanup:
+\input{03_statistical_validation.tex}
+\end{verbatim}
+
+\begin{redbox}{Do not paste raw notebooks into the SI}
+	A raw \texttt{nbconvert} export often contains execution noise, repeated
+	imports, long tables, and formatting that distracts from the physical message.
+	If a full export is needed, keep it as a separate computational supplement or
+	repository artifact. In the SI, include the cleaned figure, table, or code
+	cell that supports the manuscript claim.
+\end{redbox}
+
+\noindent\textbf{Option 3: figures and tables only.}
+This is the default route for a scientific article. The notebook performs the
+calculation; the SI includes the stable output.
+
+\begin{verbatim}
+# In the notebook
+fig.savefig("SI_notebook01_fit_overlay.pdf", bbox_inches="tight")
+metrics_table.to_latex("SI_notebook02_metrics_table.tex",
+                       index=False, escape=False)
+
+% In LaTeX
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.80\linewidth]{SI_notebook01_fit_overlay.pdf}
+  \caption{Fit overlay exported from Notebook 01.}
+\end{figure}
+
+\input{SI_notebook02_metrics_table.tex}
+\end{verbatim}
+
+\begin{greenbox}{What counts as a notebook snapshot}
+	For reproducibility, a notebook snapshot is not only a screenshot. It should
+	identify the notebook file, input data file, exported figure or table, model
+	version, and descriptor columns used in the calculation. Screenshots can help
+	teaching, but the citable SI artifact should be the exported figure, exported
+	table, or the repository notebook itself.
+\end{greenbox}
+
+\noindent\textbf{Option 4: simpler code formatting.}
+If \texttt{minted} is not available, a lighter package such as
+\texttt{pythonhighlight} or a plain verbatim block can show short code. This is
+less powerful than \texttt{minted}, but avoids shell-escape requirements.
+
+\begin{verbatim}
+\usepackage{pythonhighlight}
+
+\begin{python}
+for model_name, fit in fits.items():
+    print(model_name, fit["AICc"])
+\end{python}
+\end{verbatim}
+
+\noindent\textbf{Option 5: keep notebooks and text synchronized.}
+For long-term maintenance, pair each \texttt{.ipynb} with a text representation
+using \texttt{Jupytext}. The text version is easier to diff in Git and easier to
+quote selectively in \LaTeX{}.
+
+\begin{verbatim}
+jupytext --set-formats ipynb,py:percent 04_classification_clustering.ipynb
+jupytext --sync 04_classification_clustering.ipynb
+\end{verbatim}
+
+\begin{bluebox}{Codex--Overleaf working convention}
+	Run the analysis in Jupyter, export figures as PDF, export summary tables with
+	\texttt{DataFrame.to\_latex()} or \texttt{Styler.to\_latex()}, and include only
+	short code fragments when they clarify a methodological convention. Keep the
+	complete notebooks in the repository as executable supplementary material.
+	This keeps the article readable while preserving computational traceability.
+\end{bluebox}
 \subsection{Notebook-to-SI traceability}
 \label{sec:si_notebook_traceability}
 
@@ -3370,3 +3496,4 @@ backward-compatibility step; new tables should use \texttt{sigma\_H}.
 % \bibliography{references}
 
 \end{document}
+
