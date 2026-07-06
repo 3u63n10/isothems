@@ -3058,131 +3058,133 @@ classification datasets without rederiving the equations in this SI.
 	error metrics, descriptor extraction, and distribution utilities.
 \end{itemize}
 
-\subsection{Notebook-to-LaTeX export policy}
+\subsection{Notebook output blocks used in this SI}
 \label{sec:si_notebook_latex_export}
 
-The notebooks are part of the scientific record, but the SI should not become a
-raw notebook dump. The recommended workflow is to execute the notebooks, export
-stable outputs, and include only the pieces that help the reader reproduce or
-interpret the analysis.
+The notebooks are part of the scientific record, but the SI should not display
+raw notebook exports or raw \LaTeX{} setup code. The reader needs to see what was
+run, what came out, and where the reproducible file is stored. Therefore, the
+notebook material in this SI is represented as cleaned notebook-style blocks:
+short input cells, short output cells, exported figures, exported tables, and a
+link back to the executable notebook in the repository.
 
-\begin{greenbox}{Recommended manuscript workflow}
-	For this manuscript, notebook results should enter the SI in three controlled
-	forms: (i) figures saved from Python as PDF or high-resolution PNG, (ii)
-	tables exported as \LaTeX{} or CSV-derived summary tables, and (iii) short
-	code fragments that show exactly how a descriptor or diagnostic was produced.
-	The complete executable notebooks remain in the repository, where they are
-	easier to rerun, inspect, and update than inside a compiled manuscript file.
+\begin{greenbox}{Rule for notebook material in the SI}
+	A notebook block must answer three questions: What file or cell was run? What
+	result did it produce? Which manuscript concept does it support? Long imports,
+	package installation commands, plotting boilerplate, and raw \LaTeX{} commands
+	belong in the repository or build notes, not in the reader-facing SI.
 \end{greenbox}
 
-\noindent\textbf{Option 1: short code fragments with syntax highlighting.}
-For polished supplementary code, convert or copy only the relevant notebook
-cell and typeset it with \texttt{minted}. This requires shell escape during
-compilation and should be used only when the build environment supports it.
+\noindent\textbf{Notebook block 1: minimal fitting cell.}
+This is the type of short code block that belongs in the SI. It shows the
+scientific operation without reproducing the whole notebook.
 
-\begin{verbatim}
-jupyter nbconvert --to script 01_isotherm_fitting.ipynb
-
-% In the LaTeX preamble, only if shell escape is available:
-\usepackage{minted}
-
-\begin{minted}[fontsize=\small,linenos,breaklines]{python}
-import numpy as np
-from utils_isotherms import fit_all_models, extract_descriptors
-
-fits = fit_all_models(Ce, qe)
-descriptors = extract_descriptors(fits, temperature_K=298.15)
-\end{minted}
-
-pdflatex -shell-escape SI.tex
-\end{verbatim}
-
-\begin{bluebox}{Practical rule for code snippets}
-	Use code snippets to document a convention, not to reproduce the whole
-	notebook. A good snippet is short enough that the reader can see the key
-	operation: for example, Sips fitting with \(K_S C_e^m\), Dubinin fitting with
-	\(C_{\mathrm{ref}}\), or conversion of a legacy \(\sigma_E\) column into the
-	reported intrinsic descriptor \(\sigma_H\).
+\begin{bluebox}{Notebook input cell: fitting and descriptor extraction}
+\small
+\noindent\texttt{\detokenize{In [1]: import pandas as pd}}\\
+\texttt{\detokenize{In [2]: from utils_isotherms import fit_all_models, extract_descriptors}}\\
+\texttt{\detokenize{In [3]: data = pd.read_csv("sample_isotherm_data.csv")}}\\
+\texttt{\detokenize{In [4]: fits = fit_all_models(data["Ce"], data["qe"])}}\\
+\texttt{\detokenize{In [5]: descriptors = extract_descriptors(fits, temperature_K=298.15)}}
 \end{bluebox}
 
-\noindent\textbf{Option 2: full notebook export.}
-\texttt{nbconvert} can export an entire notebook to \LaTeX{}, together with a
-folder of figures. This is useful for an archival computational supplement, but
-usually too verbose for the main SI text.
-
-\begin{verbatim}
-jupyter nbconvert --to latex 03_statistical_validation.ipynb
-% Produces 03_statistical_validation.tex and associated figure files.
-% Include only after manual cleanup:
-\input{03_statistical_validation.tex}
-\end{verbatim}
-
-\begin{redbox}{Do not paste raw notebooks into the SI}
-	A raw \texttt{nbconvert} export often contains execution noise, repeated
-	imports, long tables, and formatting that distracts from the physical message.
-	If a full export is needed, keep it as a separate computational supplement or
-	repository artifact. In the SI, include the cleaned figure, table, or code
-	cell that supports the manuscript claim.
-\end{redbox}
-
-\noindent\textbf{Option 3: figures and tables only.}
-This is the default route for a scientific article. The notebook performs the
-calculation; the SI includes the stable output.
-
-\begin{verbatim}
-# In the notebook
-fig.savefig("SI_notebook01_fit_overlay.pdf", bbox_inches="tight")
-metrics_table.to_latex("SI_notebook02_metrics_table.tex",
-                       index=False, escape=False)
-
-% In LaTeX
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.80\linewidth]{SI_notebook01_fit_overlay.pdf}
-  \caption{Fit overlay exported from Notebook 01.}
-\end{figure}
-
-\input{SI_notebook02_metrics_table.tex}
-\end{verbatim}
-
-\begin{greenbox}{What counts as a notebook snapshot}
-	For reproducibility, a notebook snapshot is not only a screenshot. It should
-	identify the notebook file, input data file, exported figure or table, model
-	version, and descriptor columns used in the calculation. Screenshots can help
-	teaching, but the citable SI artifact should be the exported figure, exported
-	table, or the repository notebook itself.
+\begin{greenbox}{Notebook output cell: reported descriptor table}
+\small
+\noindent\texttt{\detokenize{Out [5]: columns = model, Qmax, K_aff_star, E_ads, sigma_H, AICc, BIC}}\\
+\texttt{\detokenize{Out [5]: sigma_H is the reported heterogeneity width; legacy sigma_E is not used as the final descriptor.}}
 \end{greenbox}
 
-\noindent\textbf{Option 4: simpler code formatting.}
-If \texttt{minted} is not available, a lighter package such as
-\texttt{pythonhighlight} or a plain verbatim block can show short code. This is
-less powerful than \texttt{minted}, but avoids shell-escape requirements.
+\noindent\textbf{Notebook block 2: figure export.}
+Figures should appear in the SI as figures, not as screenshots of the notebook
+interface. The notebook cell should save the figure with a stable filename; the
+SI should show the exported figure and explain what it demonstrates.
 
-\begin{verbatim}
-\usepackage{pythonhighlight}
+\begin{bluebox}{Notebook input cell: export a fit overlay}
+\small
+\noindent\texttt{\detokenize{In [6]: ax = plot_fit_overlay(data, fits["Sips"])}}\\
+\texttt{\detokenize{In [7]: ax.figure.savefig("SI_notebook01_fit_overlay.pdf", bbox_inches="tight")}}
+\end{bluebox}
 
-\begin{python}
-for model_name, fit in fits.items():
-    print(model_name, fit["AICc"])
-\end{python}
-\end{verbatim}
+\begin{greenbox}{Notebook output artifact}
+\small
+\noindent\texttt{\detokenize{Out [7]: SI_notebook01_fit_overlay.pdf}}\\
+The corresponding SI figure should use the exported file and caption the
+scientific point: agreement between measured adsorption data and the selected
+model, residual structure, or comparison among candidate isotherms.
+\end{greenbox}
 
-\noindent\textbf{Option 5: keep notebooks and text synchronized.}
-For long-term maintenance, pair each \texttt{.ipynb} with a text representation
-using \texttt{Jupytext}. The text version is easier to diff in Git and easier to
-quote selectively in \LaTeX{}.
+\noindent\textbf{Notebook block 3: table export.}
+Tables should be exported from the notebook after rounding, unit normalization,
+and descriptor naming have been checked.
 
-\begin{verbatim}
-jupytext --set-formats ipynb,py:percent 04_classification_clustering.ipynb
-jupytext --sync 04_classification_clustering.ipynb
-\end{verbatim}
+\begin{bluebox}{Notebook input cell: export a model-selection table}
+\small
+\noindent\texttt{\detokenize{In [8]: report = build_model_selection_table(fits)}}\\
+\texttt{\detokenize{In [9]: report.to_csv("SI_notebook02_model_selection.csv", index=False)}}\\
+\texttt{\detokenize{In [10]: report.to_latex("SI_notebook02_model_selection_table.tex", index=False)}}
+\end{bluebox}
+
+\begin{greenbox}{Notebook output artifact}
+\small
+\noindent\texttt{\detokenize{Out [10]: SI_notebook02_model_selection_table.tex}}\\
+The SI table should contain the final reported columns only: model name, fitted
+capacity, standardized affinity, adsorption-energy descriptor, intrinsic
+heterogeneity width \(\sigma_H\), and model-selection statistics.
+\end{greenbox}
+
+\noindent\textbf{Notebook block 4: statistical validation.}
+Bootstrap and noise-sensitivity results should be reduced to intervals and
+short diagnostic plots. The SI should not include the entire simulation log.
+
+\begin{bluebox}{Notebook input cell: bootstrap summary}
+\small
+\noindent\texttt{\detokenize{In [11]: boot = bootstrap_fit(data, model="Sips", n_boot=1000)}}\\
+\texttt{\detokenize{In [12]: boot_summary = summarize_descriptor_intervals(boot)}}\\
+\texttt{\detokenize{In [13]: boot_summary[["E_ads", "sigma_H"]]}}
+\end{bluebox}
+
+\begin{greenbox}{Notebook output cell: uncertainty statement}
+\small
+\noindent\texttt{\detokenize{Out [13]: E_ads median and 95 percent interval}}\\
+\texttt{\detokenize{Out [13]: sigma_H median and 95 percent interval}}\\
+The text should report whether the descriptor ranking is stable under bootstrap
+resampling, not merely whether a flexible model can fit the data.
+\end{greenbox}
+
+\noindent\textbf{Notebook block 5: classification and clustering.}
+Classification notebooks should show the descriptor columns and the target
+labels before showing accuracy, confusion matrices, PCA maps, or clusters.
+
+\begin{bluebox}{Notebook input cell: descriptor matrix for classification}
+\small
+\noindent\texttt{\detokenize{In [14]: X = descriptors[["Qmax", "K_aff_star", "E_ads", "sigma_H"]]}}\\
+\texttt{\detokenize{In [15]: y = descriptors["group"]}}\\
+\texttt{\detokenize{In [16]: scores = cross_validate_svm_knn(X, y)}}
+\end{bluebox}
+
+\begin{greenbox}{Notebook output cell: classification summary}
+\small
+\noindent\texttt{\detokenize{Out [16]: cross-validated KNN and SVM scores}}\\
+\texttt{\detokenize{Out [16]: confusion matrix and PCA descriptor map exported as figure files}}\\
+The SI should interpret whether the separation is driven by capacity, affinity,
+adsorption energy, or intrinsic heterogeneity, rather than treating the
+classifier as a black box.
+\end{greenbox}
+
+\begin{redbox}{What not to include}
+	Do not include raw \texttt{nbconvert} pages, long import cells, package
+	installation logs, hidden execution state, or LaTeX preamble fragments. Those
+	items are useful for building the supplement but they are not scientific
+	content for the reader. The clean SI artifact is the notebook-style block plus
+	the exported figure or table.
+\end{redbox}
 
 \begin{bluebox}{Codex--Overleaf working convention}
-	Run the analysis in Jupyter, export figures as PDF, export summary tables with
-	\texttt{DataFrame.to\_latex()} or \texttt{Styler.to\_latex()}, and include only
-	short code fragments when they clarify a methodological convention. Keep the
-	complete notebooks in the repository as executable supplementary material.
-	This keeps the article readable while preserving computational traceability.
+	Run and maintain the analysis in Jupyter. Export figures as stable PDF or PNG
+	files and export summary tables as CSV or cleaned table files. In the SI,
+	include only short notebook-style blocks that explain the reproducible action
+	and the output artifact. Keep the complete notebooks in the repository as the
+	executable supplement.
 \end{bluebox}
 \subsection{Notebook-to-SI traceability}
 \label{sec:si_notebook_traceability}
@@ -3496,4 +3498,5 @@ backward-compatibility step; new tables should use \texttt{sigma\_H}.
 % \bibliography{references}
 
 \end{document}
+
 

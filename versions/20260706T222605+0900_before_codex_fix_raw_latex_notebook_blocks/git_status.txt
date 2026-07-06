@@ -1,0 +1,3 @@
+?? SI_20260706_2226.tex
+?? main_20260706_2226.tex
+?? versions/20260706T222605+0900_before_codex_fix_raw_latex_notebook_blocks/
