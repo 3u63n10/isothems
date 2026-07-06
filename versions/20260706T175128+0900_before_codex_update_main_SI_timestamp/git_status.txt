@@ -1,0 +1,23 @@
+ M SI_20260706_1550.tex
+ M main_20260706_1550.tex
+?? SI.tex
+?? SI_20260706_1616.tex
+?? SI_20260706_1634.tex
+?? SI_20260706_1746.tex
+?? SI_20260706_1750.tex
+?? SI_20260706_1751.tex
+?? acs-SI.bib
+?? acs-SI_20260706_1550.bib
+?? acs-main.bib
+?? acs-main_20260706_1550.bib
+?? agent_exchange/
+?? main.tex
+?? main_20260706_1616.tex
+?? main_20260706_1634.tex
+?? main_20260706_1746.tex
+?? main_20260706_1750.tex
+?? main_20260706_1751.tex
+?? notebooks/
+?? references.bib
+?? scripts/
+?? versions/

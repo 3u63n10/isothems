@@ -4,6 +4,13 @@
 %% The document class accepts keyval options, which should include
 %% the target journal and optionally the manuscript type.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Agent note (Codex, 2026-07-06 17:54 JST):
+% This timestamped main-text copy preserves the reviewed manuscript state after
+% aligning the descriptor language with intrinsic heterogeneity width sigma_H,
+% updating the Sips/Dubinin discussion points, and linking the main narrative
+% to the notebook-based fitting, validation, and classification workflow.
+% Earlier scientific review items were confronted against Antigravity/Gemini
+% comments; this file records the Codex-applied working version for review.
 \documentclass[journal=jacsat,manuscript=article]{achemso}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -756,9 +763,9 @@ Thus, $E_{\mathrm{ads}}$ has units of $\mathrm{kJ\,mol^{-1}}$ and is thermodynam
 	\subsection{Physical interpretation of $\sigma_E$}
 	\label{sec:sigma_E}
 
-	The standard deviation $\sigma_E$ of the site-energy distribution is the third universal descriptor. It is derived analytically from the same isotherm parameters as $E_{\mathrm{ads}}$, imposing no additional fitting burden. A small $\sigma_E \ll RT$ indicates a nearly homogeneous surface; $\sigma_E \sim RT$ corresponds to moderate heterogeneity; and $\sigma_E \gg RT$ signals broad energetic diversity typical of activated carbons, biochars, or disordered porous solids. At $T = 298$~K, the intrinsic logistic width (Sips, $m = 1$) is $(\pi/\sqrt{3})\,RT \approx 4.5$~kJ\,mol$^{-1}$; surfaces below this threshold are practically indistinguishable from Langmuir behaviour. Numerical $\sigma_E$ values for representative parameter choices are tabulated in Table~\ref{SI-tab:si_sigma_numerical}.
+	The apparent standard deviation $\sigma_E$ describes the mathematical site-energy distribution. For reporting, we use the intrinsic heterogeneity width $\sigma_H$, obtained by removing the Langmuir thermal-kernel width from continuous heterogeneous models such as Sips, Koble--Corrigan, and Hill. Thus the homogeneous Langmuir limit is continuous: as the heterogeneity exponent approaches one, $\sigma_H \to 0$. Small $\sigma_H$ indicates a nearly homogeneous surface, whereas large $\sigma_H$ signals broad intrinsic energetic diversity typical of activated carbons, biochars, or disordered porous solids. Numerical apparent-width values and the conversion to the reported descriptor are tabulated in Table~\ref{SI-tab:si_sigma_numerical}.
 	
-	The usefulness of $\sigma_E$ extends beyond describing surface heterogeneity. Because it is derived from the fitted isotherm parameters on the same footing as $Q_{\max}$ and $E_{\mathrm{ads}}$, it converts model-specific heterogeneity into a common statistical descriptor. This enables comparison of competing models not only through residual-based criteria such as SSE, AIC$_c$, BIC, or F-tests, but also through the physical similarity of their implied site-energy distributions, for example by overlap metrics. More broadly, the descriptor set $\{Q_{\max}, E_{\mathrm{ads}}, \sigma_E\}$ defines a common feature space in which adsorbent--adsorbate systems can be grouped, ranked, or separated using statistical learning tools such as k-Nearest Neighbours (KNN) and Support Vector Machines (SVM). In this way, the site-energy distribution becomes the link between isotherm physics, statistical model comparison, and data-driven classification.
+	The usefulness of $\sigma_H$ extends beyond describing surface heterogeneity. Because it is derived from the fitted isotherm parameters on the same footing as $Q_{\max}$ and $E_{\mathrm{ads}}$, it converts model-specific heterogeneity into a common statistical descriptor. This enables comparison of competing models not only through residual-based criteria such as SSE, AIC$_c$, BIC, or F-tests, but also through the physical similarity of their implied site-energy distributions, for example by overlap metrics. More broadly, the descriptor set $\{Q_{\max}, E_{\mathrm{ads}}, \sigma_H\}$ defines a common feature space in which adsorbent--adsorbate systems can be grouped, ranked, or separated using statistical learning tools such as k-Nearest Neighbours (KNN) and Support Vector Machines (SVM). In this way, the site-energy distribution becomes the link between isotherm physics, statistical model comparison, and data-driven classification.
 
 \end{comment}
 
@@ -973,11 +980,11 @@ Thus, $E_{\mathrm{ads}}$ has units of $\mathrm{kJ\,mol^{-1}}$ and is thermodynam
 	\subsection{Physical and statistical interpretation of the energy distribution}
 	\label{sec:sigma_E}
 	
-	Once an isotherm has been mapped onto an energy distribution, two quantities become especially useful: the central energy scale and the distribution width. In the present framework, the central position is represented by the adsorption energy $E_{\mathrm{ads}}$ introduced in Section~\ref{sec:Eads}, while the energetic dispersion is represented by the standard deviation $\sigma_E$. Together they summarize where the distribution is centered and how broad it is.
+	Once an isotherm has been mapped onto an energy distribution, two quantities become especially useful: the central energy scale and the distribution width. In the present framework, the central position is represented by the adsorption energy $E_{\mathrm{ads}}$ introduced in Section~\ref{sec:Eads}, while the reported energetic dispersion is represented by the intrinsic width $\sigma_H$. Together they summarize where the distribution is centered and how broad the intrinsic heterogeneity is.
 	
-	The width $\sigma_E$ provides a direct measure of heterogeneity and is obtained analytically from the same fitted parameters used to determine $E_{\mathrm{ads}}$, imposing no additional fitting burden. Small values, $\sigma_E \ll RT$, indicate near-homogeneous surfaces. Values on the order of $RT$ indicate moderate heterogeneity. Values much larger than $RT$ indicate broad energetic diversity, as commonly found in activated carbons, biochars, and disordered porous materials. At $T=298$~K, the thermal logistic width is $(\pi/\sqrt{3})RT \approx 4.5$~kJ\,mol$^{-1}$, so distributions narrower than this scale will often be difficult to distinguish experimentally from Langmuir behavior. Representative numerical values are given in Table~\ref{SI-tab:si_sigma_numerical}.
+	The width $\sigma_H$ provides a direct measure of intrinsic heterogeneity and is obtained analytically from the same fitted parameters used to determine $E_{\mathrm{ads}}$, imposing no additional fitting burden. Small values, $\sigma_H \ll RT$, indicate near-homogeneous surfaces. Values on the order of $RT$ indicate moderate heterogeneity. Values much larger than $RT$ indicate broad energetic diversity, as commonly found in activated carbons, biochars, and disordered porous materials. The SI distinguishes the apparent mathematical width $\sigma_E$ from the reported intrinsic width $\sigma_H$ so that Langmuir is recovered at $\sigma_H=0$. Representative numerical values are given in Table~\ref{SI-tab:si_sigma_numerical}.
 
-	This representation also provides a natural connection to statistical model comparison. Two different isotherm models may fit the same data well because their implied energy distributions have similar central energies and similar widths, even if their algebraic forms differ. For example, a narrow bimodal distribution and a single broader logistic distribution may generate nearly indistinguishable isotherms when the two discrete energies are closer than the thermal resolution. Conversely, two models with similar residual error but markedly different $E_{\mathrm{ads}}$ or $\sigma_E$ imply different physical pictures of the surface.
+	This representation also provides a natural connection to statistical model comparison. Two different isotherm models may fit the same data well because their implied energy distributions have similar central energies and similar widths, even if their algebraic forms differ. For example, a narrow bimodal distribution and a single broader logistic distribution may generate nearly indistinguishable isotherms when the two discrete energies are closer than the thermal resolution. Conversely, two models with similar residual error but markedly different $E_{\mathrm{ads}}$ or $\sigma_H$ imply different physical pictures of the surface.
 	
 	The similarity between two implied energy distributions, $f_1(E)$ and $f_2(E)$, can be quantified directly through an overlap coefficient,
 	\begin{equation}
@@ -1007,11 +1014,11 @@ Thus, $E_{\mathrm{ads}}$ has units of $\mathrm{kJ\,mol^{-1}}$ and is thermodynam
 	\begin{itemize}
 		\item $Q_{\max}$ --- total adsorption capacity (mg\,g$^{-1}$).
 		\item $E_{\mathrm{ads}} = RT\ln K_{\mathrm{aff}}^{\ast}$ --- standard-state adsorption energy (kJ\,mol$^{-1}$), model-independent affinity on a common thermodynamic scale.
-		\item $\sigma_E$ --- standard deviation of the site-energy distribution (kJ\,mol$^{-1}$), quantifying the degree of surface heterogeneity.
+		\item $\sigma_H$ --- intrinsic heterogeneity width (kJ\,mol$^{-1}$), quantifying the degree of surface heterogeneity after the Langmuir thermal baseline is removed where applicable.
 	\end{itemize}
 	\noindent Together, these three quantities define a universal descriptor set:
 	\begin{equation}
-		\mathbf{d} = \{Q_{\max},\; E_{\mathrm{ads}},\; \sigma_E\}
+		\mathbf{d} = \{Q_{\max},\; E_{\mathrm{ads}},\; \sigma_H\}
 		\label{eq:universal_descriptors}
 	\end{equation}
 	that provides a model-agnostic fingerprint for comparing adsorption performance across materials, contaminants, and laboratories.
@@ -1132,9 +1139,9 @@ Importantly, the use of information criteria does not imply that one model is â€
 
 	Beyond the F-test, physically motivated criteria can guide the choice between nested alternatives:
 	\begin{itemize}
-		\item \textbf{Langmuir vs.\ Sips:} Accept Langmuir if the Sips-derived heterogeneity is negligible, $\sigma_E^{\mathrm{(Sips)}} = (\pi/\sqrt{3})\,RT/m \leq \alpha\,RT$ with $\alpha \approx 2$ (equivalently, $m \geq 0.9$; Eq.~\ref{SI-eq:si_criterion_LvsS}).
+		\item \textbf{Langmuir vs.\ Sips:} Accept Langmuir if the Sips-derived intrinsic heterogeneity is negligible, $\sigma_H^{\mathrm{(Sips)}} = (\pi RT/\sqrt{3})\sqrt{1/m^2-1} \leq \alpha\,RT$ with $\alpha \approx 1$ as a practical screen; Eq.~\ref{SI-eq:si_criterion_LvsS}.
 		\item \textbf{Langmuir vs.\ Double Langmuir:} Accept Double Langmuir if the two site classes are resolvable, $\Delta E_{12} = RT|\ln(K_1/K_2)| > \beta\,RT$ with $\beta \approx 2$--$3$ (Eq.~\ref{SI-eq:si_criterion_LvsDL}).
-		\item \textbf{Sips vs.\ Double Langmuir:} Prefer Sips when the site-energy separation is smaller than the distribution width, $\Delta E_{12} < 2\,\sigma_E^{\mathrm{(Sips)}}$ (Eq.~\ref{SI-eq:si_criterion_SvsDL}).
+		\item \textbf{Sips vs.\ Double Langmuir:} Prefer Sips when the site-energy separation is smaller than the intrinsic Sips width, $\Delta E_{12} < 2\,\sigma_H^{\mathrm{(Sips)}}$ (Eq.~\ref{SI-eq:si_criterion_SvsDL}).
 	\end{itemize}
 	The overlap coefficient (OVL) (Eq.~\ref{SI-eq:si_OVL}) provides a complementary, distribution-level similarity metric. A complete decision tree integrating all these criteria is given in Figure~\ref{SI-fig:si_decision_tree}.
 
@@ -1154,7 +1161,7 @@ Importantly, the use of information criteria does not imply that one model is â€
 		\item \textbf{Performance grouping:} sorting adsorbents into high-, medium-, and low-capacity tiers based on $(Q_{\max},\, \ln K_{\mathrm{aff}}^{\ast})$.
 		\item \textbf{Material family identification:} given a reference library, predicting whether a new material behaves like an activated carbon, zeolite, MOF, or biochar.
 		\item \textbf{Pollutant selectivity:} classifying adsorbent--adsorbate pairs by target contaminant class (e.g.\ heavy metals, dyes, pharmaceuticals, PFAS).
-		\item \textbf{Homogeneity screening:} separating materials with near-homogeneous surfaces ($\sigma_E \approx 0$) from those with broad energy distributions ($\sigma_E \gg RT$).
+		\item \textbf{Homogeneity screening:} separating materials with near-homogeneous surfaces ($\sigma_H \approx 0$) from those with broad intrinsic heterogeneity ($\sigma_H \gg RT$).
 	\end{itemize}
 	Figure~\ref{fig:KNN} illustrates the first of these tasks for three synthetic performance groups projected onto the $(Q_{\max},\, \ln K_{\mathrm{aff}}^{\ast})$ plane.
 

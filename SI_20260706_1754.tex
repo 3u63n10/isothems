@@ -3,6 +3,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Optimized preamble for achemso SI (cleaned and conflict-free)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Agent note (Codex, 2026-07-06 17:54 JST):
+% This timestamped SI copy preserves the reviewed supplementary-information
+% state after adding pedagogical color boxes for key concepts, simplifying
+% nomenclature for a materials-science reader, aligning equations with the
+% notebook implementation, and adding one practical appendix per active
+% notebook explaining purpose, inputs, execution, outputs, and cautions.
+% Earlier scientific review items were confronted against Antigravity/Gemini
+% comments; this file records the Codex-applied working version for review.
 \documentclass[journal=jacsat,manuscript=article]{achemso}
 
 % -------------------------------
@@ -350,11 +358,14 @@ From Eq.~\eqref{eq:si_langmuir},
 	= Q_{\max}.
 \end{equation}
 Therefore,
-%\noindent\fbox{%
-%\parbox{0.97\linewidth}{%
-\textbf{Langmuir has finite $Q_{\max}$}:\quad
-$\displaystyle \lim_{C_e \to \infty} q_e = Q_{\max}$.%}%
-% }
+\begin{greenbox}{Capacity-limit result}
+	Langmuir has a finite saturation capacity:
+	\begin{equation}
+		\lim_{C_e \to \infty} q_e = Q_{\max}.
+	\end{equation}
+	This makes Langmuir the clean reference model for reporting \(Q_{\max}\)
+	and for defining the homogeneous limit \(\sigma_H=0\).
+\end{greenbox}
 
 \subsubsection{Low concentration limit: Henry constant}
 
@@ -373,9 +384,12 @@ so the Henry constant is the initial slope:
 	= Q_{\max} K_L.
 \end{equation}
 Thus,
+\begin{greenbox}{Henry-limit result}
+	This is the low-concentration slope. Use it to connect the fitted isotherm to the Henry regime, and compare it across models only when the concentration units and standard state are declared.
 \begin{equation}
-	\boxed{K_H = Q_{\max} K_L.}
+	K_H = Q_{\max} K_L.
 \end{equation}
+\end{greenbox}
 
 
 
@@ -396,14 +410,15 @@ and the corresponding affinity energy is
 	= R T \ln\left( K_L C^0 \right).
 \end{equation}
 Equivalently,
+\begin{greenbox}{Standard-state conversion}
+	Use this form to convert model-specific constants into a dimensionless affinity and comparable adsorption energy. Always report the chosen standard concentration \(C^0\).
 \begin{equation}
-	\boxed {
-		\Delta G_{\mathrm{ads}}^{0}
+	\Delta G_{\mathrm{ads}}^{0}
 		= - R T \ln\left( K_L C^0 \right),
 		\qquad
 		E_{\mathrm{aff}} = R T \ln\left( K_L C^0 \right).
-	}
 \end{equation}
+\end{greenbox}
 
 \begin{greenbox}{Take-home message}
 	Langmuir is the reference homogeneous model. It gives a finite
@@ -431,10 +446,17 @@ For each site,
 	\lim_{C_e \to \infty} \frac{Q_{\max,i} K_i C_e}{1 + K_i C_e}
 	= Q_{\max,i},
 \end{equation}
-so the total saturation capacity is
+so the total saturation capacity is finite.
 
-\textbf{Double Langmuir has finite }$Q_{\max}$:\quad
-$\displaystyle \lim_{C_e \to \infty} q_e = Q_{\max,1} + Q_{\max,2}$.
+\begin{greenbox}{Capacity-limit result}
+	Double Langmuir has a finite total saturation capacity:
+	\begin{equation}
+		\lim_{C_e \to \infty} q_e = Q_{\max,1} + Q_{\max,2}.
+	\end{equation}
+	Report the sum as the total capacity, but keep \(Q_{\max,1}\),
+	\(Q_{\max,2}\), \(K_1\), and \(K_2\) when the goal is to interpret
+	two distinct site families.
+\end{greenbox}
 
 \subsubsection{Low concentration limit: global Henry constant}
 
@@ -639,11 +661,14 @@ As $C_e \to \infty$, $(bC_e)^t \gg 1$, so
 	\frac{q_{\max}\, b\, C_e}{(b C_e)^{t/t}}
 	= q_{\max}.
 \end{equation}
-% \noindent\fbox{%
-%\parbox{0.97\linewidth}{%
-\textbf{T\'{o}th has finite }$Q_{\max}$:\quad
-$\displaystyle \lim_{C_e \to \infty} q_e = q_{\max}$.%}%
-%}
+\begin{greenbox}{Capacity-limit result}
+	T\'{o}th has a finite saturation capacity:
+	\begin{equation}
+		\lim_{C_e \to \infty} q_e = q_{\max}.
+	\end{equation}
+	This \(q_{\max}\) can be reported as \(Q_{\max}\), while the shape
+	parameter \(t\) controls how strongly the curve departs from Langmuir.
+\end{greenbox}
 
 \subsubsection{Low concentration limit: Henry constant}
 
@@ -693,8 +718,14 @@ As $C_e \to \infty$, $\exp(-bC_e) \to 0$, so
 \begin{equation}
 	\lim_{C_e \to \infty} q_e = q_{\max}.
 \end{equation}
-\textbf{Jovanovic has finite }$Q_{\max}$:\quad
-$\displaystyle \lim_{C_e \to \infty} q_e = q_{\max}$.
+\begin{greenbox}{Capacity-limit result}
+	Jovanovic has a finite saturation capacity:
+	\begin{equation}
+		\lim_{C_e \to \infty} q_e = q_{\max}.
+	\end{equation}
+	For reporting, \(q_{\max}\) plays the same capacity role as
+	\(Q_{\max}\) in Langmuir-type models.
+\end{greenbox}
 
 \subsubsection{Low concentration limit: Henry constant}
 
@@ -703,20 +734,24 @@ For $bC_e \ll 1$, $\exp(-bC_e) \approx 1 - bC_e$, so
 	q_e \approx q_{\max}\, b\, C_e.
 \end{equation}
 Therefore,
+\begin{greenbox}{Henry-limit result}
+	This is the low-concentration slope. Use it to connect the fitted isotherm to the Henry regime, and compare it across models only when the concentration units and standard state are declared.
 \begin{equation}
-	\boxed{K_H = q_{\max}\, b.}
+	K_H = q_{\max}\, b.
 \end{equation}
+\end{greenbox}
 
 \subsubsection{Affinity constant and adsorption free energy}
 
 The affinity constant is $K_{\mathrm{aff}} = b$. With a standard concentration $C^0$,
+\begin{greenbox}{Standard-state conversion}
+	Use this form to convert model-specific constants into a dimensionless affinity and comparable adsorption energy. Always report the chosen standard concentration \(C^0\).
 \begin{equation}
-	\boxed{
-		K_{\mathrm{aff}}^{\ast} = b\, C^0,
+	K_{\mathrm{aff}}^{\ast} = b\, C^0,
 		\qquad
 		E_{\mathrm{aff}} = RT\ln(b\, C^0).
-	}
 \end{equation}
+\end{greenbox}
 
 \subsection{Temkin isotherm}
 \label{sec:si_temkin}
@@ -749,9 +784,12 @@ The derivative is
 	\frac{\mathrm{d}q_e}{\mathrm{d}C_e} = \frac{RT}{b_T\, C_e},
 \end{equation}
 which diverges as $C_e \to 0$. Therefore,
+\begin{redbox}{Reporting limitation}
+	This is a limitation, not a descriptor to force into the reporting table. State it explicitly so the reader does not compare a missing capacity, Henry constant, or affinity as though it were directly defined by the model.
 \begin{equation}
-	\boxed{\text{Temkin has no finite } K_H.}
+	\text{Temkin has no finite } K_H.
 \end{equation}
+\end{redbox}
 
 \subsubsection{Effective affinity constant and adsorption free energy}
 
@@ -762,11 +800,12 @@ An effective affinity constant is defined from the binding constant $a_T$ (units
 	K_{\mathrm{aff}}^{\ast} = a_T\, C^0.
 \end{equation}
 The adsorption free energy is
+\begin{greenbox}{Standard-state conversion}
+	Use this form to convert model-specific constants into a dimensionless affinity and comparable adsorption energy. Always report the chosen standard concentration \(C^0\).
 \begin{equation}
-	\boxed{
-		E_{\mathrm{aff}} = RT\ln(a_T\, C^0).
-	}
+	E_{\mathrm{aff}} = RT\ln(a_T\, C^0).
 \end{equation}
+\end{greenbox}
 Note that this is an \emph{effective} energy; the Temkin model describes the mid-coverage regime and does not correspond to a well-defined thermodynamic equilibrium constant.
 
 \subsection{UNILAN isotherm}
@@ -790,8 +829,14 @@ As $C_e \to \infty$, $b_{\max}C_e \gg 1$ and $b_{\min}C_e \gg 1$, so
 	\ln\!\left(\frac{b_{\max}}{b_{\min}}\right)
 	= \frac{Q_{\max}}{2s} \cdot 2s = Q_{\max}.
 \end{equation}
-\textbf{UNILAN has finite }$Q_{\max}$:\quad
-$\displaystyle \lim_{C_e \to \infty} q_e = Q_{\max}$.
+\begin{greenbox}{Capacity-limit result}
+	UNILAN has a finite saturation capacity:
+	\begin{equation}
+		\lim_{C_e \to \infty} q_e = Q_{\max}.
+	\end{equation}
+	Here \(Q_{\max}\) is retained as the capacity descriptor, while the
+	energy-band width is carried separately by \(b_{\max}/b_{\min}\).
+\end{greenbox}
 
 \subsubsection{Low concentration limit: Henry constant}
 
@@ -801,9 +846,12 @@ $\ln(1+x) \approx x$, so
 	q_e \approx \frac{Q_{\max}}{2s}(b_{\max} - b_{\min})\, C_e.
 \end{equation}
 Therefore,
+\begin{greenbox}{Henry-limit result}
+	This is the low-concentration slope. Use it to connect the fitted isotherm to the Henry regime, and compare it across models only when the concentration units and standard state are declared.
 \begin{equation}
-	\boxed{K_H = \frac{Q_{\max}}{2s}(b_{\max} - b_{\min}).}
+	K_H = \frac{Q_{\max}}{2s}(b_{\max} - b_{\min}).
 \end{equation}
+\end{greenbox}
 
 \subsubsection{Affinity constant and adsorption free energy}
 
@@ -814,12 +862,13 @@ The natural affinity constant is the geometric mean of the site constants:
 	K_{\mathrm{aff}}^{\ast} = \sqrt{b_{\max}\, b_{\min}}\; C^0.
 \end{equation}
 The adsorption free energy is
+\begin{greenbox}{Standard-state conversion}
+	Use this form to convert model-specific constants into a dimensionless affinity and comparable adsorption energy. Always report the chosen standard concentration \(C^0\).
 \begin{equation}
-	\boxed{
-		E_{\mathrm{aff}} = RT\ln\!\left(\sqrt{b_{\max}\, b_{\min}}\; C^0\right)
+	E_{\mathrm{aff}} = RT\ln\!\left(\sqrt{b_{\max}\, b_{\min}}\; C^0\right)
 		= \frac{RT}{2}\ln\!\left(b_{\max}\, b_{\min}\, (C^0)^2\right).
-	}
 \end{equation}
+\end{greenbox}
 
 \subsection{Redlich--Peterson isotherm}
 \label{sec:si_redlich_peterson}
@@ -839,9 +888,12 @@ As $C_e \to \infty$,
 \end{equation}
 If $\beta = 1$ (Langmuir limit): $Q_{\max} = K_{RP}/a_{RP}$ (finite).
 If $\beta < 1$: $q_e \to \infty$ (no finite saturation).
+\begin{redbox}{Reporting limitation}
+	This is a limitation, not a descriptor to force into the reporting table. State it explicitly so the reader does not compare a missing capacity, Henry constant, or affinity as though it were directly defined by the model.
 \begin{equation}
-	\boxed{Q_{\max} = K_{RP}/a_{RP} \quad (\text{only if } \beta = 1).}
+	Q_{\max} = K_{RP}/a_{RP} \quad (\text{only if } \beta = 1).
 \end{equation}
+\end{redbox}
 
 \subsubsection{Low concentration limit: Henry constant}
 
@@ -850,9 +902,12 @@ For $a_{RP}C_e^{\beta} \ll 1$,
 	q_e \approx K_{RP}\, C_e.
 \end{equation}
 Therefore, regardless of $\beta$,
+\begin{greenbox}{Henry-limit result}
+	This is the low-concentration slope. Use it to connect the fitted isotherm to the Henry regime, and compare it across models only when the concentration units and standard state are declared.
 \begin{equation}
-	\boxed{K_H = K_{RP}.}
+	K_H = K_{RP}.
 \end{equation}
+\end{greenbox}
 
 \subsubsection{Affinity constant and adsorption free energy}
 
@@ -862,14 +917,15 @@ Two effective affinity constants are commonly used:
 	\item High-$C$ regime: $K_{\mathrm{aff}} = (a_{RP})^{1/\beta}$.
 \end{itemize}
 For the purpose of cross-model comparison, we adopt the Henry-based definition:
+\begin{greenbox}{Capacity-limit result}
+	This is the saturation capacity that can be reported as a finite capacity descriptor. If the equation includes a condition, the descriptor is valid only under that condition.
 \begin{equation}
-	\boxed{
-		K_{\mathrm{aff}}^{\ast} = \frac{K_{RP}}{Q_{\max}}\, C^0
+	K_{\mathrm{aff}}^{\ast} = \frac{K_{RP}}{Q_{\max}}\, C^0
 		= a_{RP}\, C^0 \quad (\beta=1),
 		\qquad
 		E_{\mathrm{aff}} = RT\ln(a_{RP}\, C^0).
-	}
 \end{equation}
+\end{greenbox}
 
 \subsection{Koble--Corrigan isotherm}
 \label{sec:si_koble_corrigan}
@@ -888,9 +944,12 @@ As $C_e \to \infty$, $B_{KC}C_e^{1/n} \gg 1$, so
 \begin{equation}
 	\lim_{C_e \to \infty} q_e = \frac{A_{KC}}{B_{KC}}.
 \end{equation}
+\begin{greenbox}{Capacity-limit result}
+	This is the saturation capacity that can be reported as a finite capacity descriptor. If the equation includes a condition, the descriptor is valid only under that condition.
 \begin{equation}
-	\boxed{Q_{\max} = A_{KC}/B_{KC}.}
+	Q_{\max} = A_{KC}/B_{KC}.
 \end{equation}
+\end{greenbox}
 
 \subsubsection{Low concentration limit: conditional Henry constant}
 
@@ -905,13 +964,14 @@ For $1/n \neq 1$, the initial slope is concentration dependent.
 
 By analogy with Sips, the effective affinity constant is
 $K_{\mathrm{aff}} = B_{KC}^{\,n}$, so
+\begin{greenbox}{Standard-state conversion}
+	Use this form to convert model-specific constants into a dimensionless affinity and comparable adsorption energy. Always report the chosen standard concentration \(C^0\).
 \begin{equation}
-	\boxed{
-		K_{\mathrm{aff}}^{\ast} = B_{KC}^{\,n}\, C^0,
+	K_{\mathrm{aff}}^{\ast} = B_{KC}^{\,n}\, C^0,
 		\qquad
 		E_{\mathrm{aff}} = nRT\ln(B_{KC}\, C^0).
-	}
 \end{equation}
+\end{greenbox}
 
 \subsection{Radke--Prausnitz isotherm}
 \label{sec:si_radke_prausnitz}
@@ -930,9 +990,12 @@ As $C_e \to \infty$, for $p < 1$:
 	q_e \approx \frac{a_{RP}\, r_{RP}}{r_{RP}}\, C_e^{p} = a_{RP}\, C_e^{p} \to \infty.
 \end{equation}
 For $p = 1$: $q_e \to a_{RP}\, r_{RP}/(a_{RP} + r_{RP}) \cdot C_e$, which also diverges.
+\begin{redbox}{Reporting limitation}
+	This is a limitation, not a descriptor to force into the reporting table. State it explicitly so the reader does not compare a missing capacity, Henry constant, or affinity as though it were directly defined by the model.
 \begin{equation}
-	\boxed{\text{Radke--Prausnitz has no intrinsic } Q_{\max} \text{ for } p < 1.}
+	\text{Radke--Prausnitz has no intrinsic } Q_{\max} \text{ for } p < 1.
 \end{equation}
+\end{redbox}
 
 \subsubsection{Low concentration limit: Henry constant}
 
@@ -941,20 +1004,24 @@ For small $C_e$, $r_{RP}C_e^{1-p} \ll a_{RP}$, so
 	q_e \approx r_{RP}\, C_e.
 \end{equation}
 Therefore,
+\begin{greenbox}{Henry-limit result}
+	This is the low-concentration slope. Use it to connect the fitted isotherm to the Henry regime, and compare it across models only when the concentration units and standard state are declared.
 \begin{equation}
-	\boxed{K_H = r_{RP}.}
+	K_H = r_{RP}.
 \end{equation}
+\end{greenbox}
 
 \subsubsection{Effective affinity constant and adsorption free energy}
 
 Since no unique $Q_{\max}$ exists, the affinity constant is defined directly from the Henry constant:
+\begin{greenbox}{Standard-state conversion}
+	Use this form to convert model-specific constants into a dimensionless affinity and comparable adsorption energy. Always report the chosen standard concentration \(C^0\).
 \begin{equation}
-	\boxed{
-		K_{\mathrm{aff}}^{\ast} = r_{RP}\, C^0,
+	K_{\mathrm{aff}}^{\ast} = r_{RP}\, C^0,
 		\qquad
 		E_{\mathrm{aff}} = RT\ln(r_{RP}\, C^0).
-	}
 \end{equation}
+\end{greenbox}
 This is an \emph{effective} energy valid in the low-concentration regime.
 
 \subsection{Dubinin--Radushkevich (D-R) and Dubinin--Astakhov (D-A)}
@@ -984,8 +1051,14 @@ $\exp[-(\varepsilon/E_a)^{n_{DA}}] \to 1$ and
 \begin{equation}
 	\lim_{C_e \to \infty} q_e = Q_{\max}.
 \end{equation}
-\textbf{D-R/D-A has finite }$Q_{\max}$:\quad
-$\displaystyle \lim_{C_e \to \infty} q_e = Q_{\max}$.
+\begin{greenbox}{Capacity-limit result}
+	D-R/D-A has a finite saturation capacity:
+	\begin{equation}
+		\lim_{C_e \to \infty} q_e = Q_{\max}.
+	\end{equation}
+	The capacity is well defined, but the affinity scale must still be
+	normalised through the declared \(C_{\mathrm{ref}}\) and \(C^0\).
+\end{greenbox}
 
 \subsubsection{Low concentration limit: no finite Henry constant}
 
@@ -999,9 +1072,12 @@ $\exp[-(\varepsilon/E_a)^{n_{DA}}] \to 0$ faster than any power of $C_e$. The de
 	\cdot \frac{RT\,C_{\mathrm{ref}}}{C_e(C_e+C_{\mathrm{ref}})}
 \end{equation}
 diverges as $C_e \to 0$.
+\begin{redbox}{Reporting limitation}
+	This is a limitation, not a descriptor to force into the reporting table. State it explicitly so the reader does not compare a missing capacity, Henry constant, or affinity as though it were directly defined by the model.
 \begin{equation}
-	\boxed{\text{D-R/D-A has no finite } K_H.}
+	\text{D-R/D-A has no finite } K_H.
 \end{equation}
+\end{redbox}
 
 \subsubsection{Effective affinity constant and adsorption free energy}
 
@@ -1012,15 +1088,16 @@ Setting $q_e = Q_{\max}/2$ gives $\varepsilon_{1/2} = E_a(\ln 2)^{1/n_{DA}}$, an
 	C_{1/2} = \frac{1}{\exp(\varepsilon_{1/2}/RT) - 1}.
 \end{equation}
 The effective affinity constant and energy are
+\begin{greenbox}{Standard-state conversion}
+	Use this form to convert model-specific constants into a dimensionless affinity and comparable adsorption energy. Always report the chosen standard concentration \(C^0\).
 \begin{equation}
-	\boxed{
-		K_{\mathrm{aff}} = 1/C_{1/2},
+	K_{\mathrm{aff}} = 1/C_{1/2},
 		\qquad
 		K_{\mathrm{aff}}^{\ast} = C^0/C_{1/2},
 		\qquad
 		E_{\mathrm{aff}} = RT\ln(C^0/C_{1/2}).
-	}
 \end{equation}
+\end{greenbox}
 
 \subsection{Hill isotherm}
 \label{sec:si_hill}
@@ -1039,8 +1116,14 @@ As $C_e \to \infty$, $C_e^{n_H} \gg K_D$, so
 \begin{equation}
 	\lim_{C_e \to \infty} q_e = Q_{\max}.
 \end{equation}
-\textbf{Hill has finite }$Q_{\max}$:\quad
-$\displaystyle \lim_{C_e \to \infty} q_e = Q_{\max}$.
+\begin{greenbox}{Capacity-limit result}
+	Hill has a finite saturation capacity:
+	\begin{equation}
+		\lim_{C_e \to \infty} q_e = Q_{\max}.
+	\end{equation}
+	Report \(Q_{\max}\) as capacity and interpret \(n_H\) separately as the
+	cooperativity or heterogeneity-shape parameter.
+\end{greenbox}
 
 \subsubsection{Low concentration limit: conditional Henry constant}
 
@@ -1065,11 +1148,12 @@ $K_{\mathrm{aff}} = K_D^{-1/n_H}$. Therefore,
 	K_{\mathrm{aff}}^{\ast} = K_D^{-1/n_H}\, C^0,
 \end{equation}
 and the adsorption free energy is
+\begin{greenbox}{Standard-state conversion}
+	Use this form to convert model-specific constants into a dimensionless affinity and comparable adsorption energy. Always report the chosen standard concentration \(C^0\).
 \begin{equation}
-	\boxed{
-		E_{\mathrm{aff}} = RT\!\left(-\frac{1}{n_H}\ln K_D + \ln C^0\right).
-	}
+	E_{\mathrm{aff}} = RT\!\left(-\frac{1}{n_H}\ln K_D + \ln C^0\right).
 \end{equation}
+\end{greenbox}
 In the limit $n_H = 1$, this reduces to the Langmuir expression
 $E_{\mathrm{aff}} = RT\ln(K_L\, C^0)$ with $K_L = 1/K_D$.
 	
@@ -1593,36 +1677,39 @@ available.
 \label{sec:si_comparison_criteria}
 
 \paragraph{Langmuir vs.\ Sips.}
+\begin{bluebox}{Model-selection rule}
+	Use this rule only after checking the residual plots and information criteria. It is a practical decision aid that connects statistical fit quality with the physical descriptor space used in the manuscript.
 \begin{equation}
-	\boxed{
-		\text{Accept Langmuir if}\quad
-		\sigma_E^{\mathrm{(Sips)}}
-		= \frac{\pi}{\sqrt{3}}\,\frac{RT}{m} \leq \alpha\,RT,
-	}
+	\text{Accept Langmuir if}\quad
+		\sigma_H^{\mathrm{(Sips)}}
+		= \frac{\pi RT}{\sqrt{3}}\sqrt{\frac{1}{m^2}-1} \leq \alpha\,RT,
 	\label{eq:si_criterion_LvsS}
 \end{equation}
-with $\alpha \approx 2$, corresponding to $m \gtrsim 0.91$; smaller
+\end{bluebox}
+with $\alpha \approx 1$ as a practical screening value. Smaller
 values of $\alpha$ are stricter and collapse toward the Langmuir limit
-$m \to 1$.
+$m \to 1$, where $\sigma_H \to 0$.
 
 \paragraph{Langmuir vs.\ Double Langmuir.}
+\begin{bluebox}{Model-selection rule}
+	Use this rule only after checking the residual plots and information criteria. It is a practical decision aid that connects statistical fit quality with the physical descriptor space used in the manuscript.
 \begin{equation}
-	\boxed{
-		\text{Accept Double Langmuir if}\quad
+	\text{Accept Double Langmuir if}\quad
 		\Delta E_{12} = RT\left|\ln\frac{K_1}{K_2}\right| > \beta\,RT,
-	}
 	\label{eq:si_criterion_LvsDL}
 \end{equation}
+\end{bluebox}
 with $\beta \approx 2$--$3$ ($K_1/K_2 > 7.4$--$20$).
 
 \paragraph{Sips vs.\ Double Langmuir.}
+\begin{bluebox}{Model-selection rule}
+	Use this rule only after checking the residual plots and information criteria. It is a practical decision aid that connects statistical fit quality with the physical descriptor space used in the manuscript.
 \begin{equation}
-	\boxed{
-		\text{Prefer Sips over DL if}\quad
-		\Delta E_{12} < 2\,\sigma_E^{\mathrm{(Sips)}}.
-	}
+	\text{Prefer Sips over DL if}\quad
+		\Delta E_{12} < 2\,\sigma_H^{\mathrm{(Sips)}}.
 	\label{eq:si_criterion_SvsDL}
 \end{equation}
+\end{bluebox}
 
 \subsection{Decision tree}
 \label{sec:si_decision_tree}
@@ -2930,19 +3017,20 @@ should be reported.
 \subsection{Key message}
 \label{sec:si_key_message}
 
-\noindent\fbox{%
-	\parbox{0.97\textwidth}{%
-		\textbf{Regardless of which isotherm model best fits the data},
-		the four descriptors
-		$\{Q_{\max},\, K_{\mathrm{aff}}^{\ast},\,
-		E_{\mathrm{ads}},\, \sigma_H\}$
-		provide a \textbf{model-independent fingerprint} of the
-		adsorbent--adsorbate system.  Reporting these quantities
-		--- together with the declared $C^\circ$ --- enables
-		unambiguous cross-study comparison, statistical testing,
-		and machine-learning classification of adsorption performance.
-	}%
-}
+\begin{greenbox}{Final reporting fingerprint}
+	Regardless of which isotherm model best fits the data, the final report
+	should reduce the result to the same descriptor set:
+	\begin{equation}
+		\{Q_{\max},\, K_{\mathrm{aff}}^{\ast},\,
+		E_{\mathrm{ads}},\, \sigma_H\}.
+	\end{equation}
+	Here \(Q_{\max}\) says how much can be adsorbed,
+	\(K_{\mathrm{aff}}^{\ast}\) and \(E_{\mathrm{ads}}\) place affinity on a
+	declared standard-state scale, and \(\sigma_H\) reports intrinsic
+	heterogeneity. This four-number fingerprint is the bridge between model
+	fitting, cross-study comparison, uncertainty analysis, and
+	descriptor-based classification.
+\end{greenbox}
 
 \section{Companion notebooks and usage}
 \label{sec:si_notebooks}
@@ -2960,9 +3048,9 @@ classification datasets without rederiving the equations in this SI.
 	\item \texttt{02\_error\_metrics\_model\_selection.ipynb}: computes error
 	metrics, information criteria, F-tests, and the reporting table of
 	descriptors.
-	\item \texttt{06\_statistical\_validation.ipynb}: performs bootstrap,
+	\item \texttt{03\_statistical\_validation.ipynb}: performs bootstrap,
 	noise-sensitivity, and descriptor-uncertainty propagation.
-	\item \texttt{05\_classification\_clustering.ipynb}: applies KNN, SVM, and
+	\item \texttt{04\_classification\_clustering.ipynb}: applies KNN, SVM, and
 	Ward clustering to descriptor tables.
 	\item \texttt{app\_isotherm\_fitting.py}: Streamlit app for interactive fitting
 	and export of both fit metrics and descriptor tables.
@@ -3007,14 +3095,14 @@ classification datasets without rederiving the equations in this SI.
 		Error metrics and confidence bands in Section~\ref{sec:si_error_metrics};
 		model selection in Section~\ref{sec:si_model_selection}. \\
 		\addlinespace
-		\makecell[l]{\texttt{06\_statistical}\\\texttt{\_validation.ipynb}} &
+		\makecell[l]{\texttt{03\_statistical}\\\texttt{\_validation.ipynb}} &
 		Residual bootstrap, confidence intervals, synthetic-noise
 		sensitivity, and Monte Carlo propagation from fitted parameters
 		to \(E_{\mathrm{ads}}\) and \(\sigma_H\). &
 		Bootstrap and noise sensitivity in Section~\ref{sec:si_error_metrics};
 		final descriptors in Section~\ref{sec:si_reporting}. \\
 		\addlinespace
-		\makecell[l]{\texttt{05\_classification}\\\texttt{\_clustering.ipynb}} &
+		\makecell[l]{\texttt{04\_classification}\\\texttt{\_clustering.ipynb}} &
 		Standardisation, legacy \(\sigma_E\)-to-\(\sigma_H\) column
 		renaming, one-hot encoding of categorical metadata, KNN, SVM,
 		Ward clustering, cross-validation, confusion matrices, and PCA
@@ -3050,11 +3138,11 @@ estimates, or descriptor-space classifications defined above.
 	\item Use \texttt{02\_error\_metrics\_model\_selection.ipynb} to rank models
 	with SSE, AIC$_c$, BIC, Akaike weights, F-tests, and the descriptor set
 	$\{Q_{\max}, K_{\mathrm{aff}}^{\ast}, E_{\mathrm{ads}}, \sigma_H\}$.
-	\item Use \texttt{06\_statistical\_validation.ipynb} to attach bootstrap
+	\item Use \texttt{03\_statistical\_validation.ipynb} to attach bootstrap
 	intervals and sensitivity tests to the fitted parameters and derived
 	descriptors.
 	\item When several materials are available, assemble a descriptor table and
-	analyze it with \texttt{05\_classification\_clustering.ipynb}.
+	analyze it with \texttt{04\_classification\_clustering.ipynb}.
 \end{enumerate}
 
 \subsection{Input formats}
@@ -3181,10 +3269,10 @@ covariance-based confidence bands. These figures are diagnostic aids:
 	parameters and descriptors remain physically interpretable.
 \end{greenbox}
 
-\section{Notebook 06: statistical validation}
-\label{app:si_notebook_06}
+\section{Notebook 03: statistical validation}
+\label{app:si_notebook_03}
 
-\noindent\textbf{File:} \texttt{06\_statistical\_validation.ipynb}.
+\noindent\textbf{File:} \texttt{03\_statistical\_validation.ipynb}.
 
 \begin{bluebox}{Purpose of this notebook}
 	Use this notebook after a model has been selected. It asks whether the
@@ -3223,10 +3311,10 @@ directly to the homogeneous Langmuir limit through \(m\to 1\) and
 	uncertainty in \(E_{\mathrm{ads}}\) and \(\sigma_H\).
 \end{redbox}
 
-\section{Notebook 05: classification and clustering}
-\label{app:si_notebook_05}
+\section{Notebook 04: classification and clustering}
+\label{app:si_notebook_04}
 
-\noindent\textbf{File:} \texttt{05\_classification\_clustering.ipynb}.
+\noindent\textbf{File:} \texttt{04\_classification\_clustering.ipynb}.
 
 \begin{bluebox}{Purpose of this notebook}
 	Use this notebook when several materials, adsorbates, or operating

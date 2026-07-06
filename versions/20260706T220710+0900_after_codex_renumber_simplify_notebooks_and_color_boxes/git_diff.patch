@@ -1,0 +1,855 @@
+diff --git a/SI_20260706_1550.tex b/SI_20260706_1550.tex
+index e08d272..b66fbac 100644
+--- a/SI_20260706_1550.tex
++++ b/SI_20260706_1550.tex
+@@ -248,20 +248,33 @@
+ 	
+ \newpage
+ 
+-  % =====================================================================
+-%  Colored box examples
++% =====================================================================
++%  Reader-guide boxes
+ % =====================================================================
+ 
+-\begin{bluebox}{Recommendation}
+-	When comparing models across studies, always report the standard-state
+-	adsorption energy $E_{\mathrm{ads}} = RT\ln K_{\mathrm{aff}}^{\ast}$
+-	together with the declared reference concentration $C^{0}$.
++\begin{bluebox}{How to read this SI}
++	This SI is written as a practical route from raw isotherm data to
++	reportable descriptors. For each model, ask three questions:
++	\textbf{(1)} does it have a real saturation capacity \(Q_{\max}\)?
++	\textbf{(2)} does it provide a comparable affinity
++	\(K_{\mathrm{aff}}^{\ast}\)?
++	\textbf{(3)} what heterogeneity descriptor should be reported?
+ \end{bluebox}
+ 
+-\begin{greenbox}{Note}
+-	The descriptor set $\{Q_{\max},\, E_{\mathrm{ads}},\, \sigma_E\}$ is
+-	model-independent: it can be extracted from any saturating isotherm
+-	using the formulas in Table~\ref{tab:si_extraction}.
++\begin{greenbox}{Nomenclature used for reporting}
++	The final reporting descriptors are
++	\[
++	\{Q_{\max},\,K_{\mathrm{aff}}^{\ast},\,E_{\mathrm{ads}},\,\sigma_H\}.
++	\]
++	Here \(E_{\mathrm{ads}}=RT\ln K_{\mathrm{aff}}^{\ast}\) is the
++	reported adsorption-energy descriptor. Some derivations use
++	\(E_{\mathrm{aff}}\) as an intermediate name for the same quantity.
++	The standard-state concentration may appear as \(C^\circ\) or \(C^0\);
++	both mean the declared concentration standard used to make equilibrium
++	constants dimensionless.
++	The symbol \(\sigma_E\) denotes the apparent mathematical width of an
++	energy distribution; \(\sigma_H\) is the reported intrinsic
++	heterogeneity width.
+ \end{greenbox}
+ 
+ \begin{redbox}{Warning}
+@@ -271,9 +284,6 @@
+ 	meaningless. \smalltag{FREUNDLICH}
+ \end{redbox}
+ 
+-\noindent\slidenote{The boxes above are for illustration only and can be
+-	removed before submission.}
+-	
+ \newpage
+ 
+ \section{Isotherm model equations and limits}
+@@ -283,6 +293,13 @@ This section collects the full equations and limiting behaviors used in
+ Section~2 of the main manuscript. The availability summary is given in
+ Table~1 of the main manuscript.
+ 
++\begin{bluebox}{Reader rule}
++	For every isotherm, separate the fitted parameters from the reported
++	descriptors. Fitted parameters belong to one mathematical model;
++	descriptors are the quantities used to compare materials across
++	different models.
++\end{bluebox}
++
+ \subsection{Henry isotherm}
+ \label{sec:si_henry}
+ 
+@@ -305,6 +322,12 @@ The Henry model is itself the $C_e \to 0$ limit:
+ The model is linear and \textbf{does not saturate}, so $q_e \to \infty$ as
+ $C_e \to \infty$.
+ 
++\begin{greenbox}{Take-home message}
++	Henry's law is useful for the initial slope, but it is not a full
++	capacity model. Use \(K_H\) to describe dilute uptake; do not use the
++	Henry equation to report \(Q_{\max}\).
++\end{greenbox}
++
+ \subsection{Langmuir isotherm}
+ \label{sec:si_langmuir}
+ 
+@@ -382,6 +405,13 @@ Equivalently,
+ 	}
+ \end{equation}
+ 
++\begin{greenbox}{Take-home message}
++	Langmuir is the reference homogeneous model. It gives a finite
++	\(Q_{\max}\), a finite Henry constant, and \(\sigma_H=0\). Any
++	heterogeneous model that becomes Langmuir in a limiting case should
++	reduce smoothly to these three values.
++\end{greenbox}
++
+ \subsection{Double Langmuir isotherm}
+ \label{sec:si_double_langmuir}
+ 
+@@ -504,6 +534,13 @@ leading to an apparent free energy
+ This dependence on \(C_{\mathrm{ref}}\) reflects the lack of a unique
+ free energy for the Freundlich model.
+ 
++\begin{redbox}{Reporting warning}
++	Freundlich can fit curved data, but it does not define a unique
++	\(Q_{\max}\), \(K_{\mathrm{aff}}^{\ast}\), or \(E_{\mathrm{ads}}\)
++	without an arbitrary concentration reference. Treat Freundlich
++	affinity values as local or apparent, not as universal descriptors.
++\end{redbox}
++
+ \subsection{Sips (Langmuir--Freundlich) isotherm}
+ \label{sec:si_sips}
+ 
+@@ -574,6 +611,13 @@ Therefore,
+ In the limit \(m = 1\), Eq.~\eqref{eq:si_E_sips} reduces to
+ Eq.~\eqref{eq:si_E_langmuir}.
+ 
++\begin{bluebox}{Sips convention}
++	This work uses \(q_e=Q_{\max}K_S C_e^m/(1+K_S C_e^m)\). Therefore
++	\(K_S\) has units \([C]^{-m}\), and the comparable affinity is
++	\(K_S^{1/m}\), which has units \([C]^{-1}\). This is the quantity used
++	in \(K_{\mathrm{aff}}^{\ast}\).
++\end{bluebox}
++
+ \subsection{T\'{o}th isotherm}
+ \label{sec:si_toth}
+ 
+@@ -926,8 +970,11 @@ The D-R/D-A isotherms are
+ The D-R model corresponds to $n_{DA} = 2$.
+ Here, $C_{\mathrm{ref}}$ is a reference concentration (typically $1~\mathrm{mg\,L^{-1}}$ or $1~\mathrm{mol\,L^{-1}}$) introduced to maintain dimensional consistency, as adding $1$ to a reciprocal concentration with physical units is mathematically invalid.
+ 
+-\begin{bluebox}{To Discuss: Dubinin Normalization}
+-Do you agree with the explicit use of $C_{\mathrm{ref}}$ in the Polanyi potential to resolve the unit inconsistency in the D-R/D-A equation?
++\begin{bluebox}{Normalization convention}
++The Polanyi potential is written with an explicit reference concentration,
++\(\varepsilon = RT\ln(1+C_{\mathrm{ref}}/C_e)\), so the logarithm remains
++dimensionless. The chosen \(C_{\mathrm{ref}}\) must be reported in the same
++concentration units as \(C_e\).
+ \end{bluebox}
+ 
+ \subsubsection{High concentration limit: finite $Q_{\max}$}
+@@ -1034,6 +1081,13 @@ $E_{\mathrm{aff}} = RT\ln(K_L\, C^0)$ with $K_L = 1/K_D$.
+ \section{Error metrics and information criteria}
+ \label{sec:si_error_metrics}
+ 
++\begin{bluebox}{What this section is for}
++	Error metrics answer a statistical question: ``which curve follows the
++	data best?'' They do not by themselves prove that a model is physically
++	meaningful. A good workflow uses both: residual statistics first,
++	physical descriptor checks second.
++\end{bluebox}
++
+ \subsection{Residual error metrics}
+ \label{sec:si_residuals}
+ 
+@@ -1310,7 +1364,7 @@ and generate bootstrap datasets
+ where the indices $j_b(i)$ are sampled with replacement. Re-fitting the
+ model to each bootstrap dataset gives a family of parameter vectors
+ $\hat{\boldsymbol{\theta}}^{(b)}$ and therefore a family of descriptors
+-$d^{(b)} \in \{Q_{\max}, E_{\mathrm{aff}}, \sigma_E\}$. The bootstrap
++$d^{(b)} \in \{Q_{\max}, E_{\mathrm{ads}}, \sigma_H\}$. The bootstrap
+ standard deviation of any scalar descriptor $d$ is
+ \begin{equation}
+ 	s_d^{\mathrm{boot}}
+@@ -1443,6 +1497,13 @@ $\Delta\mathrm{AIC}_c < 2$.
+ \section{Model selection}
+ \label{sec:si_model_selection}
+ 
++\begin{greenbox}{Practical selection rule}
++	Choose the simplest model that gives acceptable residuals and
++	physically meaningful descriptors. A lower AIC$_c$ is useful, but it
++	should not overrule impossible quantities such as a fake \(Q_{\max}\)
++	from a non-saturating equation.
++\end{greenbox}
++
+ \subsection{Ranking procedure}
+ \label{sec:si_ranking}
+ 
+@@ -1633,7 +1694,7 @@ Figure~\ref{fig:si_decision_tree} gives the complete flowchart.
+ 		\node[decision, below=0.7cm of aic] (d1)
+ 		{$\Delta\mathrm{AIC}$ of best\\3-param model vs.\\ Langmuir $< 2$?};
+ 		\node[result, right=2.8cm of d1] (r_lang)
+-		{\textbf{Langmuir}\\$\delta(E\!-\!E_c)$, $\sigma_E\!=\!0$};
++		{\textbf{Langmuir}\\$\delta(E\!-\!E_c)$, $\sigma_H\!=\!0$};
+ 
+ 		\node[decision, below=0.6cm of d1] (d2)
+ 		{F-test\\significant?};
+@@ -1646,12 +1707,12 @@ Figure~\ref{fig:si_decision_tree} gives the complete flowchart.
+ 
+ 		% --- Left column: Sips ---
+ 		\node[decision, below left=0.8cm and 1.8cm of d3] (d_sips)
+-		{$\sigma_E \leq \alpha RT$?};
++		{$\sigma_H \leq \alpha RT$?};
+ 		\node[result, left=1.2cm of d_sips ] (r_sips_neg)
+ 		{Langmuir\\negligible\\heterogeneity};
+ 		\node[result, below=0.8cm of d_sips] (r_sips)
+ 		{\textbf{Sips}\\logistic $f(E)$\\
+-			$\sigma_E = \frac{\pi}{m\sqrt{3}}RT$};
++			$\sigma_H = \frac{\pi RT}{\sqrt{3}}\sqrt{1/m^2-1}$};
+ 
+ 		% --- Center column: Toth ---
+ 		\node[decision, below=1.5cm of d3] (d_toth)
+@@ -1755,7 +1816,7 @@ Figure~\ref{fig:si_decision_tree} gives the complete flowchart.
+ 		\textbf{Phase~2} (middle): AIC$_c$ ranking and F-test for all
+ 		saturating models.
+ 		\textbf{Phase~3} (bottom): pairwise tests combined with physical
+-		criteria ($\sigma_E$, $\Delta E_{12}$, $t$, $\beta$).
++criteria ($\sigma_H$, $\Delta E_{12}$, $t$, $\beta$).
+ 		Green terminal boxes show the accepted model and its
+ 		energy-distribution family.}
+ 	\label{fig:si_decision_tree}
+@@ -1795,6 +1856,20 @@ is recovered by differentiation:
+ 	\label{eq:si_fE_derivative}
+ \end{equation}
+ 
++\begin{bluebox}{Width convention}
++	Use \(\sigma_E\) for the apparent width obtained from the mathematical
++	energy distribution. Use \(\sigma_H\) for the intrinsic heterogeneity
++	descriptor reported in the final tables. For logistic-family models
++	(Sips, Koble--Corrigan, Hill), the Langmuir thermal width is
++	\[
++		\sigma_T=\frac{\pi}{\sqrt{3}}RT,
++		\qquad
++		\sigma_H=\sqrt{\max\{\sigma_E^2-\sigma_T^2,\,0\}}.
++	\]
++	Thus Langmuir and the homogeneous limit of Sips give the same
++	reported value: \(\sigma_H=0\).
++\end{bluebox}
++
+ \subsection{Summary of all energy distributions}
+ \label{sec:si_dist_summary}
+ 
+@@ -1926,10 +2001,10 @@ for representative parameter choices at $T = 298$~K
+ 		& $\boldsymbol{\sigma_E/(RT)}$
+ 		& $\boldsymbol{\sigma_E}$ (kJ/mol) \\
+ 		\midrule
+-		Sips & $n = 1.0$ & 1.81 & 4.49 \\
+-		Sips & $n = 1.5$ & 2.72 & 6.74 \\
+-		Sips & $n = 2.0$ & 3.63 & 8.99 \\
+-		Sips & $n = 3.0$ & 5.44 & 13.48 \\
++		Sips & $m = 1.0$ & 1.81 & 4.49 \\
++		Sips & $m = 0.7$ & 2.59 & 6.41 \\
++		Sips & $m = 0.5$ & 3.63 & 8.99 \\
++		Sips & $m = 0.33$ & 5.49 & 13.60 \\
+ 		\midrule
+ 		T\'{o}th & $t = 0.7$ & 2.17 & 5.38 \\
+ 		T\'{o}th & $t = 0.5$ & 2.65 & 6.56 \\
+@@ -1952,6 +2027,14 @@ for representative parameter choices at $T = 298$~K
+ 	\end{tabular}
+ \end{table}
+ 
++\begin{greenbox}{How to use this table}
++	The values in Table~\ref{tab:si_sigma_numerical} are useful for
++	understanding the shape of the mathematical energy distributions. For
++	final material comparison, use the reporting convention in
++	Table~\ref{tab:si_extraction}; in particular, logistic-family models
++	are reported with \(\sigma_H\).
++\end{greenbox}
++
+ \subsection{Individual energy distributions and $\sigma_E$ derivations}
+ \label{sec:si_individual_distributions}
+ 
+@@ -2278,7 +2361,9 @@ Langmuir (logistic) distribution.
+ 
+ \paragraph{Polanyi potential.}
+ D-R and D-A operate in the Polanyi adsorption potential
+-$\varepsilon = RT\ln(1 + 1/C_e)$ rather than directly in $E$.
++$\varepsilon = RT\ln(1 + C_{\mathrm{ref}}/C_e)$ rather than directly in $E$.
++Here \(C_{\mathrm{ref}}\) is a declared reference concentration in the same
++units as \(C_e\), ensuring that the logarithm is dimensionless.
+ The isotherm is
+ \begin{equation}
+ 	q_e = Q_{\max}\exp\!\left[-\!\left(\frac{\varepsilon}{E_a}\right)^{\!n_{DA}}\right].
+@@ -2412,7 +2497,7 @@ generated by the companion MATLAB script
+ \label{sec:si_clustering}
+ 
+ Once the descriptor set
+-$\{Q_{\max},\, \ln K_{\mathrm{aff}}^{\ast},\, \sigma_E\}$ has been
++$\{Q_{\max},\, \ln K_{\mathrm{aff}}^{\ast},\, \sigma_H\}$ has been
+ extracted for many adsorbent--adsorbate systems, each material is
+ represented by a feature vector
+ \begin{equation}
+@@ -2421,7 +2506,7 @@ represented by a feature vector
+ 	\bigl(
+ 	Q_{\max,i},\;
+ 	\ln K_{\mathrm{aff},i}^{\ast},\;
+-	\sigma_{E,i}
++	\sigma_{H,i}
+ 	\bigr)^\top
+ 	\in \mathbb{R}^{d},
+ 	\qquad d=3.
+@@ -2444,6 +2529,14 @@ descriptor representation, so the grouping is driven by physically
+ interpretable quantities rather than by the algebraic form of the
+ original isotherm equation.
+ 
++\begin{greenbox}{Plain-language interpretation}
++	In this three-number space, \(Q_{\max}\) answers ``how much?'',
++	\(\ln K_{\mathrm{aff}}^{\ast}\) answers ``how strongly?'', and
++	\(\sigma_H\) answers ``how heterogeneous?''. These are the quantities
++	the machine-learning methods see; the original isotherm equation is
++	only the route used to estimate them.
++\end{greenbox}
++
+ \subsection{Feature standardisation}
+ \label{sec:si_standardisation}
+ \begin{equation}
+@@ -2455,7 +2548,7 @@ original isotherm equation.
+ \end{equation}
+ This transformation centers each descriptor to zero mean and rescales it
+ to unit variance, preventing $Q_{\max}$, $\ln K_{\mathrm{aff}}^{\ast}$,
+-or $\sigma_E$ from dominating the geometry solely because of their
++or $\sigma_H$ from dominating the geometry solely because of their
+ numerical units.
+ 
+ \subsection{Categorical covariates and one-hot encoding}
+@@ -2653,7 +2746,7 @@ without changing the underlying classifier or clustering definitions.
+ 
+ \begin{enumerate}
+ 	\item For each material, compute
+-	$\{Q_{\max},\, K_{\mathrm{aff}}^{\ast},\, \sigma_E\}$.
++	$\{Q_{\max},\, K_{\mathrm{aff}}^{\ast},\, \sigma_H\}$.
+ 	\item Standardise all features (Eq.~\ref{eq:si_standardise}).
+ 	\item If categorical metadata are used, append them through one-hot
+ 	encoding (Eq.~\ref{eq:si_onehot}).
+@@ -2669,6 +2762,14 @@ without changing the underlying classifier or clustering definitions.
+ 	(Eq.~\ref{eq:si_PCA}).
+ \end{enumerate}
+ 
++\begin{bluebox}{Classification versus clustering}
++	KNN and SVM are \textbf{classification} tools: they need labels such
++	as high/medium/low performance or material family. Ward's linkage is
++	\textbf{clustering}: it searches for groups when labels are not known.
++	Use the word ``classification'' for KNN/SVM and ``clustering'' for
++	Ward.
++\end{bluebox}
++
+ 
+ % =====================================================================
+ %  SECTION S-7: REPORTING TABLES
+@@ -2679,6 +2780,13 @@ without changing the underlying classifier or clustering definitions.
+ For each adsorbent--adsorbate system, the following information
+ should be reported.
+ 
++\begin{bluebox}{Minimum message for readers}
++	A complete result should let another group reproduce the fit and compare
++	the material. Report the raw conditions, the selected model, the fit
++	quality, and the four final descriptors
++	\(\{Q_{\max},K_{\mathrm{aff}}^{\ast},E_{\mathrm{ads}},\sigma_H\}\).
++\end{bluebox}
++
+ \subsection{Minimum reporting set}
+ \label{sec:si_reporting}
+ 
+@@ -2706,8 +2814,8 @@ should be reported.
+ 		\multirow{4}{*}{Universal}
+ 		& $Q_{\max}$ & mg\,g$^{-1}$ & Step 5 \\
+ 		& $K_{\mathrm{aff}}^{\ast}$ & dimensionless & Step 5 \\
+-		& $E_{\mathrm{aff}}$ & kJ\,mol$^{-1}$ & Step 5 \\
+-		& $\sigma_E$ & kJ\,mol$^{-1}$ & Step 5 \\
++		& $E_{\mathrm{ads}}$ & kJ\,mol$^{-1}$ & Step 5 \\
++		& $\sigma_H$ & kJ\,mol$^{-1}$ & Step 5 \\
+ 		\midrule
+ 		\multirow{2}{*}{Comparison}
+ 		& OVL (if comparing models) & [0,\,1] & Step 6 \\
+@@ -2719,8 +2827,15 @@ should be reported.
+ \subsection{Extracting descriptors from each model}
+ \label{sec:si_extraction}
+ 
+-\noindent In this SI, $E_{\mathrm{aff}}$ denotes the same reported
+-quantity called $E_{\mathrm{ads}}$ in the main manuscript.
++\begin{greenbox}{Name used in the final report}
++	The final manuscript uses \(E_{\mathrm{ads}}\). If an intermediate
++	derivation uses \(E_{\mathrm{aff}}\), read it as the same positive
++	affinity-energy descriptor:
++	\[
++		E_{\mathrm{ads}}=E_{\mathrm{aff}}
++		=RT\ln K_{\mathrm{aff}}^{\ast}.
++	\]
++\end{greenbox}
+ 
+ \begin{table}[H]
+ 	\centering
+@@ -2734,8 +2849,8 @@ quantity called $E_{\mathrm{ads}}$ in the main manuscript.
+ 		\toprule
+ 		\textbf{Model}
+ 		& $\boldsymbol{K_{\mathrm{aff}}}$ $\boldsymbol{([C]^{-1})}$
+-		& $\boldsymbol{E_{\mathrm{aff}}/(RT)}$
+-		& $\boldsymbol{\sigma_E/(RT)}$ \\
++		& $\boldsymbol{E_{\mathrm{ads}}/(RT)}$
++		& $\boldsymbol{\sigma_H/(RT)}$ \\
+ 		\midrule
+ 		Langmuir
+ 		& $K_L$
+@@ -2752,7 +2867,7 @@ quantity called $E_{\mathrm{ads}}$ in the main manuscript.
+ 		Sips
+ 		& $K_S^{1/m}$
+ 		& $\dfrac{1}{m}\ln(K_S (C^\circ)^m)$
+-		& $\dfrac{\pi}{m\sqrt{3}}$ \\
++		& $\dfrac{\pi}{\sqrt{3}}\sqrt{\dfrac{1}{m^2}-1}$ \\
+ 		T\'{o}th
+ 		& $b$
+ 		& $\ln(b\,C^\circ)$
+@@ -2776,7 +2891,7 @@ quantity called $E_{\mathrm{ads}}$ in the main manuscript.
+ 		Koble--Corrigan
+ 		& $B_{KC}^{n}$
+ 		& $n\ln(B_{KC} C^\circ)$
+-		& $\frac{\pi n}{\sqrt{3}}$ \\
++		& $\dfrac{\pi}{\sqrt{3}}\sqrt{n^2-1}$ \\
+ 		Radke--Prausnitz
+ 		& $r_{RP}$\,$^{d}$
+ 		& $\ln(r_{RP} C^\circ)$\,$^{d}$
+@@ -2784,7 +2899,7 @@ quantity called $E_{\mathrm{ads}}$ in the main manuscript.
+ 		Hill
+ 		& $K_D^{-1/n_H}$
+ 		& $-\frac{1}{n_H}\ln K_D + \ln C^\circ$
+-		& $\frac{\pi}{\sqrt{3}\,n_H}$ \\
++		& $\dfrac{\pi}{\sqrt{3}}\sqrt{\max\{1/n_H^2-1,0\}}$ \\
+ 		D-R/D-A
+ 		& $1/C_{1/2}$
+ 		& $\ln(C^\circ/C_{1/2})$
+@@ -2803,6 +2918,13 @@ quantity called $E_{\mathrm{ads}}$ in the main manuscript.
+ 	$Q_{\max}$.\\
+ 	\noindent $^{d}$ Effective low-concentration affinity; Radke--Prausnitz has
+ 	no finite $Q_{\max}$.
++
++	\smallskip
++	\noindent For Sips, Koble--Corrigan, and Hill, the table reports the
++	intrinsic descriptor \(\sigma_H\), not the apparent logistic width
++	\(\sigma_E\). For other models without a Langmuir thermal-kernel
++	correction, the reported width is the physically relevant model width
++	or is left undefined when no reliable closed form exists.
+ \end{table}
+ 
+ \subsection{Key message}
+@@ -2813,7 +2935,7 @@ quantity called $E_{\mathrm{ads}}$ in the main manuscript.
+ 		\textbf{Regardless of which isotherm model best fits the data},
+ 		the four descriptors
+ 		$\{Q_{\max},\, K_{\mathrm{aff}}^{\ast},\,
+-		E_{\mathrm{aff}},\, \sigma_E\}$
++		E_{\mathrm{ads}},\, \sigma_H\}$
+ 		provide a \textbf{model-independent fingerprint} of the
+ 		adsorbent--adsorbate system.  Reporting these quantities
+ 		--- together with the declared $C^\circ$ --- enables
+@@ -2848,6 +2970,75 @@ classification datasets without rederiving the equations in this SI.
+ 	error metrics, descriptor extraction, and distribution utilities.
+ \end{itemize}
+ 
++\subsection{Notebook-to-SI traceability}
++\label{sec:si_notebook_traceability}
++
++\begin{bluebox}{Code-to-text rule}
++	Every notebook operation is either a direct implementation of an
++	equation in this SI or a diagnostic visualisation of those same
++	quantities. The notebooks should not introduce new physical
++	descriptors beyond
++	\(\{Q_{\max},K_{\mathrm{aff}}^{\ast},E_{\mathrm{ads}},\sigma_H\}\).
++\end{bluebox}
++
++\begin{table}[H]
++	\centering
++	\caption{Traceability between active notebook operations and the
++	SI sections where the corresponding concepts are defined.}
++	\label{tab:si_notebook_traceability}
++	\small
++	\begin{tabular}{p{0.25\linewidth}p{0.36\linewidth}p{0.29\linewidth}}
++		\toprule
++		\textbf{Notebook or script} & \textbf{Implemented concept} &
++		\textbf{Where it is explained} \\
++		\midrule
++		\makecell[l]{\texttt{01\_isotherm}\\\texttt{\_fitting.ipynb}} &
++		Non-linear fitting of the candidate isotherm equations;
++		overlay plots of experimental and fitted curves; extraction of
++		\(\{Q_{\max},K_{\mathrm{aff}}^{\ast},E_{\mathrm{ads}},\sigma_H\}\). &
++		Model equations in Section~\ref{sec:si_models}; descriptor
++		extraction in Section~\ref{sec:si_reporting}. \\
++		\addlinespace
++		\makecell[l]{\texttt{02\_error\_metrics}\\\texttt{\_model\_selection.ipynb}} &
++		SSE, \(R^2\), adjusted \(R^2\), EABS, RESID, ARED, MPSED,
++		HYBRID, AIC, AIC$_c$, BIC, Akaike weights, F-tests, residual
++		plots, parity plots, metric bar/radar summaries, heatmaps, and
++		covariance confidence bands. &
++		Error metrics and confidence bands in Section~\ref{sec:si_error_metrics};
++		model selection in Section~\ref{sec:si_model_selection}. \\
++		\addlinespace
++		\makecell[l]{\texttt{06\_statistical}\\\texttt{\_validation.ipynb}} &
++		Residual bootstrap, confidence intervals, synthetic-noise
++		sensitivity, and Monte Carlo propagation from fitted parameters
++		to \(E_{\mathrm{ads}}\) and \(\sigma_H\). &
++		Bootstrap and noise sensitivity in Section~\ref{sec:si_error_metrics};
++		final descriptors in Section~\ref{sec:si_reporting}. \\
++		\addlinespace
++		\makecell[l]{\texttt{05\_classification}\\\texttt{\_clustering.ipynb}} &
++		Standardisation, legacy \(\sigma_E\)-to-\(\sigma_H\) column
++		renaming, one-hot encoding of categorical metadata, KNN, SVM,
++		Ward clustering, cross-validation, confusion matrices, and PCA
++		visualisation. &
++		Clustering and classification in Section~\ref{sec:si_clustering}. \\
++		\addlinespace
++		\makecell[l]{\texttt{utils\_isotherms.py}\\
++		\texttt{app\_isotherm\_fitting.py}} &
++		Shared implementation of the model equations, including Sips with
++		\(K_S C_e^m\), Dubinin with
++		\(\varepsilon=RT\ln(1+C_{\mathrm{ref}}/C_e)\), descriptor
++		extraction, and export of metric and descriptor tables. &
++		Sips and Dubinin conventions in Section~\ref{sec:si_models};
++		width convention in Section~\ref{sec:si_distributions};
++		reporting protocol in Section~\ref{sec:si_reporting}. \\
++		\bottomrule
++	\end{tabular}
++\end{table}
++
++Diagnostic graphics such as radar charts, heatmaps, parity plots, residual
++plots, confusion matrices, and PCA maps are interpretive aids. They do not
++replace the reporting table; they visualise the residual metrics, uncertainty
++estimates, or descriptor-space classifications defined above.
++
+ \subsection{Recommended usage workflow}
+ \label{sec:si_notebook_workflow}
+ 
+@@ -2858,7 +3049,7 @@ classification datasets without rederiving the equations in this SI.
+ 	\texttt{01\_isotherm\_fitting.ipynb} or the Streamlit app.
+ 	\item Use \texttt{02\_error\_metrics\_model\_selection.ipynb} to rank models
+ 	with SSE, AIC$_c$, BIC, Akaike weights, F-tests, and the descriptor set
+-	$\{Q_{\max}, K_{\mathrm{aff}}^{\ast}, E_{\mathrm{ads}}, \sigma_E\}$.
++	$\{Q_{\max}, K_{\mathrm{aff}}^{\ast}, E_{\mathrm{ads}}, \sigma_H\}$.
+ 	\item Use \texttt{06\_statistical\_validation.ipynb} to attach bootstrap
+ 	intervals and sensitivity tests to the fitted parameters and derived
+ 	descriptors.
+@@ -2886,6 +3077,207 @@ three descriptor tables for classification:
+ \texttt{backup\_notebooks/} are archival only and are not part of the active
+ workflow.
+ 
++\appendix
++
++\section{Notebook 01: fitting one isotherm}
++\label{app:si_notebook_01}
++
++\noindent\textbf{File:} \texttt{01\_isotherm\_fitting.ipynb}.
++
++\begin{bluebox}{Purpose of this notebook}
++	Use this notebook when the starting point is one experimental isotherm:
++	a table of equilibrium concentration \(C_e\) and adsorption capacity
++	\(q_e\). Its job is to fit the candidate isotherm equations, compare
++	the fitted curves visually, and extract the universal descriptors from
++	each converged model.
++\end{bluebox}
++
++\subsection*{Input file}
++
++Place a \texttt{.csv}, \texttt{.xlsx}, or \texttt{.xls} file in the notebook
++folder. The file must contain at least two columns:
++\begin{itemize}
++	\item \texttt{Ce}: equilibrium concentration, in one declared unit such as
++	\(\mathrm{mg\,L^{-1}}\) or \(\mathrm{mol\,L^{-1}}\);
++	\item \texttt{qe}: adsorbed amount, in one declared unit such as
++	\(\mathrm{mg\,g^{-1}}\).
++\end{itemize}
++Column names are treated case-insensitively. The notebook removes missing
++values and keeps only \(C_e>0\) and \(q_e\geq 0\).
++
++\subsection*{How to run it}
++
++\begin{enumerate}
++	\item Set \texttt{DATA\_FILE} to the experimental file name.
++	\item Run the import and data-loading cells.
++	\item Run the fitting cell. The notebook fits all implemented models by
++	non-linear least squares; the equations are those listed in
++	Section~\ref{sec:si_models}.
++	\item Inspect the fit plot and residual plot before accepting the numerical
++	ranking.
++	\item Read the descriptor table. The reportable descriptors are
++	\(\{Q_{\max},K_{\mathrm{aff}}^{\ast},E_{\mathrm{ads}},\sigma_H\}\).
++\end{enumerate}
++
++\begin{greenbox}{What to look at first}
++	For a materials reader, the first-pass answer is: which model fits
++	without systematic residuals, what \(Q_{\max}\) is obtained, whether
++	\(E_{\mathrm{ads}}\) is comparable to related systems, and whether
++	\(\sigma_H\) is close to zero or clearly heterogeneous.
++\end{greenbox}
++
++\begin{redbox}{Common mistake}
++	Do not choose the model only because it gives the highest \(R^2\). A
++	more flexible model can fit noise. Use this notebook together with
++	\texttt{02\_error\_metrics\_model\_selection.ipynb}.
++\end{redbox}
++
++\section{Notebook 02: error metrics and model selection}
++\label{app:si_notebook_02}
++
++\noindent\textbf{File:} \texttt{02\_error\_metrics\_model\_selection.ipynb}.
++
++\begin{bluebox}{Purpose of this notebook}
++	Use this notebook to decide which fitted isotherm should be reported.
++	It computes absolute and relative error metrics, information criteria,
++	Akaike weights, nested-model tests, and diagnostic plots.
++\end{bluebox}
++
++\subsection*{Input file}
++
++Use the same raw isotherm file as in Appendix~\ref{app:si_notebook_01}.
++The same \(C_e\) and \(q_e\) requirements apply. The notebook refits the
++models internally so that all metrics are computed from the same dataset and
++the same candidate set.
++
++\subsection*{How to run it}
++
++\begin{enumerate}
++	\item Set \texttt{DATA\_FILE}.
++	\item Run all fitting and metric cells.
++	\item Rank models using AIC$_c$ as the primary statistical criterion.
++	\item Check whether models within \(\Delta\)AIC$_c<2\) are physically
++	distinguishable by their descriptor values and energy distributions.
++	\item Use F-tests only for nested model pairs, such as Langmuir versus
++	Sips, and only after confirming that both models converged sensibly.
++\end{enumerate}
++
++\subsection*{Output plots}
++
++The notebook produces fit overlays, residual plots, grouped metric bars,
++AIC$_c$/Akaike-weight summaries, radar charts, parity plots, heatmaps, and
++covariance-based confidence bands. These figures are diagnostic aids:
++\begin{itemize}
++	\item residual plots reveal systematic model failure;
++	\item parity plots show whether predictions follow the experimental values;
++	\item heatmaps and radar charts summarize many metrics compactly;
++	\item confidence bands show how much uncertainty is implied by the local
++	covariance matrix.
++\end{itemize}
++
++\begin{greenbox}{Decision rule}
++	Report the simplest physically meaningful model among the statistically
++	supported candidates. A lower AIC$_c$ is useful only if the resulting
++	parameters and descriptors remain physically interpretable.
++\end{greenbox}
++
++\section{Notebook 06: statistical validation}
++\label{app:si_notebook_06}
++
++\noindent\textbf{File:} \texttt{06\_statistical\_validation.ipynb}.
++
++\begin{bluebox}{Purpose of this notebook}
++	Use this notebook after a model has been selected. It asks whether the
++	fitted parameters and descriptors are stable with respect to residual
++	resampling and added measurement noise.
++\end{bluebox}
++
++\subsection*{What it tests}
++
++The notebook focuses on the Sips model as a worked example because Sips links
++directly to the homogeneous Langmuir limit through \(m\to 1\) and
++\(\sigma_H\to 0\). The same validation logic applies to other fitted models:
++\begin{itemize}
++	\item residual bootstrap gives empirical confidence intervals;
++	\item synthetic-noise tests show whether the fitted parameters drift when
++	the response is perturbed;
++	\item Monte Carlo propagation converts parameter uncertainty into
++	uncertainty in \(E_{\mathrm{ads}}\) and \(\sigma_H\).
++\end{itemize}
++
++\subsection*{How to use the result}
++
++\begin{enumerate}
++	\item Run the baseline fit.
++	\item Run the bootstrap cell and check the confidence intervals for
++	\(Q_{\max}\), \(K_S\), and \(m\).
++	\item Run the noise-sensitivity cell and check whether the parameter shift
++	is small compared with the bootstrap spread.
++	\item Report descriptor uncertainty for \(E_{\mathrm{ads}}\) and
++	\(\sigma_H\), not only fitted-parameter uncertainty.
++\end{enumerate}
++
++\begin{redbox}{Interpretation warning}
++	A narrow confidence interval on a fitted parameter does not automatically
++	mean that the physical descriptor is robust. Always inspect propagated
++	uncertainty in \(E_{\mathrm{ads}}\) and \(\sigma_H\).
++\end{redbox}
++
++\section{Notebook 05: classification and clustering}
++\label{app:si_notebook_05}
++
++\noindent\textbf{File:} \texttt{05\_classification\_clustering.ipynb}.
++
++\begin{bluebox}{Purpose of this notebook}
++	Use this notebook when several materials, adsorbates, or operating
++	conditions have already been converted into descriptor rows. It does not
++	fit isotherms. It classifies or clusters descriptor tables.
++\end{bluebox}
++
++\subsection*{Input file}
++
++The input table should contain:
++\begin{itemize}
++	\item at least two numeric descriptor columns, preferably selected from
++	\(Q_{\max}\), \(E_{\mathrm{ads}}\), \(\ln K_{\mathrm{aff}}^{\ast}\), and
++	\(\sigma_H\);
++	\item one target column named \texttt{group} for supervised classification;
++	\item optional categorical columns such as \texttt{material\_type} or
++	\texttt{isotherm\_type}.
++\end{itemize}
++If an older file contains a column named \texttt{sigma\_E}, the notebook
++renames it to \texttt{sigma\_H} for classification. This is only a
++backward-compatibility step; new tables should use \texttt{sigma\_H}.
++
++\subsection*{How to run it}
++
++\begin{enumerate}
++	\item Set \texttt{DATA\_FILE} to one of the descriptor tables.
++	\item Confirm that \texttt{TARGET\_COL = "group"} or change it to the
++	desired label column.
++	\item Run the preprocessing cells. Numeric descriptors are standardised;
++	categorical columns are one-hot encoded.
++	\item Run KNN for local-neighbour classification.
++	\item Run SVM for margin-based classification.
++	\item Run Ward clustering when no trusted labels are available or when the
++	goal is exploratory grouping.
++	\item Use PCA only as a visual summary of high-dimensional descriptor
++	space, not as a new physical model.
++\end{enumerate}
++
++\begin{greenbox}{Classification versus clustering}
++	KNN and SVM require labels such as high/medium/low performance or
++	material family. Ward clustering does not require labels; it asks whether
++	the descriptor space contains natural groups.
++\end{greenbox}
++
++\begin{redbox}{Common mistake}
++	Do not mix raw fitted parameters with universal descriptors in the same
++	classification table. Use descriptors with consistent units and the same
++	declared \(C^\circ\). Otherwise, the classifier may separate unit
++	conventions rather than materials.
++\end{redbox}
++
+ 
+ % \bibliography{references}
+ 
+diff --git a/main_20260706_1550.tex b/main_20260706_1550.tex
+index 8ae0fe4..4c0c7fb 100644
+--- a/main_20260706_1550.tex
++++ b/main_20260706_1550.tex
+@@ -268,8 +268,8 @@ See Eq.~\eqref{SI-eq:si_freundlich}.
+ 	See Eq.~\eqref{SI-eq:si_sips}.
+ 
+ 	\begin{mdframed}
+-	\noindent\textbf{To Discuss: Sips Constant Parameterization} \\
+-	Is it appropriate to keep the Sips affinity constant outside the parentheses in the main equation to align with the parameterization used in the SI?
++	\noindent\textbf{Parameterization note.}
++	In this manuscript, the Sips constant is defined outside the concentration exponent, \(K_S C_e^m\), consistently in the main text, SI, and fitting code. With this convention \(K_S\) carries units of \([C]^{-m}\), and the reciprocal-concentration affinity used for descriptor extraction is \(K_S^{1/m}\).
+ 	\end{mdframed}
+ 	
+ 	As shown in Figure~\ref{fig:isotherm_model_selection_workflow}, the model selection procedure combines physical screening, statistical comparison, and physicochemical validation.
+@@ -749,7 +749,7 @@ Thus, $E_{\mathrm{ads}}$ has units of $\mathrm{kJ\,mol^{-1}}$ and is thermodynam
+ 
+ 		\item \textbf{Divergent and non-analytical cases.} Freundlich has $\sigma_E = \infty$, directly reflecting the absence of~$Q_{\max}$. Redlich--Peterson and Radke--Prausnitz yield empirical distributions without closed-form variances.
+ 
+-		\item \textbf{Dubinin models.} D-R and D-A operate in the Polanyi adsorption potential $\varepsilon = RT\ln(1+1/C_e)$. The distribution in $\varepsilon$ is Weibull; the D-R case ($n_{DA} = 2$) gives the Rayleigh distribution with $\sigma_\varepsilon \approx 0.463\,E_a$.
++		\item \textbf{Dubinin models.} D-R and D-A operate in the Polanyi adsorption potential $\varepsilon = RT\ln(1+C_{\mathrm{ref}}/C_e)$, where \(C_{\mathrm{ref}}\) is reported in the same concentration units as \(C_e\). The distribution in $\varepsilon$ is Weibull; the D-R case ($n_{DA} = 2$) gives the Rayleigh distribution with $\sigma_\varepsilon \approx 0.463\,E_a$.
+ 	\end{itemize}
+ 
+ 	% --- 4.3  Physical interpretation of sigma_E ---
+@@ -993,10 +993,10 @@ Thus, $E_{\mathrm{ads}}$ has units of $\mathrm{kJ\,mol^{-1}}$ and is thermodynam
+ 	
+ 	More broadly, the descriptor set
+ 	\begin{equation}
+-		\mathbf{d} = \{Q_{\max},\, E_{\mathrm{ads}},\, \sigma_E\}
++		\mathbf{d} = \{Q_{\max},\, E_{\mathrm{ads}},\, \sigma_H\}
+ 		\label{eq:descriptor_bridge}
+ 	\end{equation}
+-	defines a compact, physically interpretable feature space for adsorption systems. Within this space, $Q_{\max}$ measures the amount of adsorption, $E_{\mathrm{ads}}$ measures the central energetic level, and $\sigma_E$ measures heterogeneity. These descriptors can be used not only to compare fitted models, but also to compare materials, contaminants, or operating conditions on a common basis. They also provide suitable input variables for data-driven analysis, including clustering and supervised classification methods such as k-nearest neighbours (KNN) and support vector machines (SVM), as developed in the following section. In this way, the energy-distribution view links isotherm physics, statistical model discrimination, and descriptor-based classification within a single framework.
++	defines a compact, physically interpretable feature space for adsorption systems. Within this space, $Q_{\max}$ measures the amount of adsorption, $E_{\mathrm{ads}}$ measures the central energetic level, and $\sigma_H$ measures intrinsic heterogeneity. These descriptors can be used not only to compare fitted models, but also to compare materials, contaminants, or operating conditions on a common basis. They also provide suitable input variables for data-driven analysis, including clustering and supervised classification methods such as k-nearest neighbours (KNN) and support vector machines (SVM), as developed in the following section. In this way, the energy-distribution view links isotherm physics, statistical model discrimination, and descriptor-based classification within a single framework.
+ \begin{comment}
+ 
+ 	% --- 5  Universal descriptors ---
+@@ -1063,7 +1063,7 @@ Thus, $E_{\mathrm{ads}}$ has units of $\mathrm{kJ\,mol^{-1}}$ and is thermodynam
+ 		\item \textbf{Bound constraints.} Enforce $Q_{\max} > 0$, $K > 0$, $0 < m \leq 3$ (Sips), $0 < t \leq 1$ (T\'{o}th), $0 < \beta \leq 1$ (Redlich--Peterson), etc.
+ 		\item \textbf{Convergence check.} Verify that the solver converged (exit flag), that the covariance matrix is finite, and that parameter confidence intervals (from the Jacobian) are physically reasonable.
+ 		\item \textbf{Residual diagnostics.} Plot residuals $q_i^{\exp} - q_i^{\mathrm{pred}}$ vs.\ $C_e$. Systematic curvature indicates model inadequacy even if $R^2$ is high.
+-		\item \textbf{Bootstrap validation.} Resample residuals ($\geq 1000$ iterations) to obtain confidence intervals on all fitted parameters. Propagate the bootstrap ensemble through the descriptor extraction formulas (Table~\ref{tab:extraction}) to obtain uncertainties on $E_{\mathrm{ads}}$ and $\sigma_E$.
++		\item \textbf{Bootstrap validation.} Resample residuals ($\geq 1000$ iterations) to obtain confidence intervals on all fitted parameters. Propagate the bootstrap ensemble through the descriptor extraction formulas (Table~\ref{tab:extraction}) to obtain uncertainties on $E_{\mathrm{ads}}$ and $\sigma_H$.
+ 		\item \textbf{Sensitivity test.} Repeat the fit with 3--5 different noise levels (e.g.\ 1\%, 5\%, 10\% Gaussian noise on $q_e$) to assess parameter stability. Parameters that shift by more than one bootstrap standard deviation under 5\% noise are poorly constrained.
+ 	\end{enumerate}
+ 
+@@ -1142,7 +1142,7 @@ Importantly, the use of information criteria does not imply that one model is 
+ 	\subsection{Material classification by $k$-Nearest Neighbours}
+ 	\label{sec:KNN}
+ 
+-	Once the universal descriptors $\{Q_{\max},\, \ln K_{\mathrm{aff}}^{\ast},\, \sigma_E\}$ (Eq.~\eqref{eq:Eads}) have been extracted for a collection of adsorbent--adsorbate systems, materials can be classified in this descriptor space without imposing a parametric model on the group boundaries. The $k$-Nearest Neighbours (KNN) algorithm assigns a query material to the class most common among its $k$ closest neighbours:
++	Once the universal descriptors $\{Q_{\max},\, \ln K_{\mathrm{aff}}^{\ast},\, \sigma_H\}$ (Eq.~\eqref{eq:Eads}) have been extracted for a collection of adsorbent--adsorbate systems, materials can be classified in this descriptor space without imposing a parametric model on the group boundaries. The $k$-Nearest Neighbours (KNN) algorithm assigns a query material to the class most common among its $k$ closest neighbours:
+ 	\begin{equation}
+ 		\hat{y}(\mathbf{x}_q)
+ 		= \arg\max_{c}\;
+@@ -1180,7 +1180,7 @@ Importantly, the use of information criteria does not imply that one model is 
+ 	\end{equation}
+ 	where $\mathbf{w}$ is the normal to the hyperplane, $b$ is the bias, $\xi_i$ are slack variables for misclassified points, and $C_{\mathrm{reg}}$ controls the trade-off between margin width and classification error. The support vectors---the data points that lie on or within the margin---define the boundary entirely. Figure~\ref{fig:SVM}a shows a linear SVM separating two classes of adsorbents in the $(Q_{\max},\, \ln K_{\mathrm{aff}}^{\ast})$ plane (Eq.~\eqref{eq:Eads}).
+ 
+-	When the full universal descriptor set $\{Q_{\max},\, \ln K_{\mathrm{aff}}^{\ast},\, \sigma_E\}$ is used, the SVM operates in three dimensions and the decision boundary becomes a \emph{plane} (Figure~\ref{fig:SVM}b). For non-linearly separable data an RBF kernel $\mathcal{K}(\mathbf{x}_i, \mathbf{x}_j) = \exp(-\gamma\|\mathbf{x}_i - \mathbf{x}_j\|^2)$ replaces the linear kernel, producing curved decision surfaces that can capture complex group boundaries while still being defined entirely by the support vectors.
++	When the full universal descriptor set $\{Q_{\max},\, \ln K_{\mathrm{aff}}^{\ast},\, \sigma_H\}$ is used, the SVM operates in three dimensions and the decision boundary becomes a \emph{plane} (Figure~\ref{fig:SVM}b). For non-linearly separable data an RBF kernel $\mathcal{K}(\mathbf{x}_i, \mathbf{x}_j) = \exp(-\gamma\|\mathbf{x}_i - \mathbf{x}_j\|^2)$ replaces the linear kernel, producing curved decision surfaces that can capture complex group boundaries while still being defined entirely by the support vectors.
+ 
+ 	\begin{figure}[H]
+ 		\centering
+@@ -1197,14 +1197,14 @@ Importantly, the use of information criteria does not imply that one model is 
+ 				\put(2,65){\textbf{(b)}}
+ 			\end{overpic}
+ 		\end{subfigure}
+-		\caption{Support Vector Machine classification of adsorbent materials. (a)~Two-dimensional projection onto the $(Q_{\max},\, \ln K_{\mathrm{aff}}^{\ast})$ plane: the solid line is the decision boundary $\mathbf{w}\!\cdot\!\mathbf{x} + b = 0$; dashed lines indicate the margin boundaries; support vectors are circled. (b)~Three-dimensional descriptor space $(Q_{\max},\, \ln K_{\mathrm{aff}}^{\ast},\, \sigma_E)$: decision boundaries are now planes (or curved surfaces when an RBF kernel is used). Three performance groups and two inter-group boundaries are shown; support vectors are marked with black circles. \textbf{Note}: These is synthetic data to help understanding the classification model}
++		\caption{Support Vector Machine classification of adsorbent materials. (a)~Two-dimensional projection onto the $(Q_{\max},\, \ln K_{\mathrm{aff}}^{\ast})$ plane: the solid line is the decision boundary $\mathbf{w}\!\cdot\!\mathbf{x} + b = 0$; dashed lines indicate the margin boundaries; support vectors are circled. (b)~Three-dimensional descriptor space $(Q_{\max},\, \ln K_{\mathrm{aff}}^{\ast},\, \sigma_H)$: decision boundaries are now planes (or curved surfaces when an RBF kernel is used). Three performance groups and two inter-group boundaries are shown; support vectors are marked with black circles. \textbf{Note}: These is synthetic data to help understanding the classification model}
+ 		\label{fig:SVM}
+ 	\end{figure}
+ 
+-	Categorical variables---such as material type (e.g.\ activated carbon, zeolite, MOF), best-fit isotherm model, or synthesis route---can be incorporated into the SVM framework through one-hot encoding. Each category is expanded into binary indicator features that enter $\mathbf{x}_i$ alongside the continuous descriptors $(Q_{\max},\, \ln K_{\mathrm{aff}}^{\ast},\, \sigma_E)$. In the resulting augmented feature space the SVM decision boundary is no longer a plane but a \emph{hyperplane} whose dimensionality equals the total number of features minus one. For a problem with $p$ continuous descriptors and $q$ one-hot columns the separating surface lives in $\mathbb{R}^{p+q}$ and its projection onto any two-dimensional descriptor pair produces the familiar boundary visualised in Figure~\ref{fig:SVM}a. Typical SVM classification tasks in adsorption studies include:
++	Categorical variables---such as material type (e.g.\ activated carbon, zeolite, MOF), best-fit isotherm model, or synthesis route---can be incorporated into the SVM framework through one-hot encoding. Each category is expanded into binary indicator features that enter $\mathbf{x}_i$ alongside the continuous descriptors $(Q_{\max},\, \ln K_{\mathrm{aff}}^{\ast},\, \sigma_H)$. In the resulting augmented feature space the SVM decision boundary is no longer a plane but a \emph{hyperplane} whose dimensionality equals the total number of features minus one. For a problem with $p$ continuous descriptors and $q$ one-hot columns the separating surface lives in $\mathbb{R}^{p+q}$ and its projection onto any two-dimensional descriptor pair produces the familiar boundary visualised in Figure~\ref{fig:SVM}a. Typical SVM classification tasks in adsorption studies include:
+ 	\begin{itemize}
+ 		\item \textbf{Binary screening:} suitable vs.\ unsuitable adsorbents for a given application (e.g.\ materials exceeding a regulatory removal threshold for drinking water).
+-		\item \textbf{Model-type separation:} distinguishing systems that are best described by a Langmuir-type isotherm ($\sigma_E \approx 0$) from those requiring a heterogeneous model (Sips, T\'{o}th).
++		\item \textbf{Model-type separation:} distinguishing systems that are best described by a Langmuir-type isotherm ($\sigma_H \approx 0$) from those requiring a heterogeneous model (Sips, T\'{o}th).
+ 		\item \textbf{Material-class boundaries:} separating material families (activated carbon vs.\ zeolite vs.\ MOF) in the descriptor space, using one-hot encoded material type as additional features.
+ 		\item \textbf{Multi-class ranking:} extending the binary SVM via one-vs-one or one-vs-all strategies to classify adsorbents into three or more performance groups (as in Figure~\ref{fig:SVM}b).
+ 	\end{itemize}
+@@ -1227,7 +1227,7 @@ Importantly, the use of information criteria does not imply that one model is 
+ 	\begin{enumerate}
+ 		\item \textbf{Experimental conditions:} temperature $T$, pH, ionic strength, and the declared standard-state concentration $C^{0}$ (with units).
+ 		\item \textbf{Model fit:} best-fit model name, all fitted parameters $\boldsymbol{\theta}$ with units and confidence intervals, and at least SSE, $R^2$, ARED, and AIC$_c$.
+-		\item \textbf{Universal descriptors:} $Q_{\max}$ (mg.g$^{-1}$), $K_{\mathrm{aff}}^{\ast}$ (dimensionless), $E_{\mathrm{ads}}$ (kJ\,mol$^{-1}$), and $\sigma_E$ (kJ\,mol$^{-1}$).
++		\item \textbf{Universal descriptors:} $Q_{\max}$ (mg.g$^{-1}$), $K_{\mathrm{aff}}^{\ast}$ (dimensionless), $E_{\mathrm{ads}}$ (kJ\,mol$^{-1}$), and $\sigma_H$ (kJ\,mol$^{-1}$).
+ 		\item \textbf{Comparison metrics} (when applicable): OVL between competing model distributions and/or cluster labels from KNN/SVM classification.
+ 	\end{enumerate}
+ 	The complete minimum reporting table is given in Table~\ref{SI-tab:si_reporting}; the extraction formulas for each model are collected in Table~\ref{SI-tab:si_extraction}.
+@@ -1242,10 +1242,15 @@ Importantly, the use of information criteria does not imply that one model is 
+ 		\item \textbf{Non-linear fitting.} Fit all candidate models by non-linear least squares (Section~\ref{sec:fitting}).
+ 		\item \textbf{Error metrics.} Compute SSE, $R^2$, $R^2_{\mathrm{adj}}$, ARED, and HYBRID for each model (Section~\ref{SI-sec:si_residuals}).
+ 		\item \textbf{Model selection.} Rank by AIC$_c$; apply F-tests for nested pairs; apply physical decision criteria (Section~\ref{sec:Ftest}, Figure~\ref{SI-fig:si_decision_tree}).
+-		\item \textbf{Descriptor extraction.} From the selected model, compute $Q_{\max}$, $K_{\mathrm{aff}}^{\ast}$, $E_{\mathrm{ads}}$, and $\sigma_E$ (Table~\ref{tab:extraction}).
++		\item \textbf{Descriptor extraction.} From the selected model, compute $Q_{\max}$, $K_{\mathrm{aff}}^{\ast}$, $E_{\mathrm{ads}}$, and $\sigma_H$ (Table~\ref{tab:extraction}).
+ 		\item \textbf{Statistical comparison.} Compute OVL between energy distributions of alternative models or between different materials (Section~\ref{SI-sec:si_OVL}).
+ 		\item \textbf{Classification.} Map materials into the standardised descriptor space and apply clustering or supervised classification (Section~\ref{sec:KNN}, Section~\ref{sec:SVM}).
+ 	\end{enumerate}
++	The companion notebooks implement this same workflow, including fit overlays,
++	residual and parity plots, metric summaries, covariance-based confidence
++	bands, bootstrap and noise-sensitivity propagation, and KNN/SVM/Ward
++	validation of descriptor tables. These code-level outputs are mapped to the
++	SI equations and reporting rules in Section~\ref{SI-sec:si_notebooks}.
+ 
+ 	% --- 6.3  Practical recommendations ---
+ 	\subsection{Practical recommendations}
+@@ -1255,8 +1260,8 @@ Importantly, the use of information criteria does not imply that one model is 
+ 		\item \textbf{Never linearise.} Linearised isotherm forms distort the error structure and bias the fitted parameters. Always use non-linear regression.
+ 		\item \textbf{Do not report $Q_{\max}$ from the Freundlich equation.} The Freundlich isotherm has no saturation; any ``capacity'' derived from it is a concentration-window artefact.
+ 		\item \textbf{Always declare $C^{0}$.} The numerical value of $E_{\mathrm{ads}}$ depends on $C^{0}$; omitting it renders the result non-reproducible. Differences $\Delta E_{\mathrm{ads}}$ between materials measured under the same $C^{0}$ are invariant.
+-		\item \textbf{Report confidence intervals.} Bootstrap or Monte Carlo uncertainties on $Q_{\max}$, $E_{\mathrm{ads}}$, and $\sigma_E$ should accompany every table entry.
+-		\item \textbf{Use $\sigma_E$ to assess model necessity.} If the best 3-parameter model yields only weak heterogeneity, e.g.\ $\sigma_E \leq 2RT$ or, for Sips, $m$ remains close to 1, the Langmuir model is likely sufficient and the extra parameter is not justified (Eq.~\ref{SI-eq:si_criterion_LvsS}).
++		\item \textbf{Report confidence intervals.} Bootstrap or Monte Carlo uncertainties on $Q_{\max}$, $E_{\mathrm{ads}}$, and $\sigma_H$ should accompany every table entry.
++		\item \textbf{Use $\sigma_H$ to assess model necessity.} If the best 3-parameter model yields only weak intrinsic heterogeneity, e.g.\ $\sigma_H \leq 2RT$ or, for Sips, $m$ remains close to 1, the Langmuir model is likely sufficient and the extra parameter is not justified (Eq.~\ref{SI-eq:si_criterion_LvsS}).
+ 		\item \textbf{Prefer the simplest adequate model.} Among models with $\Delta\mathrm{AIC}_c < 2$, report the one with the fewest parameters.
+ 	\end{itemize}
+ 
