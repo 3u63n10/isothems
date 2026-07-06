@@ -1,0 +1,370 @@
+\documentclass[12pt]{article}
+
+% Packages
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\begin{document}
+
+\title{Evaluation of ``A Universal Route to $Q_{\max}$ and $K_{\mathrm{aff}}$\\
+for PFAS Adsorption in Solids''}
+\author{Evaluation Report}
+\date{\today}
+\maketitle
+
+% ======================================================================
+\section{Executive summary}
+% ======================================================================
+
+The manuscript proposes a model-agnostic workflow for extracting the
+saturation capacity $Q_{\max}$ and a capacity-weighted mean affinity
+constant $K_{\mathrm{aff}}$ from adsorption data, using the heterogeneous
+Langmuir integral as its theoretical backbone.  An optional partition
+term $K_p C$ is included for PFAS systems.  A nonparametric distribution
+recovery via regularized non-negative least squares (NNLS) is offered as
+a secondary tool.
+
+\textbf{Overall assessment:} The manuscript is a competent synthesis of
+well-established theoretical results, repackaged as a practical workflow.
+The core mathematical content---the heterogeneous Langmuir integral, the
+moment relations for $Q_{\max}$ and $K_H$, and the NNLS-based
+distribution recovery---are all published results dating back decades.
+The contribution is therefore primarily methodological/pedagogical rather
+than theoretically novel.  Several technical issues require correction.
+
+% ======================================================================
+\section{Detailed originality analysis}
+% ======================================================================
+
+\subsection{Element 1: The heterogeneous Langmuir integral}
+
+\textbf{Manuscript claim:} Eq.~(1) represents adsorption as
+$q(C)=\int_0^\infty \rho(K)\,KC/(1+KC)\,dK$.
+
+\textbf{Prior art:} This is the standard integral equation of adsorption
+on heterogeneous surfaces, established since at least the 1940s:
+\begin{itemize}[nosep]
+  \item Sips, R.\ (1948). ``On the structure of a catalyst surface,''
+        \textit{J.\ Chem.\ Phys.}\ \textbf{16}, 490--495.  Derived the
+        Sips (Langmuir--Freundlich) isotherm by solving this integral
+        with a quasi-Gaussian (logistic) distribution.
+  \item Sips, R.\ (1950). ``On the structure of a catalyst surface.\ II,''
+        \textit{J.\ Chem.\ Phys.}\ \textbf{18}, 1024--1026.
+  \item T\'oth, J.\ (1971). ``State equations of the solid-gas interface
+        layers,'' \textit{Acta Chim.\ Acad.\ Sci.\ Hung.}\ \textbf{69},
+        311--328.
+  \item Jaroniec, M.\ and Madey, R.\ (1988). \textit{Physical Adsorption
+        on Heterogeneous Solids}, Elsevier, Amsterdam.  Comprehensive
+        treatment of the integral equation, energy distributions, and
+        solution methods.
+  \item Rudzinski, W.\ and Everett, D.H.\ (1992). \textit{Adsorption of
+        Gases on Heterogeneous Surfaces}, Academic Press, London.
+        Definitive monograph covering analytical and numerical inversion
+        of the integral equation.
+\end{itemize}
+
+\textbf{Verdict:} \textbf{Not novel.}  Textbook material for at least
+35~years.
+
+\subsection{Element 2: $Q_{\max}$ as the zeroth moment of $\rho(K)$}
+
+\textbf{Manuscript claim:} Eq.~(5): $Q_{\max}=\int_0^\infty\rho(K)\,dK$
+and $\lim_{C\to\infty}q(C)=Q_{\max}$.
+
+\textbf{Prior art:} This is a direct consequence of dominated convergence
+applied to the Langmuir kernel $KC/(1+KC)\to 1$ as $C\to\infty$.  It
+appears in every treatment of heterogeneous adsorption (Jaroniec \&
+Madey 1988, Rudzinski \& Everett 1992, and many others).
+
+\textbf{Verdict:} \textbf{Not novel.}
+
+\subsection{Element 3: $K_H$ as the first moment and $K_{\mathrm{aff}}=K_H/Q_{\max}$}
+
+\textbf{Manuscript claim:} Eqs.~(7)--(9): $K_H=Q_{\max}\int K f(K)\,dK$
+and $K_{\mathrm{aff}}=\int K f(K)\,dK$ is the capacity-weighted mean
+affinity.
+
+\textbf{Prior art:}
+\begin{itemize}[nosep]
+  \item The Henry constant as the first moment of $\rho(K)$ is a standard
+        result (Jaroniec \& Madey 1988, Chapter~3; Rudzinski \& Everett
+        1992, Chapter~5).
+  \item The ratio $K_H/Q_{\max}$ as a mean affinity is used implicitly
+        in binding theory since at least Klotz, I.M.\ and Hunston, D.L.\
+        (1971), ``Properties of graphical representations of multiple
+        classes of binding sites,'' \textit{Biochemistry} \textbf{10},
+        3065--3069.
+  \item Nederlof, M.M., van Riemsdijk, W.H., and Koopal, L.K.\ (1990).
+        ``Determination of adsorption affinity distributions,''
+        \textit{J.\ Colloid Interface Sci.}\ \textbf{135}, 410--426.
+        General framework for affinity distribution recovery.
+  \item Rampey, A.M., Umpleby, R.J., Rushton, G.T., Iseman, J.C.,
+        Shah, R.N., and Shimizu, K.D.\ (2004).  ``Characterization of
+        the imprint effect and the influence of imprinting conditions on
+        affinity, capacity, and heterogeneity in molecularly imprinted
+        polymers using the Freundlich isotherm-affinity distribution
+        analysis,'' \textit{Anal.\ Chem.}\ \textbf{76}, 1123--1133.
+        \emph{Explicitly extract $Q_{\max}$-like parameters and affinity
+        distributions from the heterogeneous Langmuir integral.}
+\end{itemize}
+
+\textbf{Verdict:} \textbf{Not novel.}  The notation $K_{\mathrm{aff}}$ may
+be new but the concept is not.
+
+\subsection{Element 4: Partition-plus-Langmuir dual-mode model}
+
+\textbf{Manuscript claim:} Eq.~(4): $q(C)=K_p C+\int\rho(K)\,KC/(1+KC)\,dK$.
+
+\textbf{Prior art:}
+\begin{itemize}[nosep]
+  \item Vieth, W.R., Howell, J.M., and Hsieh, J.H.\ (1976). ``Dual
+        sorption theory,'' \textit{J.\ Membr.\ Sci.}\ \textbf{1}, 177--220.
+        The dual-mode sorption model $q=k_D C + C'_H bC/(1+bC)$ has been
+        standard in polymer membrane science for 50~years.
+  \item Paul, D.R.\ and Koros, W.J.\ (1976). ``Effect of partially
+        immobilizing sorption on permeability and the diffusion time lag,''
+        \textit{J.\ Polym.\ Sci.}\ \textbf{14}, 675--685.
+  \item For PFAS specifically, numerous recent papers apply dual-mode
+        (partition + adsorption) models to soils and sediments.
+\end{itemize}
+
+\textbf{Verdict:} \textbf{Not novel.}  Direct application of the 1976
+dual-mode sorption model.
+
+\subsection{Element 5: $1/C$ extrapolation for $Q_{\max}$}
+
+\textbf{Manuscript claim:} Eq.~(12): $q(C)\approx Q_{\max}-A_1/C$ for
+large $C$, used to extrapolate $Q_{\max}$.
+
+\textbf{Prior art:} This is the high-concentration asymptotic expansion
+of the heterogeneous Langmuir integral.  The $1/C$ correction term
+appears in:
+\begin{itemize}[nosep]
+  \item Jaroniec, M.\ (1983). ``Physical adsorption on heterogeneous
+        solids,'' \textit{Adv.\ Colloid Interface Sci.}\ \textbf{18},
+        149--225.
+  \item The $q$ vs.\ $1/C$ linear extrapolation is conceptually related
+        to the classical Langmuir linearization ($1/q$ vs.\ $1/C$), which
+        dates to Langmuir (1918) and Lineweaver--Burk (1934) in enzyme
+        kinetics.
+\end{itemize}
+
+\textbf{Verdict:} \textbf{Not novel}, though the specific use for
+heterogeneous systems is a reasonable (if straightforward) extension.
+
+\subsection{Element 6: Nonparametric distribution recovery via regularized NNLS}
+
+\textbf{Manuscript claim:} Eqs.~(18)--(20): Discretize the integral into a matrix equation $q\approx A\pm{q}_m$ and solve with Tikhonov-regularized NNLS.
+
+\textbf{Prior art:}
+\begin{itemize}[nosep]
+  \item Umpleby, R.J., Baxter, S.C., Chen, Y., Shah, R.N., and
+        Shimizu, K.D.\ (2001). ``Characterization of molecularly imprinted
+        polymers with the Langmuir--Freundlich isotherm,''
+        \textit{Anal.\ Chem.}\ \textbf{73}, 4584--4591.
+  \item Umpleby, R.J., Baxter, S.C., Rampey, A.M., Rushton, G.T.,
+        Chen, Y., and Shimizu, K.D.\ (2004). ``Characterization of the
+        heterogeneous binding site affinity distributions in molecularly
+        imprinted polymers,'' \textit{J.\ Chromatogr.\ B} \textbf{804},
+        141--149.  Used discrete Langmuir mixtures with numerical
+        distribution recovery.
+  \item Szabelski, P., Kierzek, A.M., et al.\ (2002).  ``Determination of
+        single component isotherms and affinity energy distributions by
+        chromatography,'' \textit{J.\ Chromatogr.\ A} \textbf{988}, 41--55.
+  \item Cernik, M., Borkovec, M., and Westall, J.C.\ (1995).
+        ``Regularized least-squares methods for the calculation of discrete
+        and continuous affinity distributions for heterogeneous sorbents,''
+        \textit{Environ.\ Sci.\ Technol.}\ \textbf{29}, 413--425.
+        \emph{Directly used regularized NNLS for affinity distributions
+        in environmental sorbents---essentially the same approach as the
+        manuscript under review.}
+  \item Carter, M.C.\ and Kilduff, J.E.\ (1995).
+        ``Site energy distribution analysis of preloaded adsorbents,''
+        \textit{Environ.\ Sci.\ Technol.}\ \textbf{29}, 1773--1780.
+        Site energy distribution analysis for activated carbon using
+        numerical inversion.
+  \item In the broader inverse problems literature, regularized NNLS for
+        Fredholm integral equations of the first kind is a standard
+        technique (Tikhonov \& Arsenin, 1977; Hansen, 1998).
+\end{itemize}
+
+\textbf{Verdict:} \textbf{Not novel.}  Well-established technique in both
+adsorption science and inverse problems.
+
+\subsection{Element 7: Bootstrap uncertainty estimation}
+
+\textbf{Manuscript claim:} Nonparametric bootstrap for confidence
+intervals on $Q_{\max}$ and $K_{\mathrm{aff}}$.
+
+\textbf{Prior art:} Bootstrap is a standard statistical method (Efron,
+1979).  Its application to adsorption parameters is routine.
+
+\textbf{Verdict:} \textbf{Not novel.}
+
+% ======================================================================
+\section{Summary of originality assessment}
+% ======================================================================
+
+\begin{table}[h!]
+\centering
+\caption{Originality of each element in the manuscript.}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Element} & \textbf{Novel?} & \textbf{Key prior reference} \\
+\midrule
+Heterogeneous Langmuir integral & No & Sips (1948); Jaroniec \& Madey (1988) \\
+$Q_{\max}$ as zeroth moment     & No & Jaroniec \& Madey (1988) \\
+$K_H$ as first moment           & No & Jaroniec \& Madey (1988) \\
+$K_{\mathrm{aff}}=K_H/Q_{\max}$ (mean affinity)  & No & Klotz \& Hunston (1971) \\
+Dual-mode (partition + Langmuir) & No & Vieth et al.\ (1976) \\
+$1/C$ extrapolation for $Q_{\max}$ & No & Jaroniec (1983); Langmuir (1918) \\
+NNLS distribution recovery       & No & Umpleby et al.\ (2001, 2004) \\
+Bootstrap uncertainty             & No & Efron (1979) \\
+\midrule
+\textit{Packaging as a workflow} & \textit{Partial} &
+  \textit{Synthesis of known methods} \\
+\textit{PFAS-specific application} & \textit{Partial} &
+  \textit{Application context is timely} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ======================================================================
+\section{Technical issues requiring correction}
+% ======================================================================
+
+\subsection{Issue 1: Convergence of $K_H$ is not guaranteed}
+
+The manuscript states Eq.~(7): $K_H=\int_0^\infty K\rho(K)\,dK$ without
+specifying when this integral converges.  For important distribution
+classes, it does not:
+
+\begin{itemize}[nosep]
+  \item \textbf{Freundlich:} The site-energy distribution is a power law
+        $f(E)\propto \exp(nE/RT)$, which in $K$-space gives
+        $f(K)\propto K^{n-1}$.  The first moment
+        $\int K f(K)\,dK \propto \int K^n\,dK$ diverges for $n<1$
+        (the physically relevant regime).
+  \item \textbf{Sips with $m<1$:} The logistic distribution similarly has
+        a divergent first moment.
+\end{itemize}
+
+The manuscript should state explicitly that $K_{\mathrm{aff}}$ is
+well-defined only when $\int K\rho(K)\,dK<\infty$, and discuss what
+happens for power-law-tailed distributions (where Henry's law does not
+hold in the strict mathematical sense, and $K_H$ must be defined
+operationally over a finite concentration window).
+
+\subsection{Issue 2: The $1/C$ extrapolation requires $A_1<\infty$}
+
+Eq.~(12) assumes $A_1=\int_0^\infty \rho(K)/K\,dK<\infty$.  For
+distributions with substantial weight near $K=0$ (e.g., some Toth
+distributions with strong asymmetry), this integral may diverge.  The
+manuscript should state this condition and provide a diagnostic.
+
+\subsection{Issue 3: Iterative $K_p$ estimation lacks convergence analysis}
+
+The manuscript suggests iterating Steps~2 and~3 ``once or twice to
+self-consistency'' without proving convergence or providing a stopping
+criterion.  A proper alternating estimation procedure should include:
+\begin{itemize}[nosep]
+  \item A convergence criterion (e.g., relative change in
+        $\widehat{K}_p$ below a tolerance).
+  \item Discussion of uniqueness: the decomposition
+        $q=K_p C + q_{\mathrm{sat}}$ is not identifiable when the
+        saturating component has not reached its plateau.
+\end{itemize}
+
+\subsection{Issue 4: Selection of $\mathcal{I}_0$ and $\mathcal{I}_\infty$ subsets}
+
+The manuscript provides only vague guidance (``increase the number of
+included points until\ldots'').  The corrected version should include:
+\begin{itemize}[nosep]
+  \item A quantitative criterion for Henry region selection (e.g., based
+        on the curvature $q''(C)$ or an $F$-test comparing linear vs.\
+        quadratic fits).
+  \item A quantitative criterion for plateau region selection.
+  \item Sensitivity analysis showing how $K_{\mathrm{aff}}$ varies with
+        the choice of subsets.
+\end{itemize}
+
+\subsection{Issue 5: Regularization parameter selection}
+
+The NNLS formulation (Eq.~20) includes $\lambda$ but provides no
+guidance for choosing it.  Standard methods should be mentioned:
+\begin{itemize}[nosep]
+  \item L-curve method (Hansen, 1992).
+  \item Generalized cross-validation (GCV).
+  \item Discrepancy principle (Morozov, 1966).
+\end{itemize}
+
+\subsection{Issue 6: Missing literature citations}
+
+The manuscript contains \emph{zero} references.  A publication-ready
+version must cite the foundational works listed in Section~2.
+
+\subsection{Issue 7: Assumption A1 is restrictive}
+
+Assumption A1 (independent-site superposition, no lateral interactions or
+cooperativity) excludes:
+\begin{itemize}[nosep]
+  \item Systems with cooperative binding (Hill isotherm, sigmoidal
+        isotherms).
+  \item Systems with adsorbate--adsorbate interactions on the surface
+        (Fowler--Guggenheim, Temkin deviation from ideality).
+  \item Multilayer adsorption (BET-type).
+\end{itemize}
+This should be discussed more explicitly.
+
+% ======================================================================
+\section{Recommendations}
+% ======================================================================
+
+\begin{enumerate}
+  \item \textbf{Reframe the contribution:} The manuscript should be
+        presented as a practical workflow and decision protocol, not as
+        a theoretically novel result.  The title ``Universal Route'' is
+        overstated; something like ``A Practical Model-Agnostic Protocol
+        for Extracting $Q_{\max}$ and $K_{\mathrm{aff}}$'' would be more
+        accurate.
+  \item \textbf{Add comprehensive citations} to the foundational
+        literature (Sips, Jaroniec, Rudzinski, Umpleby, Shimizu, Vieth,
+        Nederlof, etc.).
+  \item \textbf{State convergence conditions} for $K_H$ and $A_1$
+        explicitly.
+  \item \textbf{Formalize the iterative procedure} for $K_p$ with a
+        convergence criterion.
+  \item \textbf{Provide quantitative criteria} for selecting Henry and
+        plateau regions.
+  \item \textbf{Include regularization parameter selection} guidance for
+        the NNLS step.
+  \item \textbf{Add validation:} Test on synthetic data generated from
+        known distributions (Sips, Toth, Double Langmuir) and on
+        published PFAS datasets.
+  \item \textbf{Add diagnostic plots:} residual analysis, sensitivity
+        of $K_{\mathrm{aff}}$ to subset choices, comparison with
+        parametric model fits.
+\end{enumerate}
+
+% ======================================================================
+\section{Conclusion}
+% ======================================================================
+
+The manuscript assembles known theoretical results into a practical
+workflow.  Its value lies in the synthesis and in targeting the PFAS
+community, which may not be familiar with the heterogeneous adsorption
+literature from physical chemistry and surface science.  However, the
+manuscript currently (a)~does not cite any prior work, (b)~contains
+technical gaps regarding convergence conditions and parameter selection,
+and (c)~overstates the novelty of the approach.  A revised version
+addressing these issues (provided as \texttt{Universal\_route\_v2.tex})
+would be a useful methodological contribution.
+
+\end{document}

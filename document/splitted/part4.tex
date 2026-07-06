@@ -1,0 +1,213 @@
+﻿	\section{Statistical comparison}
+	\subsection{Energy-distribution overlap criterion}
+
+	Beyond purely statistical metrics, the \emph{physical content} of
+	competing models can be compared through their implied site-energy
+	distributions. Each model that admits an energy distribution
+	$f(E)$ is characterised by a mean energy $E_c$ and a standard
+	deviation $\sigma_E$. The central idea is: \textbf{if the energy
+	distributions of two models overlap to the point that they are
+	statistically indistinguishable, the simpler model should be
+	preferred.}
+
+	\paragraph{Summary of energy parameters by model.}
+
+	\begin{itemize}
+		\item \textbf{Langmuir}: Dirac delta at
+		$E_0 = RT\ln(K_L C^0)$, with $\sigma_E = 0$.
+		\item \textbf{Double Langmuir}: two Dirac deltas at
+		$E_1 = RT\ln(K_1 C^0)$ and $E_2 = RT\ln(K_2 C^0)$,
+		separated by
+		\begin{equation}
+			\Delta E_{12} = |E_1 - E_2|
+			= RT\left|\ln\frac{K_1}{K_2}\right|.
+			\label{eq:DeltaE12}
+		\end{equation}
+		\item \textbf{Sips}: logistic distribution centred at
+		$E_c = RT\ln(K_S C^{\ast})$ with standard deviation
+		\begin{equation}
+			\sigma_E^{\mathrm{(Sips)}}
+			= \frac{\pi}{\sqrt{3}}\,nRT,
+			\label{eq:sigma_sips_stat}
+		\end{equation}
+		where $n$ is the Sips heterogeneity parameter (note: $1/n = m$
+		is the exponent in Eq.~\eqref{eq:Sips}).
+		\item \textbf{Toth}: asymmetric distribution with mean energy
+		$E_c$ and a skewness-dependent width; the effective spread is
+		broader toward low energies.
+		\item \textbf{D-R/D-A}: Gaussian-like distribution with
+		$\sigma_E \propto E_a / \sqrt{2}$ (D-R) or dependent on
+		$n_{DA}$ (D-A).
+	\end{itemize}
+
+	\paragraph{Criterion 1: Langmuir vs.\ Sips.}
+
+	The Sips model reduces to Langmuir when $n \to 1$
+	(or $m \to 1$), i.e.\ when the energy distribution collapses to
+	a delta. The question is: given the fitted value of $n$, is the
+	distribution narrow enough that the heterogeneity is negligible?
+
+	A natural criterion compares the Sips distribution width with the
+	thermal energy scale:
+	\begin{equation}
+		\boxed{
+			\text{Accept Langmuir if}\quad
+			\sigma_E^{\mathrm{(Sips)}}
+			= \frac{\pi}{\sqrt{3}}\,nRT
+			\leq \alpha\, RT,
+		}
+		\label{eq:criterion_L_vs_S}
+	\end{equation}
+	where $\alpha$ is a tolerance (typically $\alpha \approx 1$--$2$).
+	This corresponds to requiring $n \leq \alpha\sqrt{3}/\pi$, i.e.\
+	$n \lesssim 0.55$--$1.10$. In practice, the F-test
+	(Eq.~\eqref{eq:Ftest}) already provides a frequentist check;
+	Eq.~\eqref{eq:criterion_L_vs_S} adds a \emph{physical}
+	interpretation: the additional parameter in Sips is justified only
+	if the implied energy spread exceeds the thermal fluctuation scale.
+
+	\paragraph{Criterion 2: Langmuir vs.\ Double Langmuir.}
+
+	The Double Langmuir model introduces two distinct site types.
+	The two sites are physically distinguishable only if their
+	energy separation exceeds the thermal broadening:
+	\begin{equation}
+		\boxed{
+			\text{Accept Double Langmuir if}\quad
+			\Delta E_{12}
+			= RT\left|\ln\frac{K_1}{K_2}\right|
+			> \beta\, RT,
+		}
+		\label{eq:criterion_L_vs_DL}
+	\end{equation}
+	where $\beta$ is a threshold (typically $\beta \approx 2$--$3$,
+	meaning the site energies differ by at least $2$--$3\,RT$).
+	If $\Delta E_{12} \leq \beta\,RT$, the two ``sites'' are
+	thermally indistinguishable and a single Langmuir model is
+	more parsimonious.
+
+	Equivalently, in terms of the ratio of Langmuir constants:
+	\begin{equation}
+		\frac{K_1}{K_2} > \mathrm{e}^{\beta}
+		\quad\Longleftrightarrow\quad
+		\Delta E_{12} > \beta\, RT.
+	\end{equation}
+	For $\beta = 2$: $K_1/K_2 > 7.4$. For $\beta = 3$:
+	$K_1/K_2 > 20$.
+
+	\paragraph{Criterion 3: Double Langmuir vs.\ Sips.}
+
+	When both the Double Langmuir and the Sips model fit the data
+	well, one can compare the two-delta representation (DL) with the
+	continuous logistic distribution (Sips). The Sips model is
+	preferred if the continuous distribution adequately covers the
+	two peaks:
+	\begin{equation}
+		\boxed{
+			\text{Prefer Sips over DL if}\quad
+			\Delta E_{12} < 2\,\sigma_E^{\mathrm{(Sips)}}.
+		}
+		\label{eq:criterion_DL_vs_S}
+	\end{equation}
+	Conversely, if $\Delta E_{12} \gg 2\sigma_E^{\mathrm{(Sips)}}$,
+	the two-site model captures bimodal heterogeneity that the
+	symmetric Sips distribution cannot resolve.
+
+	\paragraph{Criterion 4: general overlap test.}
+
+	For any two models $A$ and $B$ that each imply an energy
+	distribution $f_A(E)$ and $f_B(E)$ with means $E_c^{A}$,
+	$E_c^{B}$ and standard deviations $\sigma_A$, $\sigma_B$,
+	the overlap coefficient
+	\begin{equation}
+		\mathrm{OVL}
+		= \int_{-\infty}^{\infty}
+		\min\!\bigl[\hat{f}_A(E),\;\hat{f}_B(E)\bigr]\,\mathrm{d}E,
+		\label{eq:OVL}
+	\end{equation}
+	where $\hat{f}$ denotes the normalised densities, quantifies the
+	degree of agreement. $\mathrm{OVL} = 1$ means the distributions
+	are identical; $\mathrm{OVL} \approx 0$ means they are well
+	separated.
+
+	If both distributions are approximately Gaussian (a good
+	approximation for Sips, D-R, and Toth near the peak), the overlap
+	has the closed-form estimate
+	\begin{equation}
+		\mathrm{OVL}
+		\approx 2\,\Phi\!\left(
+		-\frac{|E_c^A - E_c^B|}{2\,\bar{\sigma}}
+		\right),
+		\qquad
+		\bar{\sigma}
+		= \sqrt{\frac{\sigma_A^2 + \sigma_B^2}{2}},
+		\label{eq:OVL_gauss}
+	\end{equation}
+	where $\Phi$ is the standard normal CDF. The rule of thumb:
+	\begin{itemize}
+		\item $\mathrm{OVL} > 0.8$: models are practically
+		indistinguishable --- prefer the simpler one.
+		\item $0.3 < \mathrm{OVL} < 0.8$: partial overlap; use
+		AIC/BIC to decide.
+		\item $\mathrm{OVL} < 0.3$: distributions are well separated;
+		the models describe qualitatively different physics.
+	\end{itemize}
+
+	\subsection{Classical statistical comparison}
+
+	\paragraph{Two models.}
+	For two nested models (e.g.\ Langmuir vs.\ Double Langmuir),
+	the F-test (Eq.~\eqref{eq:Ftest}) is the standard approach.
+	For two non-nested models with the same $p$ (e.g.\ Langmuir vs.\
+	Freundlich), direct comparison of AIC or BIC is appropriate.
+	The Akaike weight of model $i$ among a set of $M$ candidates is
+	\begin{equation}
+		w_i = \frac{\exp(-\Delta\mathrm{AIC}_i / 2)}
+		{\displaystyle\sum_{j=1}^{M}
+			\exp(-\Delta\mathrm{AIC}_j / 2)},
+		\label{eq:Akaike_weight}
+	\end{equation}
+	and gives the probability that model $i$ is the best model given
+	the data.
+
+	\paragraph{Several models.}
+	When comparing $M > 2$ models simultaneously:
+	\begin{enumerate}
+		\item Compute AIC$_c$ for each model.
+		\item Rank by $\Delta\mathrm{AIC}$ and compute Akaike weights
+		(Eq.~\eqref{eq:Akaike_weight}).
+		\item Discard models with $\Delta\mathrm{AIC} > 10$.
+		\item If multiple models remain ($\Delta\mathrm{AIC} < 2$),
+		report all as plausible and use model-averaged parameters:
+		\begin{equation}
+			\hat{\theta}_{\mathrm{avg}}
+			= \sum_{i=1}^{M} w_i\,\hat{\theta}_i.
+			\label{eq:model_averaging}
+		\end{equation}
+	\end{enumerate}
+	Complementary visualisation: error-metric heatmaps
+	($\log_{10}$-transformed) across substrates and models allow
+	rapid identification of the best model for each material.
+
+	\subsubsection{Combined decision protocol}
+
+	We recommend the following workflow for model selection:
+	\begin{enumerate}
+		\item Fit all candidate models by non-linear regression.
+		\item Compute residual metrics (SSE, ARED, HYBRID) and
+		information criteria (AIC$_c$, BIC).
+		\item Apply the F-test for nested pairs.
+		\item Compute the energy-distribution parameters ($E_c$,
+		$\sigma_E$, or $\Delta E_{12}$) from the fitted constants.
+		\item Apply the overlap criteria
+		(Eqs.~\eqref{eq:criterion_L_vs_S}--\eqref{eq:OVL_gauss}):
+		if a more complex model is statistically preferred (step~3)
+		but the energy distributions are indistinguishable
+		($\mathrm{OVL} > 0.8$), retain the simpler model and flag
+		the result as ``statistically significant but physically
+		negligible heterogeneity''.
+		\item Report both the statistical ranking \emph{and} the
+		energy-distribution comparison to give the reader a complete
+		picture.
+	\end{enumerate}
+

@@ -1,0 +1,65 @@
+\documentclass[12pt]{article}
+
+% Packages
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{graphicx}
+\graphicspath{{../}}
+\usepackage{physics}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric, decorations.pathmorphing}
+\usepackage{float}
+
+% Better boxes
+\usepackage{amsfonts}
+
+% ── Collaborative review ──────────────────────────────────────
+%
+% Package: changes  –  track additions / deletions / replacements
+%   Option [draft] shows all markup; change to [final] for clean PDF.
+%
+% QUICK REFERENCE – how to annotate:
+%
+%   Add new text:        \added[id=EU]{new text here}
+%   Delete text:         \deleted[id=HT]{text to remove}
+%   Replace text:        \replaced[id=EU]{new text}{old text}
+%   Highlight text:      \highlight[id=MK]{important text}
+%   Comment on text:     \comment[id=HT]{text}{your comment}
+%   Margin note:         \todo[author=EU]{note in the margin}
+%   Inline note:         \todo[inline, author=MK]{note inside the text}
+%
+%   Use your author id (EU, HT, MK …) so each reviewer gets a
+%   unique colour.  To add a new reviewer:
+%     \definechangesauthor[name={Name}, color=teal]{XX}
+%
+% ──────────────────────────────────────────────────────────────
+\PassOptionsToPackage{textsize=scriptsize, textwidth=2.2cm}{todonotes}
+\usepackage[draft]{changes}
+\definechangesauthor[name={Eugenio},      color=blue]{EU}
+\definechangesauthor[name={Tanaka-sensei}, color=red]{HT}
+\definechangesauthor[name={Manuela}, color=orange]{MK}
+% ──────────────────────────────────────────────────────────────
+
+% No indentation
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\begin{document}
+
+	\title{Guidelines for Adsorption Isotherm Models}
+	\maketitle
+
+	\tableofcontents
+	\newpage
+
+	\input{part1}  % Sections 1--5: Langmuir, Double Langmuir, Freundlich, Alternatives to Freundlich, Distribution broadening
+	\input{part2}  % Section 6: Summary -- concentration normalisation of adsorption energy
+	\input{part3}  % Section 7: Error handling
+	\input{part4}  % Section 8: Statistical comparison
+	\input{part5}  % Section 9: Clustering
+
+	\listofchanges          % prints a summary of all tracked changes
+
+\end{document}

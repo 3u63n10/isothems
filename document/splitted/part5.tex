@@ -1,0 +1,611 @@
+﻿	\section{Clustering}
+
+	When many materials are compared using multiple isotherm parameters
+	($Q_{\max}$, $K_L$, $E_{\mathrm{aff}}$, $\sigma_E$, etc.),
+	unsupervised clustering can group materials with similar adsorption
+	behaviour.
+
+	\paragraph{$k$-Nearest Neighbours (KNN).}
+	KNN is a non-parametric classifier that assigns a new material to
+	the class most common among its $k$ nearest neighbours in
+	parameter space.
+
+	\subparagraph{Feature space and standardisation.}
+	Each adsorbent is represented as a point in $d$-dimensional
+	parameter space,
+	$\mathbf{x}_i = (x_{i,1},\, x_{i,2},\, \ldots,\, x_{i,d})$.
+	A typical choice is
+	$\mathbf{x} = (Q_{\max},\; \ln K_{\mathrm{aff}}^{\ast},\;
+	\sigma_E)$, so that $d = 3$.
+	Because the parameters have different units and magnitudes,
+	each feature is standardised to zero mean and unit variance
+	before computing distances:
+	\begin{equation}
+		\tilde{x}_{i,\ell}
+		= \frac{x_{i,\ell} - \bar{x}_\ell}{s_\ell},
+		\qquad
+		\bar{x}_\ell = \frac{1}{N}\sum_{i=1}^{N} x_{i,\ell},
+		\qquad
+		s_\ell = \sqrt{\frac{1}{N-1}\sum_{i=1}^{N}
+			(x_{i,\ell} - \bar{x}_\ell)^2}.
+	\end{equation}
+
+	\subparagraph{Distance metric.}
+	The distance between two materials $i$ and $j$ in standardised
+	parameter space is
+	\begin{equation}
+		d(\mathbf{x}_i, \mathbf{x}_j)
+		= \sqrt{\sum_{\ell=1}^{d}
+			\left(\frac{x_{i,\ell} - x_{j,\ell}}{s_\ell}\right)^{\!2}},
+		\label{eq:KNN_distance}
+	\end{equation}
+	where $s_\ell$ is the standard deviation of parameter~$\ell$.
+	Alternative metrics (Manhattan, Mahalanobis) can be used when
+	correlations between parameters are important.
+
+	\subparagraph{Classification rule.}
+	Given a query point $\mathbf{x}_q$ (a new material to classify),
+	the algorithm proceeds as follows:
+	\begin{enumerate}
+		\item Compute $d(\mathbf{x}_q, \mathbf{x}_i)$ for all $N$
+		known materials.
+		\item Sort distances and select the $k$ nearest neighbours.
+		\item Assign $\mathbf{x}_q$ to the class that appears most
+		frequently among the $k$ neighbours (majority vote):
+		\begin{equation}
+			\hat{y}(\mathbf{x}_q)
+			= \arg\max_{c}\;
+			\sum_{i \in \mathcal{N}_k(\mathbf{x}_q)}
+			\mathbf{1}[y_i = c],
+			\label{eq:KNN_vote}
+		\end{equation}
+		where $\mathcal{N}_k(\mathbf{x}_q)$ is the set of $k$
+		nearest neighbours and $y_i$ is the class label of
+		material~$i$.
+	\end{enumerate}
+
+	\subparagraph{Choice of $k$.}
+	The hyperparameter $k$ controls the bias--variance trade-off:
+	\begin{itemize}
+		\item $k = 1$: the decision boundary follows the data
+		closely (low bias, high variance); sensitive to noise.
+		\item Large $k$: the boundary becomes smoother (higher bias,
+		lower variance); may blur class boundaries.
+	\end{itemize}
+	In practice, $k$ is chosen by cross-validation. A common
+	starting point is $k = \sqrt{N}$, rounded to the nearest odd
+	integer to avoid ties.
+
+	\subparagraph{Application to adsorbent classification.}
+	In the context of adsorption isotherms, KNN can be used to:
+	\begin{itemize}
+		\item Classify a new adsorbent into performance categories
+		(e.g.\ ``high capacity / low affinity'' vs.\ ``low capacity
+		/ high affinity'') based on the universal descriptors
+		$\{Q_{\max},\, K_{\mathrm{aff}}^{\ast},\, \sigma_E\}$.
+		\item Identify the most similar reference materials in a
+		database, assisting material selection for a target
+		application.
+		\item Detect outliers: materials whose $k$ nearest neighbours
+		all belong to a different class may warrant re-examination.
+	\end{itemize}
+
+	Figure~\ref{fig:KNN_illustration} illustrates the KNN
+	classification procedure in the two-dimensional projection
+	$(Q_{\max},\, \ln K_{\mathrm{aff}}^{\ast})$.
+
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[
+			every node/.style={font=\small},
+			classA/.style={fill=blue!60, draw=blue!80, circle,
+				minimum size=8pt, inner sep=0pt},
+			classB/.style={fill=red!60, draw=red!80, regular polygon,
+				regular polygon sides=4, minimum size=9pt,
+				inner sep=0pt},
+			classC/.style={fill=green!60, draw=green!80, regular polygon,
+				regular polygon sides=3, minimum size=10pt,
+				inner sep=0pt},
+			query/.style={fill=yellow!80, draw=black, thick, star,
+				star points=5, minimum size=12pt, inner sep=0pt},
+			arr/.style={-{Stealth[length=4pt]}, thick},
+			dashcirc/.style={draw=black!60, densely dashed, thick},
+			]
+			% --- Axes ---
+			\draw[arr] (-0.3,0) -- (9.5,0)
+			node[below] {$Q_{\max}$ (mg\,g$^{-1}$)};
+			\draw[arr] (0,-0.3) -- (0,7.0)
+			node[above, rotate=90, anchor=south]
+			{$\ln K_{\mathrm{aff}}^{\ast}$};
+
+			% --- Class A: high capacity, low affinity (blue circles) ---
+			\node[classA] (a1) at (6.5, 1.5) {};
+			\node[classA] (a2) at (7.2, 2.0) {};
+			\node[classA] (a3) at (7.8, 1.2) {};
+			\node[classA] (a4) at (6.8, 2.5) {};
+			\node[classA] (a5) at (8.2, 1.8) {};
+			\node[classA] (a6) at (7.5, 2.8) {};
+
+			% --- Class B: low capacity, high affinity (red squares) ---
+			\node[classB] (b1) at (1.5, 5.5) {};
+			\node[classB] (b2) at (2.0, 6.0) {};
+			\node[classB] (b3) at (2.5, 5.0) {};
+			\node[classB] (b4) at (1.8, 4.5) {};
+			\node[classB] (b5) at (2.8, 5.8) {};
+
+			% --- Class C: moderate (green triangles) ---
+			\node[classC] (c1) at (4.0, 3.5) {};
+			\node[classC] (c2) at (4.5, 4.0) {};
+			\node[classC] (c3) at (5.0, 3.0) {};
+			\node[classC] (c4) at (4.2, 4.5) {};
+			\node[classC] (c5) at (5.5, 3.8) {};
+			\node[classC] (c6) at (3.5, 3.8) {};
+
+			% --- Query point ---
+			\node[query] (q) at (4.8, 3.5) {};
+			\node[above right=2pt, font=\footnotesize\bfseries]
+			at (q.north east) {$\mathbf{x}_q$};
+
+			% --- KNN circle (k=5) ---
+			\draw[dashcirc] (q) circle (1.6cm);
+			\node[font=\footnotesize, anchor=west] at (6.0, 4.8)
+			{$k = 5$ neighbourhood};
+			\draw[thin, black!50, ->] (6.0, 4.7) -- (5.5, 4.1);
+
+			% --- Distance lines to nearest neighbours ---
+			\draw[thin, black!40, dotted] (q) -- (c2);
+			\draw[thin, black!40, dotted] (q) -- (c3);
+			\draw[thin, black!40, dotted] (q) -- (c5);
+			\draw[thin, black!40, dotted] (q) -- (c1);
+			\draw[thin, black!40, dotted] (q) -- (c4);
+
+			% --- Legend ---
+			\node[classA, label={[font=\footnotesize]right:
+				High $Q_{\max}$, low $K_{\mathrm{aff}}^{\ast}$}]
+			at (0.5, -1.0) {};
+			\node[classB, label={[font=\footnotesize]right:
+				Low $Q_{\max}$, high $K_{\mathrm{aff}}^{\ast}$}]
+			at (4.0, -1.0) {};
+			\node[classC, label={[font=\footnotesize]right:
+				Moderate}]
+			at (7.5, -1.0) {};
+			\node[query, label={[font=\footnotesize]right:
+				Query}]
+			at (0.5, -1.7) {};
+
+			% --- Annotation: vote result ---
+			\node[draw, rounded corners, fill=green!10,
+			font=\footnotesize, text width=3.2cm, align=center]
+			at (8.0, 5.5)
+			{Majority vote:\\
+				5/5 = Moderate\\
+				$\Rightarrow \hat{y} = $ \textbf{Moderate}};
+		\end{tikzpicture}
+		\caption{Illustration of $k$-Nearest Neighbours (KNN)
+			classification in adsorbent parameter space.
+			Each known material is plotted as a point in the
+			$(Q_{\max},\, \ln K_{\mathrm{aff}}^{\ast})$ plane and
+			coloured by its performance class.
+			A query material~$\mathbf{x}_q$ (star) is classified by
+			majority vote among its $k = 5$ nearest neighbours
+			(dashed circle).  In this example, all five neighbours
+			belong to the ``Moderate'' class (green triangles), so
+			the query is assigned to that class.}
+		\label{fig:KNN_illustration}
+	\end{figure}
+
+	\paragraph{Support Vector Machines (SVM).}
+	SVM finds the optimal hyperplane that maximally separates classes
+	in parameter space.
+
+	\subparagraph{Linear SVM: maximum-margin hyperplane.}
+	Given $N$ training materials with feature vectors
+	$\mathbf{x}_i \in \mathbb{R}^d$ and class labels
+	$y_i \in \{-1,+1\}$, SVM seeks the hyperplane
+	$\mathbf{w}\cdot\mathbf{x} + b = 0$ that maximises the margin
+	$2/\|\mathbf{w}\|$ between the two classes.
+	The optimisation problem is
+	\begin{equation}
+		\min_{\mathbf{w},\,b}\;
+		\frac{1}{2}\|\mathbf{w}\|^2
+		\quad\text{subject to}\quad
+		y_i\bigl(\mathbf{w}\cdot\mathbf{x}_i + b\bigr) \ge 1
+		\quad \forall\, i.
+		\label{eq:SVM_hard}
+	\end{equation}
+	The data points that lie exactly on the margin boundaries
+	($y_i(\mathbf{w}\cdot\mathbf{x}_i + b) = 1$) are called
+	\emph{support vectors}; they alone determine the decision
+	boundary.
+
+	\subparagraph{Soft-margin SVM.}
+	When classes overlap (as is common in real adsorption data),
+	slack variables $\xi_i \ge 0$ allow controlled misclassification:
+	\begin{equation}
+		\min_{\mathbf{w},\,b,\,\boldsymbol{\xi}}\;
+		\frac{1}{2}\|\mathbf{w}\|^2
+		+ C_{\mathrm{reg}}\sum_{i=1}^{N}\xi_i,
+		\quad\text{s.t.}\quad
+		y_i\bigl(\mathbf{w}\cdot\mathbf{x}_i + b\bigr)
+		\ge 1 - \xi_i,
+		\label{eq:SVM_soft}
+	\end{equation}
+	where $C_{\mathrm{reg}}$ is a regularisation parameter that
+	controls the trade-off between a large margin and few
+	misclassifications.
+
+	\subparagraph{Kernel trick for non-linear boundaries.}
+	For non-linearly separable data, a kernel function
+	$\mathcal{K}(\mathbf{x}_i, \mathbf{x}_j)
+	= \phi(\mathbf{x}_i)\cdot\phi(\mathbf{x}_j)$
+	implicitly maps the data into a higher-dimensional space where
+	a linear separator exists. Common kernels include:
+	\begin{itemize}
+		\item Linear: $\mathcal{K} = \mathbf{x}_i \cdot \mathbf{x}_j$.
+		\item Radial basis function (RBF):
+		$\mathcal{K} = \exp\!\bigl(-\gamma\|\mathbf{x}_i
+		- \mathbf{x}_j\|^2\bigr)$.
+		\item Polynomial:
+		$\mathcal{K} = (\mathbf{x}_i\cdot\mathbf{x}_j + r)^p$.
+	\end{itemize}
+	The RBF kernel is the most widely used default, with
+	$\gamma$ and $C_{\mathrm{reg}}$ selected by cross-validation.
+
+	\subparagraph{Application to adsorbent classification.}
+	SVM is particularly useful when:
+	\begin{itemize}
+		\item The number of materials is small relative to the number
+		of descriptors ($N \lesssim 10\,d$), where SVM generalises
+		better than KNN.
+		\item A clear decision boundary between performance classes
+		is desired (e.g.\ ``suitable'' vs.\ ``unsuitable'' for a
+		given application).
+		\item The feature space includes correlated parameters
+		($Q_{\max}$, $K_{\mathrm{aff}}^{\ast}$, $\sigma_E$),
+		where the kernel trick can capture non-linear interactions.
+	\end{itemize}
+
+	Figure~\ref{fig:SVM_illustration} illustrates the SVM
+	classification procedure for a binary separation task in
+	the $(Q_{\max},\, \ln K_{\mathrm{aff}}^{\ast})$ plane.
+
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[
+			every node/.style={font=\small},
+			classA/.style={fill=blue!60, draw=blue!80, circle,
+				minimum size=8pt, inner sep=0pt},
+			classB/.style={fill=red!60, draw=red!80, regular polygon,
+				regular polygon sides=4, minimum size=9pt,
+				inner sep=0pt},
+			sv/.style={draw=black, very thick, minimum size=14pt,
+				inner sep=0pt, fill opacity=0.6},
+			arr/.style={-{Stealth[length=4pt]}, thick},
+			]
+			% --- Axes ---
+			\draw[arr] (-0.3,0) -- (9.5,0)
+			node[below] {$Q_{\max}$ (mg\,g$^{-1}$)};
+			\draw[arr] (0,-0.3) -- (0,7.0)
+			node[above, rotate=90, anchor=south]
+			{$\ln K_{\mathrm{aff}}^{\ast}$};
+
+			% --- Class A: high capacity, low affinity (blue circles) ---
+			\node[classA] at (6.0, 1.2) {};
+			\node[classA] at (7.0, 1.8) {};
+			\node[classA] at (7.8, 1.0) {};
+			\node[classA] at (6.5, 2.3) {};
+			\node[classA] at (8.2, 1.5) {};
+			\node[classA] at (7.5, 2.6) {};
+			\node[classA] at (8.5, 2.0) {};
+			% support vectors (class A)
+			\node[classA, sv] (sva1) at (5.2, 2.8) {};
+			\node[classA, sv] (sva2) at (6.0, 3.2) {};
+
+			% --- Class B: low capacity, high affinity (red squares) ---
+			\node[classB] at (1.5, 5.5) {};
+			\node[classB] at (2.0, 6.2) {};
+			\node[classB] at (2.5, 5.0) {};
+			\node[classB] at (1.8, 4.8) {};
+			\node[classB] at (3.0, 5.6) {};
+			\node[classB] at (1.2, 5.8) {};
+			% support vectors (class B)
+			\node[classB, sv] (svb1) at (3.5, 4.2) {};
+			\node[classB, sv] (svb2) at (2.8, 4.5) {};
+
+			% --- Decision boundary (separating hyperplane) ---
+			\draw[very thick, black] (1.0, 2.0) -- (8.5, 5.6)
+			node[pos=0.15, above, rotate=27,
+			font=\footnotesize\bfseries]
+			{$\mathbf{w}\cdot\mathbf{x} + b = 0$};
+
+			% --- Margin boundaries ---
+			\draw[thick, blue!60, dashed] (1.0, 1.0) -- (8.5, 4.6);
+			\draw[thick, red!60, dashed] (1.0, 3.0) -- (8.5, 6.6);
+
+			% --- Margin annotation ---
+			\draw[{Stealth[length=3pt]}-{Stealth[length=3pt]},
+			thick, black!70]
+			(4.3, 2.35) -- (4.3, 3.95)
+			node[midway, left, font=\footnotesize]
+			{margin $\frac{2}{\|\mathbf{w}\|}$};
+
+			% --- Support vector labels ---
+			\node[font=\tiny, anchor=west] at (6.2, 3.4)
+			{support vectors};
+			\draw[thin, black!50, ->] (6.2, 3.3) -- (6.05, 3.22);
+			\draw[thin, black!50, ->] (6.2, 3.3) -- (5.35, 2.85);
+
+			\node[font=\tiny, anchor=east] at (2.5, 4.0)
+			{support vectors};
+			\draw[thin, black!50, ->] (2.6, 4.05) -- (2.75, 4.42);
+			\draw[thin, black!50, ->] (2.6, 4.05) -- (3.4, 4.18);
+
+			% --- Legend ---
+			\node[classA, label={[font=\footnotesize]right:
+				Class~A (high $Q_{\max}$)}]
+			at (0.5, -1.0) {};
+			\node[classB, label={[font=\footnotesize]right:
+				Class~B (high $K_{\mathrm{aff}}^{\ast}$)}]
+			at (4.0, -1.0) {};
+			\node[classA, sv, label={[font=\footnotesize]right:
+				Support vectors}]
+			at (8.0, -1.0) {};
+		\end{tikzpicture}
+		\caption{Illustration of Support Vector Machine (SVM)
+			classification in adsorbent parameter space.
+			The solid line is the maximum-margin hyperplane
+			$\mathbf{w}\cdot\mathbf{x}+b=0$ that separates
+			class~A (blue circles, high capacity) from class~B
+			(red squares, high affinity).  Dashed lines mark the
+			margin boundaries; the circled points on these
+			boundaries are the support vectors that define the
+			decision surface.  The margin width
+			$2/\|\mathbf{w}\|$ is maximised by the SVM
+			optimisation (Eq.~\ref{eq:SVM_hard}).}
+		\label{fig:SVM_illustration}
+	\end{figure}
+
+	\subsection{Validation framework: incorporating uncertainty into
+		machine-learning classification}
+
+	The universal descriptors
+	$\{Q_{\max},\, K_{\mathrm{aff}}^{\ast},\, E_{\mathrm{aff}},\,
+	\sigma_E\}$ are not exact numbers: they are \emph{estimated}
+	from finite, noisy experimental data via non-linear regression.
+	Each descriptor therefore carries an associated standard
+	deviation (or confidence interval) inherited from the fitting
+	procedure.  Any classification analysis (KNN, SVM, or
+	clustering) must account for this uncertainty; otherwise,
+	materials whose descriptor values overlap within error may be
+	incorrectly assigned to different classes.
+
+	\subsubsection{Propagation of fitting uncertainty to descriptors}
+
+	Let $\boldsymbol{\theta}$ be the vector of fitted isotherm
+	parameters (e.g.\ $Q_{\max}$, $K_L$ for Langmuir) and
+	$\boldsymbol{\Sigma}_{\theta}$ its covariance matrix, estimated
+	from the Jacobian of the non-linear fit.  A universal descriptor
+	$\phi = \phi(\boldsymbol{\theta})$ (for instance
+	$K_{\mathrm{aff}} = K_H / Q_{\max}$) has variance
+	\begin{equation}
+		\sigma_\phi^2
+		= \left(\frac{\partial\phi}{\partial\boldsymbol{\theta}}
+		\right)^{\!\top}
+		\boldsymbol{\Sigma}_{\theta}\,
+		\frac{\partial\phi}{\partial\boldsymbol{\theta}},
+		\label{eq:error_prop}
+	\end{equation}
+	obtained by first-order error propagation.  For each material
+	the feature vector becomes
+	$\mathbf{x}_i \pm \boldsymbol{\sigma}_i$, where
+	$\boldsymbol{\sigma}_i
+	= (\sigma_{Q_{\max}},\, \sigma_{\ln K^{\ast}},\,
+	\sigma_{\sigma_E})_i$.
+
+	\subsubsection{Incorporating standard deviations into KNN}
+
+	The standard Euclidean metric
+	(Eq.~\eqref{eq:KNN_distance}) treats all points as exact.
+	When uncertainties are available, the distance can be
+	modified to account for the ``size'' of each data point:
+
+	\paragraph{Uncertainty-weighted distance.}
+	\begin{equation}
+		d_{\sigma}(\mathbf{x}_i, \mathbf{x}_j)
+		= \sqrt{\sum_{\ell=1}^{d}
+			\frac{(x_{i,\ell} - x_{j,\ell})^2}
+			{\sigma_{i,\ell}^2 + \sigma_{j,\ell}^2}},
+		\label{eq:KNN_sigma_distance}
+	\end{equation}
+	where $\sigma_{i,\ell}$ and $\sigma_{j,\ell}$ are the standard
+	deviations of feature~$\ell$ for materials $i$ and $j$.
+	This metric down-weights dimensions where both points have
+	large uncertainty (the separation is not statistically
+	significant) and up-weights dimensions where the data are
+	precise.
+
+	\paragraph{Probabilistic KNN via Monte Carlo.}
+	An alternative approach samples $M$ realisations of each
+	feature vector from its uncertainty distribution,
+	$\mathbf{x}_i^{(m)} \sim \mathcal{N}(\mathbf{x}_i,\,
+	\mathrm{diag}(\boldsymbol{\sigma}_i^2))$,
+	and runs KNN on each realisation.  The class assignment
+	becomes a probability:
+	\begin{equation}
+		P(\hat{y} = c \mid \mathbf{x}_q)
+		= \frac{1}{M}\sum_{m=1}^{M}
+		\mathbf{1}\!\left[
+			\hat{y}^{(m)}(\mathbf{x}_q^{(m)}) = c
+			\right].
+		\label{eq:KNN_MC}
+	\end{equation}
+	A material is classified with high confidence only if
+	$P(\hat{y} = c) \gg 0.5$; otherwise it lies in an
+	\emph{uncertain region} between classes.
+
+	\subsubsection{Incorporating standard deviations into SVM}
+
+	\paragraph{Feature weighting.}
+	Before training the SVM, features can be weighted inversely
+	by their average uncertainty:
+	\begin{equation}
+		\tilde{x}_{i,\ell}
+		= \frac{x_{i,\ell}}
+		{\bar{\sigma}_\ell},
+		\qquad
+		\bar{\sigma}_\ell
+		= \frac{1}{N}\sum_{i=1}^{N}\sigma_{i,\ell},
+	\end{equation}
+	so that noisy features contribute less to the margin
+	calculation.  This is equivalent to using a weighted kernel
+	$\mathcal{K}_\sigma(\mathbf{x}_i, \mathbf{x}_j)
+	= \mathcal{K}(\tilde{\mathbf{x}}_i, \tilde{\mathbf{x}}_j)$.
+
+	\paragraph{Fuzzy SVM.}
+	In the soft-margin formulation
+	(Eq.~\eqref{eq:SVM_soft}), each training point can be
+	assigned a \emph{membership weight} $\mu_i \in (0,1]$
+	inversely proportional to its total uncertainty:
+	\begin{equation}
+		\mu_i = \frac{1}{1 + \alpha\,\|\boldsymbol{\sigma}_i\|},
+		\label{eq:fuzzy_weight}
+	\end{equation}
+	where $\alpha > 0$ is a scaling factor.  The modified
+	objective becomes
+	\begin{equation}
+		\min_{\mathbf{w},\,b,\,\boldsymbol{\xi}}\;
+		\frac{1}{2}\|\mathbf{w}\|^2
+		+ C_{\mathrm{reg}}\sum_{i=1}^{N}\mu_i\,\xi_i,
+		\label{eq:fuzzy_SVM}
+	\end{equation}
+	which reduces the penalty for misclassifying uncertain
+	data points while maintaining a strict margin for
+	well-determined materials.
+
+	\paragraph{Monte Carlo SVM.}
+	As with KNN, $M$ bootstrap samples can be drawn from the
+	uncertainty distributions and an SVM trained on each.
+	The ensemble of $M$ decision boundaries defines a
+	\emph{margin uncertainty band} that quantifies how
+	sensitive the classification is to measurement noise.
+
+	\subsubsection{Cross-validation strategy}
+
+	Both KNN and SVM require hyperparameter selection ($k$ for KNN;
+	$C_{\mathrm{reg}}$ and $\gamma$ for SVM) and an estimate of
+	generalisation performance.  The recommended protocol is:
+
+	\begin{enumerate}
+		\item \textbf{Stratified $k$-fold cross-validation.}
+		Divide the $N$ materials into $k_{\mathrm{cv}}$ folds
+		(typically $k_{\mathrm{cv}} = 5$ or $10$), preserving the
+		class proportions in each fold.  For each fold,
+		train on $k_{\mathrm{cv}}-1$ folds and evaluate on the
+		held-out fold.
+
+		\item \textbf{Nested cross-validation.}
+		Use an outer loop for performance estimation and an inner
+		loop for hyperparameter tuning, to avoid optimistic bias:
+		\begin{equation}
+			\text{Accuracy}
+			= \frac{1}{k_{\mathrm{cv}}}
+			\sum_{j=1}^{k_{\mathrm{cv}}}
+			\frac{1}{|\mathcal{T}_j|}
+			\sum_{i \in \mathcal{T}_j}
+			\mathbf{1}[\hat{y}_i = y_i],
+		\end{equation}
+		where $\mathcal{T}_j$ is the test set in fold~$j$.
+
+		\item \textbf{Uncertainty-aware scoring.}
+		Beyond accuracy, report the \emph{classification
+		uncertainty} for each material using the Monte Carlo
+		approach (Eqs.~\eqref{eq:KNN_MC}) and flag materials
+		with $P(\hat{y} = c) < 0.7$ as ``borderline''.
+
+		\item \textbf{Reporting.}
+		For each material, report:
+		\begin{equation}
+			\bigl\{
+			Q_{\max} \pm \sigma_{Q},\;
+			K_{\mathrm{aff}}^{\ast} \pm \sigma_{K},\;
+			E_{\mathrm{aff}} \pm \sigma_{E_{\mathrm{aff}}},\;
+			\sigma_E \pm \sigma_{\sigma_E},\;
+			\hat{y},\;
+			P(\hat{y})
+			\bigr\},
+		\end{equation}
+		where the $\pm$ terms are standard deviations from the
+		non-linear fit and $P(\hat{y})$ is the classification
+		confidence from the Monte Carlo ensemble.
+	\end{enumerate}
+
+	\subsubsection{When to use KNN vs.\ SVM}
+
+	Table~\ref{tab:KNN_vs_SVM} summarises the practical
+	trade-offs between the two classifiers in the context of
+	adsorbent comparison.
+
+	\begin{table}[H]
+		\centering
+		\small
+		\caption{Comparison of KNN and SVM for adsorbent
+			classification based on universal descriptors.}
+		\label{tab:KNN_vs_SVM}
+		\renewcommand{\arraystretch}{1.4}
+		\begin{tabular}{lcc}
+			\hline
+			\textbf{Criterion}
+			& \textbf{KNN}
+			& \textbf{SVM}
+			\\
+			\hline
+			Training required
+			& None (lazy learner)
+			& Yes (optimisation)
+			\\
+			Decision boundary
+			& Piecewise, local
+			& Global hyperplane
+			\\
+			Sensitivity to noise
+			& High (small $k$)
+			& Low (margin-based)
+			\\
+			Handles uncertainty
+			& Eq.~\eqref{eq:KNN_sigma_distance}
+			& Eq.~\eqref{eq:fuzzy_SVM}
+			\\
+			Small datasets ($N < 30$)
+			& Unstable
+			& Preferred
+			\\
+			Large datasets ($N > 100$)
+			& Robust
+			& Excellent
+			\\
+			Interpretability
+			& High (neighbours)
+			& Moderate (support vectors)
+			\\
+			Multi-class
+			& Native
+			& One-vs-one / one-vs-rest
+			\\
+			\hline
+		\end{tabular}
+	\end{table}
+
+	In practice, both methods should be applied in parallel.
+	Agreement between KNN and SVM classifications increases
+	confidence in the result; disagreement highlights materials
+	that lie near class boundaries and warrant further
+	experimental characterisation.
+
+	% \subsection{Isotherm construction recommendations}
+	% \subsubsection{Examples}
+	% \subsection{Plot of variables}
+
+	% \begin{itemize}
+	% 	\item Number of points
+	% \end{itemize}
+

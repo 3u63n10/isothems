@@ -1,0 +1,23 @@
+# LaTeX intermediate files
+*.aux
+*.log
+*.toc
+*.synctex.gz
+*.bbl
+*.blg
+*.pdf
+*.aux.bak
+*.bak
+*.tmp
+*.tmp.*
+
+# Temp / backup files
+*~
+*.bkp
+*.xlsx
+*.zip
+*.mat
+
+# System files
+.DS_Store
+Thumbs.db

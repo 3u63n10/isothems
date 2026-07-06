@@ -1,0 +1,564 @@
+﻿	\section{Summary: concentration normalisation of adsorption energy}
+
+	\subsection{The problem: incomparable parameters across models}
+
+	Different isotherm models parameterise the adsorbate--adsorbent
+	interaction in different ways.  For example, the Langmuir constant
+	$K_L$ has units $[C]^{-1}$, the Sips constant $K_S$ has units
+	$[C]^{-n}$ (where $n$ depends on the heterogeneity), and the Temkin
+	parameter $b_T$ has units of energy.
+	Directly comparing $K_L = 0.05~\mathrm{L\,mg^{-1}}$ with
+	$K_S = 0.12~\mathrm{(L\,mg^{-1})^{0.7}}$ is meaningless because
+	the numbers refer to different physical quantities with different
+	dimensions.  The same difficulty arises when comparing the ``best
+	model'' parameters of two different adsorbents that happen to be
+	described by different isotherm equations.
+
+	A systematic solution is to extract, from every fitted model, a
+	small set of \textbf{model-independent figures of merit} that
+	(i)~have the same units regardless of the model chosen and
+	(ii)~admit a clear thermodynamic or physical interpretation.
+
+	\subsubsection{Three universal descriptors: $Q_{\max}$, $K_H$ and $K_{\mathrm{aff}}$}
+
+	For any isotherm model with a well-defined saturation plateau and
+	a finite initial slope, the following three quantities can always
+	be extracted:
+
+	\paragraph{Maximum adsorption capacity, $Q_{\max}$.}
+	\begin{equation}
+		Q_{\max} = \lim_{C_e \to \infty} q_e.
+		\label{eq:Qmax_universal}
+	\end{equation}
+	Units: $[\text{mass}_{\text{adsorbate}} / \text{mass}_{\text{adsorbent}}]$
+	(e.g.\ mg\,g$^{-1}$, mmol\,g$^{-1}$).
+	This is the zeroth-order descriptor: \emph{how much} can the
+	material adsorb.
+
+	\paragraph{Henry constant, $K_H$.}
+	\begin{equation}
+		K_H = \left.\frac{\mathrm{d}q_e}{\mathrm{d}C_e}
+		\right|_{C_e \to 0}.
+		\label{eq:KH_universal}
+	\end{equation}
+	Units: $[q]/[C]$ (e.g.\ L\,g$^{-1}$).
+	This is the first-order descriptor: \emph{how strongly} the
+	material binds at infinite dilution.  $K_H$ controls the
+	performance of single-use or trace-level applications.
+
+	\paragraph{Affinity constant, $K_{\mathrm{aff}}$.}
+	\begin{equation}
+		\boxed{
+			K_{\mathrm{aff}}
+			= \frac{K_H}{Q_{\max}}
+		}
+		\label{eq:Kaff_universal}
+	\end{equation}
+	Units: $[C]^{-1}$ (e.g.\ L\,mg$^{-1}$, L\,mmol$^{-1}$).
+	This is the capacity-normalised affinity: it measures the binding
+	strength \emph{per unit of available capacity}.  Because it has
+	units of inverse concentration, $K_{\mathrm{aff}}$ is the natural
+	quantity to convert into a dimensionless equilibrium constant and
+	thence into an adsorption free energy:
+	\begin{equation}
+		K_{\mathrm{aff}}^{\ast}
+		= K_{\mathrm{aff}}\, C^\circ,
+		\qquad
+		\Delta G_{\mathrm{ads}}^{0}
+		= -RT\ln K_{\mathrm{aff}}^{\ast}
+		= -RT\ln(K_{\mathrm{aff}}\, C^\circ),
+		\label{eq:DG_from_Kaff}
+	\end{equation}
+	where $C^\circ$ is a standard-state concentration.
+
+	\subsubsection{Extraction of $Q_{\max}$, $K_H$ and $K_{\mathrm{aff}}$ from each model}
+
+	Table~\ref{tab:universal_descriptors} shows how the three
+	descriptors are obtained from the fitted parameters of each
+	isotherm model.
+
+	\begin{table}[htbp]
+		\centering
+		\small
+		\caption{Universal descriptors extracted from each isotherm
+			model.  $Q_{\max}$ is the saturation capacity,
+			$K_H = \mathrm{d}q_e/\mathrm{d}C_e|_{C_e\to 0}$ is the
+			Henry constant, and
+			$K_{\mathrm{aff}} = K_H / Q_{\max}$ is the
+			capacity-normalised affinity constant (units $[C]^{-1}$).
+			Models marked with $\dagger$ have a divergent $Q_{\max}$
+			or $K_H$, so only an effective (concentration-dependent)
+			descriptor can be defined.}
+		\label{tab:universal_descriptors}
+		\renewcommand{\arraystretch}{1.4}
+		\begin{tabular}{lccc}
+			\hline
+			\textbf{Model}
+			& $\boldsymbol{Q_{\max}}$
+			& $\boldsymbol{K_H}$
+			& $\boldsymbol{K_{\mathrm{aff}} = K_H/Q_{\max}}$
+			\\
+			\hline
+			Langmuir
+			& $Q_{\max}$
+			& $Q_{\max} K_L$
+			& $K_L$
+			\\
+			Double Langmuir
+			& $Q_1 + Q_2$
+			& $Q_1 K_1 + Q_2 K_2$
+			& $\dfrac{Q_1 K_1 + Q_2 K_2}{Q_1 + Q_2}$
+			\\[4pt]
+			Sips
+			& $Q_{\max}$
+			& $\infty$\;($n<1$)$^{\dagger}$
+			& $K_S^{1/n}$\;(effective)
+			\\
+			T\'oth
+			& $q_{\max}$
+			& $q_{\max}\,b$
+			& $b$
+			\\
+			Jovanovic
+			& $q_{\max}$
+			& $q_{\max}\,b$
+			& $b$
+			\\
+			Temkin$^{\dagger}$
+			& $\infty$
+			& $\infty$
+			& $a_T$\;(strongest site)
+			\\
+			UNILAN
+			& $Q_{\max}$
+			& $Q_{\max}\!\left\langle K \right\rangle_{\!f}$
+			& $\sqrt{b_{\max}\,b_{\min}}$\;(geom.\ mean)
+			\\
+			Redlich--Peterson
+			& $K_{RP}/a_{RP}$\;($\beta\!=\!1$)
+			& $K_{RP}$
+			& $a_{RP}$\;($\beta\!=\!1$)
+			\\
+			& $\infty$\;($\beta\!<\!1$)$^{\dagger}$
+			&
+			&
+			\\
+			Koble--Corrigan
+			& $A_{KC}/B_{KC}$
+			& $\infty$\;($1/n<1$)$^{\dagger}$
+			& $B_{KC}^{\,n}$\;(effective)
+			\\
+			Freundlich$^{\dagger}$
+			& $\infty$
+			& $\infty$
+			& $K_F^{\,n}\,(C^\circ)^{n-1}$\;(eff.)
+			\\
+			D-R / D-A
+			& $Q_{\max}$
+			& $\infty^{\dagger}$
+			& ---\;(Polanyi framework)
+			\\
+			Hill
+			& $Q_{\max}$
+			& $\infty$\;($n_H\!<\!1$)$^{\dagger}$
+			& $K_D^{-1/n_H}$\;(effective)
+			\\
+			\hline
+		\end{tabular}
+	\end{table}
+
+	\paragraph{Notes on Table~\ref{tab:universal_descriptors}.}
+
+	\begin{enumerate}
+		\item For models with a finite Henry constant (Langmuir, T\'oth,
+		Jovanovic, UNILAN, Redlich--Peterson with $\beta = 1$), the
+		extraction is straightforward: $K_H$ is read from the low-$C_e$
+		expansion and $K_{\mathrm{aff}} = K_H / Q_{\max}$.
+
+		\item For models where the initial slope diverges (Sips with
+		$n < 1$, Hill with $n_H < 1$, Freundlich, D-R/D-A), a true
+		Henry constant does not exist.  In these cases an
+		\emph{effective} affinity constant
+		$K_{\mathrm{aff}}^{\mathrm{eff}}$ is defined by requiring
+		that $K_{\mathrm{aff}}^{\mathrm{eff}}$ have units $[C]^{-1}$
+		and reduce to the Langmuir result in the homogeneous limit.
+		For the Sips model this gives
+		$K_{\mathrm{aff}}^{\mathrm{eff}} = K_S^{1/n}$
+		(Eq.~\eqref{eq:E_sips}).
+
+		\item The Freundlich model is doubly degenerate: both
+		$Q_{\max} = \infty$ and $K_H = \infty$.  An effective
+		affinity can still be defined at a chosen reference
+		concentration $C_{\mathrm{ref}}$ as
+		$K_{\mathrm{aff}}^{\mathrm{eff}}(C_{\mathrm{ref}})
+		= K_F\,(1/n)\,C_{\mathrm{ref}}^{1/n - 1}$,
+		but the result is inherently concentration-dependent.
+	\end{enumerate}
+
+	\subsubsection{Concentration normalisation and the energy scale}
+
+	Every isotherm model that admits a finite $K_{\mathrm{aff}}$ can be
+	brought into a common energetic framework by the substitution
+	\begin{equation}
+		C_e = C^{\ast}\exp\!\left(-\frac{E}{RT}\right),
+		\label{eq:conc_norm_general}
+	\end{equation}
+	where $C^{\ast}$ is a reference concentration and $E$ is the
+	adsorption energy.  This \emph{concentration normalisation} maps
+	each isotherm $q(C_e)$ into an energy-domain coverage $q(E)$,
+	from which the site-energy distribution
+	$f(E) = -\mathrm{d}q/\mathrm{d}E$ is obtained by
+	differentiation.  The characteristic energy
+	\begin{equation}
+		E_c = RT\ln(K_{\mathrm{aff}}\,C^{\ast})
+	\end{equation}
+	locates the centre (or mode) of the distribution.
+
+	Table~\ref{tab:energy_summary} collects the energy-distribution
+	results for all models.
+
+	\begin{table}[htbp]
+		\centering
+		\small
+		\caption{Energy-distribution properties obtained via
+			concentration normalisation
+			$C_e = C^{\ast}\mathrm{e}^{-E/RT}$.
+			$K_{\mathrm{aff}}$ is taken from
+			Table~\ref{tab:universal_descriptors}.  The affinity
+			energy is
+			$E_0/RT = \ln(K_{\mathrm{aff}}\,C^\circ)$ in all cases.}
+		\label{tab:energy_summary}
+		\renewcommand{\arraystretch}{1.35}
+		\begin{tabular}{lcccc}
+			\hline
+			\textbf{Model}
+			& $\boldsymbol{K_{\mathrm{aff}}}$
+			& \textbf{Distribution $f(E)$}
+			& $\boldsymbol{\sigma_E}$
+			& \textbf{Eq.}
+			\\
+			\hline
+			Langmuir
+			& $K_L$
+			& Dirac $\delta(E - E_c)$
+			& $0$
+			& \eqref{eq:E_langmuir}
+			\\
+			Double Langmuir
+			& $\dfrac{Q_1 K_1 + Q_2 K_2}{Q_1 + Q_2}$
+			& Two Dirac deltas
+			& ---
+			& \eqref{eq:DeltaE12}
+			\\
+			Sips
+			& $K_S^{1/n}$
+			& Logistic
+			& $\dfrac{\pi}{\sqrt{3}}\,nRT$
+			& \eqref{eq:sigmaE_n_conc}
+			\\
+			T\'oth
+			& $b$
+			& Gen.\ logistic (type IV)
+			& $> \dfrac{\pi}{\sqrt{3}}\,RT$\;($t<1$)
+			& \eqref{eq:fE_toth}
+			\\
+			Jovanovic
+			& $b$
+			& Gumbel
+			& $\dfrac{\pi}{\sqrt{6}}\,RT$
+			& \eqref{eq:sigmaE_jov}
+			\\
+			Temkin
+			& $a_T$
+			& Uniform
+			& $\dfrac{b_T Q_{\max}}{2\sqrt{3}}$
+			& \eqref{eq:sigmaE_temkin}
+			\\
+			UNILAN
+			& $\sqrt{b_{\max}b_{\min}}$
+			& Uniform
+			& $\dfrac{RT}{2\sqrt{3}}
+			\ln\!\dfrac{b_{\max}}{b_{\min}}$
+			& \eqref{eq:sigmaE_unilan}
+			\\
+			Redlich--Peterson
+			& $K_{RP}$\,(Henry)
+			& Non-standard
+			& ---
+			& \eqref{eq:E_RP_henry}
+			\\
+			& $a_{RP}^{1/\beta}$\,(high-$C$)
+			&
+			&
+			& \eqref{eq:E_RP_high}
+			\\
+			Freundlich
+			& $K_F^{\,n}(C^\circ)^{n-1}$
+			& Power-law (unbounded)
+			& $\infty$
+			& ---
+			\\
+			D-R / D-A
+			& ---
+			& Gaussian-like
+			& $E_a / \sqrt{2}$\,(D-R)
+			& \eqref{eq:DA}
+			\\
+			Hill
+			& $K_D^{-1/n_H}$
+			& $\equiv$ Sips
+			& $\dfrac{\pi}{\sqrt{3}}\,\dfrac{RT}{n_H}$
+			& \eqref{eq:Hill}
+			\\
+			\hline
+		\end{tabular}
+	\end{table}
+
+	\subsubsection{A universal figure of merit: the normalised affinity
+		$K_{\mathrm{aff}}^{\ast}$}
+
+	The central problem in comparing adsorbents is that the raw
+	model parameters ($K_L$, $K_S$, $b$, $a_T$, \ldots) have
+	different units, different physical meanings, and are tied to the
+	particular isotherm model chosen.
+	The quantity $K_{\mathrm{aff}} = K_H / Q_{\max}$ already solves the
+	unit problem: it always has units $[C]^{-1}$.
+	To obtain a \emph{dimensionless} figure of merit that can be
+	compared across different studies, concentration units, and
+	experimental conditions, we define the \textbf{normalised affinity}:
+	\begin{equation}
+		\boxed{
+			K_{\mathrm{aff}}^{\ast}
+			= K_{\mathrm{aff}} \times C^\circ
+			= \frac{K_H}{Q_{\max}}\, C^\circ
+		}
+		\label{eq:Kaff_star}
+	\end{equation}
+	where $C^\circ$ is a \emph{declared} standard-state concentration.
+
+	\paragraph{Choice of $C^\circ$.}
+	The value of $C^\circ$ is conventional and must always be stated
+	explicitly.  Two common choices are:
+	\begin{itemize}
+		\item $C^\circ = 1~\mathrm{mol\,L^{-1}}$
+		(thermodynamic standard state for solutions).
+		\item $C^\circ = 1~\mathrm{mg\,L^{-1}}$ (practical standard
+		state for environmental and water-treatment studies, where
+		concentrations are typically in ppm).
+	\end{itemize}
+	The choice affects the \emph{numerical value} of
+	$K_{\mathrm{aff}}^{\ast}$ and the derived free energy, but
+	\emph{not} the ranking of materials, provided the same $C^\circ$
+	is used throughout a comparison.
+
+	\paragraph{Physical interpretation.}
+	$K_{\mathrm{aff}}^{\ast}$ is the equilibrium constant for the
+	adsorption reaction at standard concentration, evaluated at the
+	capacity-weighted mean site.
+	\begin{itemize}
+		\item $K_{\mathrm{aff}}^{\ast} \gg 1$: strong binding
+		(essentially all solute captured at $C_e = C^\circ$).
+		\item $K_{\mathrm{aff}}^{\ast} \approx 1$: moderate binding
+		(half-saturation occurs near the standard concentration).
+		\item $K_{\mathrm{aff}}^{\ast} \ll 1$: weak binding
+		(negligible uptake at $C_e = C^\circ$).
+	\end{itemize}
+
+	\paragraph{Derived figures of merit.}
+	From $K_{\mathrm{aff}}^{\ast}$, two additional descriptors follow
+	immediately:
+	\begin{align}
+		\text{Affinity energy:}\qquad
+		E_{\mathrm{aff}}
+		&= RT\ln K_{\mathrm{aff}}^{\ast}
+		= RT\ln(K_{\mathrm{aff}}\, C^\circ),
+		\label{eq:Eaff_universal}
+		\\[4pt]
+		\text{Free energy of adsorption:}\qquad
+		\Delta G_{\mathrm{ads}}^{0}
+		&= -RT\ln K_{\mathrm{aff}}^{\ast}
+		= -E_{\mathrm{aff}}.
+		\label{eq:DG_universal}
+	\end{align}
+	These are the \emph{same} equations as the Langmuir free energy, but
+	now applied to any model through the universal bridge
+	$K_{\mathrm{aff}} = K_H / Q_{\max}$.
+
+	\subsubsection{Practical protocol for cross-system comparison}
+
+	The following step-by-step procedure makes reports from different
+	laboratories, adsorbates, and models directly comparable.
+
+	\begin{enumerate}
+		\item \textbf{Declare the standard-state concentration
+		$C^\circ$}~and the units of $C_e$ and $q_e$.
+		Use $C^\circ = 1~\mathrm{mg\,L^{-1}}$ for environmental
+		studies or $C^\circ = 1~\mathrm{mol\,L^{-1}}$ for
+		thermodynamic consistency.
+
+		\item \textbf{Fit the chosen isotherm model} by non-linear
+		regression and obtain the native parameters
+		($K_L$, $Q_{\max}$, $K_S$, $n$, $b$, $t$, etc.).
+
+		\item \textbf{Extract the three universal descriptors}
+		using Table~\ref{tab:universal_descriptors}:
+		\begin{equation}
+			Q_{\max},
+			\qquad
+			K_H,
+			\qquad
+			K_{\mathrm{aff}} = \frac{K_H}{Q_{\max}}.
+			\label{eq:protocol_extract}
+		\end{equation}
+		If $K_H$ diverges (Sips, Freundlich, Hill with $n \neq 1$),
+		use the effective $K_{\mathrm{aff}}$ from the table.
+
+		\item \textbf{Compute the normalised affinity and energy:}
+		\begin{equation}
+			K_{\mathrm{aff}}^{\ast}
+			= K_{\mathrm{aff}}\, C^\circ,
+			\qquad
+			E_{\mathrm{aff}} = RT\ln K_{\mathrm{aff}}^{\ast}.
+		\end{equation}
+
+		\item \textbf{Report the comparison set:}
+		\begin{equation}
+			\bigl\{
+			Q_{\max},\;
+			K_{\mathrm{aff}}^{\ast},\;
+			E_{\mathrm{aff}},\;
+			\sigma_E
+			\bigr\}
+			\label{eq:comparison_set}
+		\end{equation}
+		for every adsorbent--adsorbate pair.  These four numbers
+		encode, respectively, capacity, affinity strength, affinity
+		energy, and surface heterogeneity, and are comparable across
+		models and laboratories.
+	\end{enumerate}
+
+	\paragraph{Example.}
+	Consider an adsorbent fitted by a Sips model with
+	$Q_{\max} = 120~\mathrm{mg\,g^{-1}}$,
+	$K_S = 0.08~\mathrm{(L\,mg^{-1})^{0.7}}$, $n = 0.7$.
+	A second adsorbent is described by a T\'oth model with
+	$q_{\max} = 95~\mathrm{mg\,g^{-1}}$,
+	$b = 0.15~\mathrm{L\,mg^{-1}}$, $t = 0.6$.
+	Using $C^\circ = 1~\mathrm{mg\,L^{-1}}$:
+	\begin{align}
+		\text{Sips:}\quad
+		K_{\mathrm{aff}}
+		&= K_S^{1/n} = 0.08^{1/0.7}
+		= 0.034~\mathrm{L\,mg^{-1}},
+		\nonumber\\
+		K_{\mathrm{aff}}^{\ast} &= 0.034,
+		\qquad
+		E_{\mathrm{aff}} / RT = \ln(0.034) = -3.38.
+		\nonumber\\[4pt]
+		\text{T\'oth:}\quad
+		K_{\mathrm{aff}}
+		&= b = 0.15~\mathrm{L\,mg^{-1}},
+		\nonumber\\
+		K_{\mathrm{aff}}^{\ast} &= 0.15,
+		\qquad
+		E_{\mathrm{aff}} / RT = \ln(0.15) = -1.90.
+	\end{align}
+	Despite using different models, the comparison is now
+	straightforward: the T\'oth adsorbent has lower capacity
+	($Q_{\max} = 95$ vs.\ 120~mg\,g$^{-1}$) but higher affinity
+	($K_{\mathrm{aff}}^{\ast} = 0.15$ vs.\ 0.034), corresponding to
+	a $1.48\,RT$ more favourable adsorption energy.
+
+	\subsubsection{Why $K_{\mathrm{aff}}^{\ast}$ and not just
+		$K_L$ or $K_S$?}
+
+	It is common in the literature to report $\Delta G^0 = -RT\ln(K_L)$
+	or $\Delta G^0 = -RT\ln(K_S)$ without specifying units or a
+	standard-state concentration.  This practice leads to three
+	systematic errors:
+
+	\begin{enumerate}
+		\item \textbf{Dimensional inconsistency.}
+		If $K_L$ has units $\mathrm{L\,mg^{-1}}$ then
+		$\ln(K_L)$ is undefined; the argument of a logarithm must be
+		dimensionless.  Multiplying by $C^\circ$ cures this.
+
+		\item \textbf{Unit dependence.}
+		The same adsorbent gives different $\Delta G^0$ values
+		depending on whether $C_e$ is expressed in
+		$\mathrm{mg\,L^{-1}}$, $\mathrm{mmol\,L^{-1}}$, or
+		$\mathrm{mol\,L^{-1}}$.
+		The normalised affinity $K_{\mathrm{aff}}^{\ast}$, by
+		construction, absorbs this ambiguity into the declared
+		$C^\circ$.
+
+		\item \textbf{Model dependence.}
+		Comparing $K_L$ (Langmuir, units $[C]^{-1}$) with
+		$K_S$ (Sips, units $[C]^{-n}$) is meaningless.
+		The bridge $K_{\mathrm{aff}} = K_H / Q_{\max}$ reduces
+		every model to a common $[C]^{-1}$ basis.
+	\end{enumerate}
+
+	\subsubsection{Summary of model-independent descriptors}
+
+	Table~\ref{tab:comparison_protocol} summarises the recommended
+	reporting protocol.
+
+	\begin{table}[htbp]
+		\centering
+		\small
+		\caption{Recommended model-independent descriptors for
+			cross-system comparison of adsorption data.  All four
+			quantities can be computed from any isotherm model via
+			Table~\ref{tab:universal_descriptors}.}
+		\label{tab:comparison_protocol}
+		\renewcommand{\arraystretch}{1.4}
+		\begin{tabular}{llll}
+			\hline
+			\textbf{Descriptor}
+			& \textbf{Symbol}
+			& \textbf{Units}
+			& \textbf{Measures}
+			\\
+			\hline
+			Saturation capacity
+			& $Q_{\max}$
+			& mg\,g$^{-1}$
+			& How much
+			\\
+			Normalised affinity
+			& $K_{\mathrm{aff}}^{\ast}
+			= K_{\mathrm{aff}}\,C^\circ$
+			& dimensionless
+			& How strongly (per site)
+			\\
+			Affinity energy
+			& $E_{\mathrm{aff}}
+			= RT\ln K_{\mathrm{aff}}^{\ast}$
+			& kJ\,mol$^{-1}$
+			& Thermodynamic driving force
+			\\
+			Energy spread
+			& $\sigma_E$
+			& kJ\,mol$^{-1}$
+			& Surface heterogeneity
+			\\
+			\hline
+		\end{tabular}
+	\end{table}
+
+	\noindent\fbox{%
+		\parbox{0.97\textwidth}{%
+			\textbf{Key message.}
+			Regardless of which isotherm model best fits the data, the
+			four descriptors
+			$\{Q_{\max},\, K_{\mathrm{aff}}^{\ast},\,
+			E_{\mathrm{aff}},\, \sigma_E\}$
+			provide a model-independent fingerprint of the
+			adsorbent--adsorbate system.  Reporting these quantities
+			--- together with the declared $C^\circ$ --- enables
+			unambiguous cross-study comparison of adsorption
+			performance.
+		}%
+	}
+

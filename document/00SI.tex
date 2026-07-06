@@ -1,0 +1,1716 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Optimized preamble for achemso (keeps all required packages)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[journal=jacsat,manuscript=article]{achemso}
+
+% -------------------------------
+% --- Encoding and Fonts ---
+% -------------------------------
+\usepackage[T1]{fontenc} % Modern font encoding
+
+% -------------------------------------------
+% --- Breakline in tables and color rows ---
+% -------------------------------------------
+\usepackage{makecell}
+\usepackage[table]{xcolor} % add this in your preamble
+\usepackage{array}          % for column alignment control
+
+
+
+
+% -------------------------------
+% --- Math and Chemistry ---
+% -------------------------------
+\usepackage{amsmath, amsfonts}
+\usepackage{chemformula} % Formula subscripts using \ch{}
+
+% -------------------------------
+% --- Graphics and Figures ---
+% -------------------------------
+\usepackage{graphicx}
+\usepackage{float}          % Needed for [H]
+\usepackage{booktabs}       % Professional tables
+\usepackage[percent]{overpic} % Overlay text on figures
+\usepackage{tikz}           % Vector drawing support
+
+% --- Captions and Subfigures ---
+% achemso redefines caption, so load these carefully:
+\usepackage{subcaption}
+\captionsetup{labelfont=bf, font=small} % uniform caption style
+
+% -------------------------------
+% --- Tables ---
+% -------------------------------
+\usepackage{multirow, array, makecell}
+\usepackage[table,x11names]{xcolor}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{siunitx}
+\sisetup{output-exponent-marker=\text{e}, round-mode=figures, round-precision=3}
+\usepackage{afterpage}
+
+% -------------------------------
+% --- References and Crossrefs ---
+% -------------------------------
+\usepackage{xr-hyper} % must come before cleveref
+\usepackage{cleveref}
+\externaldocument[SI-]{00SI}
+
+
+% -------------------------------
+% --- Rotate pdf ---
+% -------------------------------
+\usepackage{pdflscape}
+
+% -------------------------------
+% --- Comment and Color Tools ---
+% -------------------------------
+\usepackage{xcolor}
+\usepackage{comment}
+
+% -------------------------------
+% --- Line numbering ---
+% -------------------------------
+\usepackage{lineno}
+\setlength\linenumbersep{6pt}
+\renewcommand\linenumberfont{\normalfont\tiny}
+\renewcommand{\thepage}{S\arabic{page}}
+\renewcommand{\theequation}{S\arabic{equation}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
+
+
+% -------------------------------
+% --- Framed sections ---
+% -------------------------------
+\usepackage{mdframed}
+
+% Fix mdframed width recalculation (prevents the "too small" warning)
+\makeatletter
+\AtBeginDocument{%
+	% Ensure mdframed has a valid width before the first box is drawn
+	\setlength{\@tempdima}{\linewidth}%
+}
+\makeatother
+
+
+\mdfdefinestyle{breakable}{%
+	framemethod=default, % enables page breaks
+	splittopskip=\baselineskip,
+	splitbottomskip=\baselineskip,
+	skipabove=\medskipamount,
+	skipbelow=\medskipamount
+}
+
+% Prevent mdframed recalculation warning
+\usepackage{silence}
+\WarningFilter{mdframed}{You first box width is too small}
+
+% -------------------------------
+% --- Framed sections --- Alt
+% -------------------------------
+
+\usepackage[skins,breakable]{tcolorbox}
+
+\newtcolorbox{bgblock}[1][]{%
+	breakable,
+	enhanced,
+	width=\linewidth,
+	colback=yellow!15,
+	colframe=yellow!50!black,
+	boxrule=0.2pt,
+	sharp corners,
+	before upper=\begin{internallinenumbers},
+	after upper=\end{internallinenumbers},
+	#1
+}
+
+
+
+
+% -------------------------------
+% --- Spacing ---
+% -------------------------------
+\usepackage{setspace}
+\doublespacing % enable double spacing globally
+
+% -------------------------------
+% --- Custom Macros ---
+% -------------------------------
+\newcommand*\mycommand[1]{\texttt{\emph{#1}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\author{Manuela L. Kim}
+\affiliation{Department of Chemistry and Materials, Faculty of Textile Science and Technology, Shinshu University, Ueda 386-8567, Japan}
+\altaffiliation{These authors contributed equally to this work.}
+\email{manuela_kim@shinshu-u.ac.jp}
+
+\author{Eugenio H. Otal}
+\affiliation{Department of Materials Chemistry, Faculty of Engineering, Shinshu University, 4-17-1 Wakasato, Nagano 380-8553, Japan}
+\alsoaffiliation{Research Initiative for Supra-Materials (RISM), Interdisciplinary Cluster for Cutting Edge Research (ICCER), Shinshu University, Nagano 380-8553, Japan}
+\alsoaffiliation{Institute for Aqua Regeneration, Shinshu University, 4-17-1 Wakasato, Nagano 380-8553, Japan}
+\altaffiliation{These authors contributed equally to this work.}
+
+\author{Azeem Ullah}
+\affiliation{Nano Fusion Technology Research Group, Institute for Fiber Engineering and Science (IFES), Shinshu University, Tokida 3-15-1, Ueda, Nagano, 386-8567, Japan}
+\altaffiliation{These authors contributed equally to this work.}
+
+\author{Seulgee Lee}
+\affiliation{Research Initiative for Supra-Materials (RISM), Interdisciplinary Cluster for Cutting Edge Research (ICCER), Shinshu University, Nagano 380-8553, Japan}
+
+\author{Hideki Tanaka}
+\affiliation{Institute for Aqua Regeneration, Shinshu University, 4-17-1 Wakasato, Nagano 380-8553, Japan}
+
+\author{Mutsumi Kimura}
+\affiliation{Department of Chemistry and Materials, Faculty of Textile Science and Technology, Shinshu University, Ueda 386-8567, Japan}
+\alsoaffiliation{Research Initiative for Supra-Materials (RISM), Interdisciplinary Cluster for Cutting Edge Research (ICCER), Shinshu University, Nagano 380-8553, Japan}
+\alsoaffiliation{COI Aqua-Innovation Center, Shinshu University, Ueda 386-8567, Japan}
+\alsoaffiliation{Institute for Aqua Regeneration, Shinshu University, 4-17-1 Wakasato, Nagano 380-8553, Japan}
+\email{mkimura@shinshu-u.ac.jp}
+
+\author{Katsuya Teshima}
+\affiliation{Institute for Aqua Regeneration, Shinshu University, 4-17-1 Wakasato, Nagano 380-8553, Japan}
+\alsoaffiliation{Department of Materials Chemistry, Faculty of Engineering, Shinshu University, 4-17-1 Wakasato, Nagano 380-8553, Japan}
+\alsoaffiliation{Research Initiative for Supra-Materials (RISM), Interdisciplinary Cluster for Cutting Edge Research (ICCER), Shinshu University, Nagano 380-8553, Japan}
+\email{teshima@shinshu-u.ac.jp}
+
+
+
+
+\phone{+81 (0)268-21-5499}
+\fax{+81 (0)268-21-5499}
+
+\title{Supplementary Information for: Postsynthetic Polymerization of UiO-66-NH\(_2\) for the Fabrication of Nylon/MOF Hybrid Membranes with Enhanced PFOS and PFOA Uptake}
+
+
+
+\keywords{PFAS, 
+	PFOA,
+	PFOS,
+	Metal-Organic Frameworks (MOFs),
+	Nanofibers,
+	Membranes,
+	Post-synthetic modification,
+	Water Quality }
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% The document title should be given as usual. Some journals require
+%% a running title from the author: this should be supplied as an
+%% optional argument to \title.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \title[An \textsf{achemso} demo]
+% {Postsynthetic Polymerization of UiO-66-NH\(_2\) for the Fabrication of Nylon/MOF Hybrid Membranes with Enhanced PFOS and PFOA Uptake}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Some journals require a list of abbreviations or keywords to be
+%% supplied. These should be set up here, and will be printed after
+%% the title and author information, if needed.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \abbreviations{IR,NMR,UV}
+% \keywords{Fluoride Detection, 
+%	Metal-Organic Frameworks (MOFs),
+%	Defect Engineering,
+%	% Portable Sensor,
+%	Water Quality Monitoring}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% The manuscript does not need to include \maketitle, which is
+%% executed automatically.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%+
+
+\SectionNumbersOn
+\begin{document}
+	
+% \linenumbers
+\tableofcontents
+
+
+\begin{comment}
+\section{Determination of Defect Concentration in UiO-66-NH\textsubscript{2}} \label{sec:TGA_composite}
+
+$
+	\text{Ideal UiO‑66‑NH}_2:\quad
+	\ch{Zr6O4(OH)4(C8H5NO4)6}\,\cdot\,n_{\mathrm{DMF}}\,\ch{DMF}\,\cdot\,m_{\mathrm{H2O}}\,\ch{H2O}, \\[0.5em]
+	\text{Defective UiO‑66‑NH}_2:\quad
+	\ch{Zr6O4(OH)4(C8H5NO4)_{6-x}(X)_{x}}\,\cdot\,n_{\mathrm{DMF}}\,\ch{DMF}\,\cdot\,m_{\mathrm{H2O}}\,\ch{H2O}, \\[0.5em]
+	\text{Activated Node:}\quad
+	\ch{Zr6O4(OH)4(C8H5NO4)_{6-x}(OH)_{2x}}.    
+$
+
+
+
+\subsection{Masses of nodes}
+$
+	M_{\mathrm{Zr6O4(OH)4}}
+	=6\cdot M_{\ch{Zr}} + 4\cdot M_{\ch{O}} + 4\cdot M_{\ch{OH}} = 
+	6\times91.224 + 4\times16.00 + 4\times17.01 = 
+	679.38\ \mathrm{g\,mol^{-1}},\\[0.5em]
+	M_{\mathrm{idealNode}}
+	=679.38 + 6\cdot M_{\ch{C8H5NO4}}
+	=679.38 + 6\times179.13
+	=1754.17\ \mathrm{g\,mol^{-1}},\\[0.5em]
+	M_{\mathrm{defNode}}(x)
+	=679.38 + (6 - x)\,179.13 + 2x\,17.01
+	=1754.17 - 145.11\,x\quad(\mathrm{g\,mol^{-1}}).
+$
+
+\subsection*{C\'alculo de defectos a partir del \% de residuo TGA}
+
+Sea $w_{\mathrm{res}}$ el porcentaje de residuo TGA (por ejemplo, 34.93\%). Se asume que el residuo corresponde a $6 \times \mathrm{ZrO_2}$, con masa molar total de $739.32~\mathrm{g/mol}$.
+
+\begin{align}
+	M_{\mathrm{node}}^{\mathrm{exp}} &= \frac{100 \times 739.32}{w_{\mathrm{res}}} \\[0.5em]
+	M_{\mathrm{node}}^{\mathrm{corr}} &= r \times M_{\mathrm{node}}^{\mathrm{exp}} \\[0.5em]
+	x &= \frac{M_{\mathrm{idealNode}} - M_{\mathrm{node}}^{\mathrm{corr}}}{145.11} \\[0.5em]
+	\alpha &= \frac{x}{6} \times 100\%
+\end{align}
+
+Donde:
+\begin{itemize}
+	\item $w_{\mathrm{res}}$: porcentaje de residuo TGA (\%).
+	\item $M_{\mathrm{idealNode}} = 1753.16~\mathrm{g/mol}$: masa molar de un nodo ideal sin defectos.
+	\item $145.11~\mathrm{g/mol}$: masa de un ligando NH$_2$--BDC.
+	\item $r$: factor de correcci\'on por p\'erdida de solvente (opcional, $r < 1$).
+	\item $x$: cantidad de ligandos faltantes por nodo.
+	\item $\alpha$: porcentaje de sitios defectuosos.
+\end{itemize}
+
+
+
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.65\linewidth]{TGA_MOF.png}
+	% \includegraphics[width=0.85\linewidth]{TGA02.png}
+	\caption{Thermogravimetric analysis (TGA, solid lines) and derivative thermogravimetry (DTG, dashed lines) of  UiO-66-NH$_2$}
+	\label{fig:TGA-SI}
+\end{figure}
+
+\end{comment}
+
+\newpage
+
+% \begin{bgblock}
+
+
+
+\section{FTIR}
+%\textbf{\textcolor{red}{Reviewer 3, Question 6.}}
+%\textbf{\textcolor{red}{Reviewer 4, Question 2 \& 3.}}
+
+    \vspace{0.25cm} % 🔹 espacio vertical
+
+\begin{figure}[H]
+	\centering
+	% --- Subfigura A ---
+	\begin{subfigure}[b]{0.8\linewidth}
+		\centering
+		\begin{overpic}[width=\linewidth]{FTIR_wide.jpg}
+			\put(0,85){\color{black}\textbf{(A)}}
+		\end{overpic}
+	\end{subfigure}
+
+    \vspace{1.5cm} % 🔹 espacio vertical
+
+	% --- Subfigura B ---
+	\begin{subfigure}[b]{0.48\linewidth}
+		\centering
+		\begin{overpic}[width=\linewidth]{FTIR_NH2 stretch.jpg}
+			\put(0,85){\color{black}\textbf{(B)}}
+		\end{overpic}
+	\end{subfigure}
+	\hfill
+	% --- Subfigura C ---
+	\begin{subfigure}[b]{0.48\linewidth}
+		\centering
+		\begin{overpic}[width=\linewidth]{FTIR_NH2_scissoring_AmideI_II.jpg}
+			\put(0,85){\color{black}\textbf{(C)}}
+		\end{overpic}
+	\end{subfigure}
+	
+		\caption{FTIR spectra of different stages of sample production, from MOF to membrane. (A) Full spectrum; (B) NH$_2$ stretching region; and (C) C--O stretching (carboxyl) region.}
+
+	\label{fig:FTIR-SI}
+\end{figure}
+
+
+\section{XPS}
+%\textbf{\textcolor{red}{Reviewer 3, Question 6.}}
+%\textbf{\textcolor{red}{Reviewer 4, Questions 2 \& 3.}}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.70\linewidth]{XPS_Wide_main.jpg}
+    \\[0.25cm] % salto + espacio vertical
+	\includegraphics[width=0.70\linewidth]{XPS_Wide_SI.jpg}
+	\caption{XPS survey (wide-scan) spectra. (A) Powders: (1) UiO-66-NH$_2$, (2) UiO-66-adipoyl, (3) PA-MOF. (B) Membranes: (1) PA-MOF membrane, (2) PA membrane. Shaded vertical bands indicate the approximate energy windows of the detected core levels, pink: Zr 3d / 3p / 3s, orange: C 1s, green: N 1s, blue: O 1s.}
+	\label{fig:XPS-SI}
+\end{figure}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.45\linewidth]{MOF_C1s_SI.jpg}
+	\includegraphics[width=0.45\linewidth]{MOF-COOH_C1s_SI.jpg}
+    \\[0.25cm] % salto + espacio vertical
+	\includegraphics[width=0.45\linewidth]{PA_C1s_SI.jpg}
+	\includegraphics[width=0.45\linewidth]{PA_C1s_PA_MOF membrane_SI.jpg}
+    \\[0.25cm] % salto + espacio vertical
+	\includegraphics[width=0.45\linewidth]{PA_C1s_PA_membrane_SI.jpg}
+	\caption{XPS spectra.  High-resolution C~1s scans with peak deconvolution for (A) UiO-66-NH$_2$, (B) UiO-66-adipoyl, (C) PA-MOF, (D) PA-MOF membrane, and (E) PA membrane. The black lines correspond to the measured spectra, the red dotted lines represent the fitted envelopes, and the filled colored peaks indicate the individual deconvoluted components. Colored peaks: pink = C--C / C--H, orange = C--O / C--O--C, green = C--N / amide, blue = O=C--O / carboxylate. In UiO-66-NH$_2$, the green peak primarily arises from C--N bonds in the NH$_2$ linker, whereas in PA-MOF, the green and orange peaks correspond to amide and other oxygenated groups within the nylon backbone.}
+	\label{fig:XPS-C1s-SI}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.40\linewidth]{XPS_O1s_Powders_SI.jpg}
+	\includegraphics[width=0.40\linewidth]{XPS_O1s_membranes_SI.jpg}
+	\caption{XPS spectra.  High-resolution O~1s scans with peak deconvolution for (A) UiO-66-NH$_2$, (B) UiO-66-adipoyl, (C) PA-MOF, (D) PA-MOF membrane, and (E) PA membrane. The black lines correspond to the measured spectra, the dotted lines represent the fitted envelopes.}
+	\label{fig:XPS-O1s-SI}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.40\linewidth]{XPS_N1s_Powders_SI.jpg}
+	\includegraphics[width=0.40\linewidth]{XPS_N1s_membrane_SI.jpg}
+	\caption{XPS spectra.  High-resolution N~1s scans with peak deconvolution for (A) UiO-66-NH$_2$, (B) UiO-66-adipoyl, (C) PA-MOF, (D) PA-MOF membrane, and (E) PA membrane. The black lines correspond to the measured spectra, the dotted lines represent the fitted envelopes.}
+	\label{fig:XPS-N1s-SI}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.40\linewidth]{XPS_Zr3d_Powders_SI.jpg}
+	\caption{XPS spectra.  High-resolution Zr~3d scans with peak deconvolution for (A) UiO-66-NH$_2$, (B) UiO-66-adipoyl and, (C) PA-MOF. The black lines correspond to the measured spectra, the dotted lines represent the fitted envelopes.}
+	\label{fig:XPS-Zr3d-SI}
+\end{figure}
+
+
+%\end{bgblock}
+
+
+
+% \begin{bgblock}
+
+%\textbf{\textcolor{red}{Reviewer 4, Question 3.}}
+\subsection{Nitrogen adsorption isotherms and BET plots}
+
+
+
+\subsubsection{PA membrane}
+
+\begin{figure}[H]
+	\centering
+	% --- A: Isoterma lineal ---
+	\begin{subfigure}[b]{0.70\linewidth}
+		\centering
+		\begin{overpic}[width=\linewidth]{PA_iso_lin_SI.jpg}
+			\put(0,70){\color{black}\textbf{\LARGE A}}
+		\end{overpic}
+	\end{subfigure}
+	\hfill
+	% --- B: Isoterma log ---
+	\begin{subfigure}[b]{0.48\linewidth}
+		\centering
+		\begin{overpic}[width=\linewidth]{PA_iso_log_SI.jpg}
+			\put(-5,65){\color{black}\textbf{B}}
+		\end{overpic}
+	\end{subfigure}
+	\hfill
+	% --- C: BET ---
+	\begin{subfigure}[b]{0.48\linewidth}
+		\centering
+		\begin{overpic}[width=\linewidth]{PA_BET_SI.jpg}
+			\put(0,65){\color{black}\textbf{C}}
+		\end{overpic}
+	\end{subfigure}
+	
+	\caption{N\textsubscript{2} adsorption and BET analysis for the PA membrane.
+		A) Linear isotherm. B) Logarithmic isotherm. C) BET plot.}
+	\label{fig:PA_iso_BET}
+\end{figure}
+
+% =====================================================================
+
+\subsubsection{UiO-66-NH$_2$ (MOF)}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.70\linewidth}
+		\centering
+		\begin{overpic}[width=\linewidth]{MOF_iso_lin_SI.jpg}
+			\put(0,70){\color{black}\textbf{\LARGE A}}
+		\end{overpic}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.48\linewidth}
+		\centering
+		\begin{overpic}[width=\linewidth]{MOF_iso_log_SI.jpg}
+			\put(-5,65){\color{black}\textbf{B}}
+		\end{overpic}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.48\linewidth}
+		\centering
+		\begin{overpic}[width=\linewidth]{MOF_BET_SI.jpg}
+			\put(0,65){\color{black}\textbf{C}}
+		\end{overpic}
+	\end{subfigure}
+	
+	\caption{N\textsubscript{2} adsorption and BET analysis for pristine UiO-66-NH\textsubscript{2}.
+		A) Linear isotherm. B) Logarithmic isotherm. C) BET plot.}
+	\label{fig:MOF_iso_BET}
+\end{figure}
+
+% =====================================================================
+
+\subsubsection{PA--MOF composite}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.70\linewidth}
+		\centering
+		\begin{overpic}[width=\linewidth]{MOF_PA_iso_lin_SI.jpg}
+			\put(0,70){\color{black}\textbf{\LARGE A}}
+		\end{overpic}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.48\linewidth}
+		\centering
+		\begin{overpic}[width=\linewidth]{MOF_PA_iso_log_SI.jpg}
+			\put(-5,65){\color{black}\textbf{B}}
+		\end{overpic}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.48\linewidth}
+		\centering
+		\begin{overpic}[width=\linewidth]{MOF_PA_BET_SI.jpg}
+			\put(0,65){\color{black}\textbf{C}}
+		\end{overpic}
+	\end{subfigure}
+	
+	\caption{N\textsubscript{2} adsorption and BET analysis for the PA--MOF composite membrane.
+		A) Linear isotherm. B) Logarithmic isotherm. C) BET plot.}
+	\label{fig:MOFPA_iso_BET}
+\end{figure}
+
+%\end{bgblock}
+
+
+\section{SEM}
+
+\subsection{PU Nanofibers}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\linewidth]{PU_1-3000_scale.jpg}
+    \includegraphics[width=0.45\linewidth]{PU_3-5000_scale.jpg}
+    \\[0.25cm] % salto + espacio vertical
+    \includegraphics[width=0.45\linewidth]{PU_3-10000_scale.jpg}
+    \caption{SEM of Polyurethane nanofibers obtained with different magnifications.}
+    \label{fig:SEM_PU}
+\end{figure}
+
+\subsection{PA Nanofibers}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\linewidth]{PA2-2000_scale.jpg}
+    \includegraphics[width=0.45\linewidth]{PA2-3000_scale.jpg}
+    \\[0.25cm] % salto + espacio vertical
+    \includegraphics[width=0.45\linewidth]{PA2-5000_scale.jpg}
+    \includegraphics[width=0.45\linewidth]{PA2-10000_scale.jpg}
+    \caption{SEM of Nylon nanofibers obtained with different magnifications.}
+    \label{fig:SEM_PA}
+\end{figure}
+
+\subsection{PA-MOF Nanofibers}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\linewidth]{PAMOF_1-2000_scale.jpg}
+    \includegraphics[width=0.45\linewidth]{PAMOF_1-3000_scale.jpg}
+    \\[0.25cm] % salto + espacio vertical
+    \includegraphics[width=0.45\linewidth]{PAMOF_1-5000_scale.jpg}
+    \includegraphics[width=0.45\linewidth]{PAMOF_1-10000_scale.jpg}
+    \caption{SEM of Nylon/MOF nanofibers obtained with different magnifications.}
+    \label{fig:SEM_PA_MOF}
+\end{figure}
+
+
+\section{Fiber diameter analysis}
+The fiber diameter for all the membranes were measured using ImageJ software with N=100 for each sample. An Analysis of Variance (ANOVA) test was performed to test the null hypothesis that all three groups have the same mean fiber diameter. Then a Tukey's Honest Significant Difference (HSD) test was applied as a post-hoc analysis to determine the specific different pair.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.75\linewidth]{boxplot_fiber_diameter.png}
+	\caption{Boxplot for fiber diameter analysis of samples obtained by electrospinning. N=100}
+	\label{fig:boxplot}
+	
+	
+\end{figure}
+% Requires: \usepackage{booktabs}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{llllllc}
+		\toprule
+		group1 & group2 & meandiff & p-adj & lower & upper & reject \\
+		\midrule
+		PA     & PA-MOF & -9.2579  & 0.5899 & -31.5707 & 13.055  & False \\
+		PA     & PU     & 144.9705 & 0.0    & 122.9383 & 167.0027 & True  \\
+		PA-MOF & PU     & 154.2284 & 0.0    & 132.1962 & 176.2606 & True  \\
+		\bottomrule
+	\end{tabular}
+	\caption{Results of Tukey HSD Test for Multiple Comparisons}
+	\label{tab:tukey_hsd}
+\end{table}
+%\section{Adsorption Isotherms}
+%For the experimental data, three models were tested: Langmuir, Freundlich and Double adsorption site Langmuir models.
+
+
+% \begin{bgblock}
+	
+	%\textbf{\textcolor{red}{Reviewer 3, Question 6.}}
+
+\section{TEM}
+
+\subsection{PA Nanofibers}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.45\linewidth]{TEM_PA_01.png}
+	\includegraphics[width=0.45\linewidth]{TEM_PA_02.png}
+	\caption{TEM of Nylon nanofibers obtained with different magnifications.}
+	\label{fig:TEM_PA}
+\end{figure}
+
+\subsection{PA-MOF Nanofibers}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.45\linewidth]{TEM_PAMOF_01.png}
+	\includegraphics[width=0.45\linewidth]{TEM_PAMOF_02.png}
+	\caption{TEM of Nylon/MOF nanofibers obtained with different magnifications.}
+	\label{fig:TEM_PA_MOF}
+\end{figure}
+
+%\end{bgblock}
+
+% \begin{bgblock}
+
+	%\textbf{\textcolor{red}{Reviewer 4, Question 3.}}
+
+\section{Tensile test}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{tensile.jpg}
+	    \caption{
+		Tensile stress--strain curves of the pristine PA membrane and the PA--MOF composite membrane.).}
+	\label{fig:tensile}
+\end{figure}
+
+
+%\end{bgblock}
+
+\section{Isotherm Analysis}
+
+\subsection{Langmuir Isotherm}
+
+The Langmuir adsorption model describes monolayer adsorption onto a surface with a finite number of identical and energetically equivalent sites. The nonlinear form of the Langmuir equation is given by:
+
+\begin{equation}
+q_e = \frac{Q_\text{max} K_L C_e}{1 + K_L C_e}
+\label{eq:langmuir_nonlin}
+\end{equation}
+
+where:
+\begin{itemize}
+  \item \( q_e \) is the equilibrium adsorption capacity (mg·g\textsuperscript{-1}),
+  \item \( C_e \) is the equilibrium concentration of the adsorbate (mg·L\textsuperscript{-1}),
+  \item \( Q_\text{max} \) is the maximum adsorption capacity (mg·g\textsuperscript{-1}),
+  \item \( K_L \) is the Langmuir adsorption constant (L·mg\textsuperscript{-1}).
+\end{itemize}
+
+\subsection{Freundlich Isotherm}
+
+The Freundlich model is an empirical equation that describes adsorption on heterogeneous surfaces and assumes multilayer adsorption. The nonlinear form is expressed as:
+
+\begin{equation}
+q_e = K_F C_e^{1/n}
+\label{eq:freundlich_nonlin}
+\end{equation}
+
+where:
+\begin{itemize}
+  \item \( K_F \) is the Freundlich constant related to adsorption capacity [(mg·g\textsuperscript{-1})(L·mg\textsuperscript{-1})\textsuperscript{1/n}],
+  \item \( n \) is a constant indicating adsorption intensity.
+\end{itemize}
+
+\subsection{Double Adsorption site Langmuir Model}
+This model assumes that two types of adsorption sites exist on the surface, each with its own Langmuir constant
+
+\begin{equation}
+q_e = \frac{Q_{max,1} K_{L,1} C_e}{1 + K_{L,1} C_e} + \frac{Q_{max,2} K_{L,2} C_e}{1 + K_{L,2} C_e}
+\label{eq:DL_nonlin}
+\end{equation}
+
+Where:
+\begin{itemize}
+  \item \( q_e \): amount adsorbed at equilibrium \((\mathrm{mg/g})\)
+  \item \( C_e \): equilibrium concentration \((\mathrm{mg/L})\)
+  \item \(Q_{max,1}, Q_{max,2} \): maximum adsorption capacities for sites 1 and 2 \((\mathrm{mg/g})\)
+  \item \( K_{L,1}, K_{L,2} \): Langmuir constants for sites 1 and 2 \((\mathrm{L/mg})\)
+\end{itemize}
+
+\subsection{Sips Isotherm Equation}
+The Sips isotherm assumes adsorption occurs on a heterogeneous surface with a finite number of sites, combining the characteristics of Langmuir (monolayer adsorption) and Freundlich (surface heterogeneity). At low concentrations, it behaves like the Freundlich model, and at high concentrations, it approaches the Langmuir isotherm.
+The non-linear Sips isotherm is given by:
+
+\begin{equation}
+Q_e = \frac{Q_{\text{max}} \cdot (K_{S} \cdot C_e)^n}{1 + (K_{S} \cdot C_e)^n}
+\label{eq:SIPS_nonlin}
+\end{equation}
+
+\noindent
+\textbf{Where:}
+\begin{itemize}
+    \item $Q_e$: Adsorbed amount at equilibrium (mg/g)
+    \item $C_e$: Equilibrium concentration in solution (mg/L)
+    \item $Q_{\text{max}}$: Maximum adsorption capacity (mg/g)
+    \item $K_{S}$: Sips isotherm constant related to affinity (L/mg)
+    \item $n$: Heterogeneity factor (dimensionless)
+\end{itemize}
+
+
+% \begin{bgblock}
+	
+	%\textbf{\textcolor{red}{Reviewer 4, Question 4.}}
+
+\subsection{Langmuir and Double Langmuir comparison} \label{section:L-DL_comparison}
+\subsubsection{Maximum adsorption capacity}
+
+% Proof of the Langmuir high-concentration limit
+
+
+\paragraph{Langmuir (single site).}
+As defined in \cref{eq:langmuir_nonlin},
+\begin{equation}
+	\lim_{C_e\to\infty} q_e(C_e) \;=\; Q_{\max}.
+	\label{eq:L_limit_Ce_max}
+\end{equation}
+
+\paragraph{Double-Langmuir (two sites).}
+From \cref{eq:DL_nonlin}, each term tends to its site capacity:
+\begin{equation}
+	\lim_{C_e\to\infty} \frac{Q_{\max,i} K_{L,i} C_e}{1 + K_{L,i} C_e} \;=\; Q_{\max,i}\quad (i=1,2).
+	\label{eq:L_limit_Ce_max_sum}
+\end{equation}
+Since the limit of a sum is the sum of the limits (both finite here),
+\begin{equation}
+	\lim_{C_e\to\infty} q_e(C_e) \;=\;  Q_{\max,1}^\mathrm{eff} \;=\;  Q_{\max,1} \;+\; Q_{\max,2}.
+	\label{eq:L_Ce_max_sum}
+\end{equation}
+
+\subsubsection{Affinity constant}
+
+% Concise LaTeX with equation environments
+
+
+Using the definition of Henry's law constant (K$_H$)\cite{rouquerol_adsorption_2013, al-ghouti_guidelines_2020},
+
+\begin{equation}
+	K_H \;=\; \lim_{C_e \to 0}\,\frac{q_e}{C_e}
+\end{equation}
+
+Repeating for \Cref{eq:langmuir_nonlin}
+
+\begin{equation}
+	K_H^{(\mathrm{L})} \;=\; Q_{\max}\,K_L
+\end{equation}
+
+%\begin{equation}
+%	q_e^{(\mathrm{DL})}(C_e) \;=\;
+%	\frac{Q_{\max,1}\,K_{L,1}\,C_e}{1 + K_{L,1}\,C_e}
+%	\;+\;
+%	\frac{Q_{\max,2}\,K_{L,2}\,C_e}{1 + K_{L,2}\,C_e}
+%\end{equation}
+
+For the case of Double Langmuir \Cref{eq:DL_nonlin} and operating as in \Cref{eq:L_limit_Ce_max_sum}
+
+\begin{equation}
+	K_H^{(\mathrm{DL})} \;=\; \lim_{C_e \to 0}\,\frac{q_e^{(\mathrm{DL})}}{C_e}
+	\;=\; Q_{\max,1}\,K_{L,1} \;+\; Q_{\max,2}\,K_{L,2}
+\end{equation}
+
+\begin{equation}
+	K_{L,\mathrm{eff}} \;=\; \frac{K_H^{(\mathrm{DL})}}{Q_{\max,1}+Q_{\max,2}}
+	\;=\; \frac{Q_{\max,1}\,K_{L,1} + Q_{\max,2}\,K_{L,2}}{Q_{\max,1}+Q_{\max,2}}
+	\label{eq:KL-eff}
+\end{equation}
+
+Obtaining the weighted average as previously reported by  Rouquerol \textit{et al.}  \cite{rouquerol_adsorption_2013}
+
+\subsection{Langmuir and Sips comparison} \label{section:L-S_comparison}
+\subsubsection{Maximum adsorption capacity}
+
+As the Q$_{max}$ is the saturation q$_e$ and it is not affected by the exponential $n$, $Q_{\text{max}}^L$ = $Q_{\text{max}}^S$.
+
+\subsubsection{Affinity constant} \label{Aff_const}
+
+
+% Low-concentration behavior: if n != 1, neither Freundlich nor Sips obey Henry's law
+
+In the low-concentration limit, if \(n \neq 1\), neither the Freundlich nor the Sips isotherm obeys Henry's law (i.e., there is no finite Henry slope), making the affinity constant not comparable.
+
+\begin{comment}
+
+
+\subsubsection{Energy distribution}
+
+Introduce a reference concentration \(C^\circ\) (standard state, chosen within the experimental range). Define the dimensionless equilibrium constant:
+\begin{equation}
+	K^{\ast} \;=\; K_L\,C^\circ.
+	\label{eq:Kstar}
+\end{equation}
+
+The standard adsorption free energy (per mole) is
+\begin{equation}
+	\Delta G_{\mathrm{ads}} \;=\; -\,RT\ln\!K^{\ast}.
+\end{equation}
+Dividing by \(RT\) we obtain the dimensionless free energy and, optionally, a positive ``affinity energy'':
+\begin{align}
+	\frac{\Delta G_{\mathrm{ads}}}{RT} \; &=\; -\ln\!\big(K_L\,C^\circ\big),
+	\label{eq:DG_over_RT}\\[6pt]
+	\frac{E_{\mathrm{aff}}}{RT} \; &\equiv\; -\frac{\Delta G_{\mathrm{ads}}}{RT} \;=\; \ln\!\big(K_L\,C^\circ\big).
+	\label{eq:Eaff_over_RT}
+\end{align}
+
+Using C$^\circ$ for all materials you compare (recommended: the geometric center of your working range, e.g., (C$^\circ=\sqrt{C_{\min}C_{\max}})$).
+
+
+
+\begin{equation}
+	\quad \frac{E_{\mathrm{aff}}}{RT} \;=\; \ln\!\big(K_L\,C^\circ\big), \qquad
+		\frac{\Delta G_{\mathrm{ads}}}{RT} \;=\; -\ln\!\big(K_L\,C^\circ\big) \quad
+\end{equation}
+\end{comment}
+
+
+\subsubsection{Energy distribution}
+
+For practical comparison of affinity constants, a formal ``affinity energy'' can be defined from the equilibrium constant of adsorption as
+
+\begin{equation}
+	\Delta G_{\mathrm{ads}} \;=\; -\,RT\,\ln\!\big(K_{\mathrm{eq}}\,C^\circ\big),
+\end{equation}
+
+where \(C^\circ\) is a reference concentration chosen within the experimental range (typically \(1~\mathrm{ppm}\)) to render the logarithmic argument dimensionless. The corresponding positive affinity energy is then
+
+\begin{equation}
+	E_0 \;\equiv\; -\,\Delta G_{\mathrm{ads}}
+	\quad\Rightarrow\quad
+	\frac{E_0}{RT} \;=\; \ln\!\big(K_{\mathrm{eq}}\,C^\circ\big).
+	\label{eq:E_def}
+\end{equation}
+
+Although \(K_{\mathrm{eq}}\) in adsorption models is an empirical constant rather than a true thermodynamic equilibrium constant, Eq.~\eqref{eq:E_def} provides a consistent framework to compare materials on a relative energetic scale.
+
+Applying Eq.~\eqref{eq:E_def} to the Langmuir and Sips isotherms defined in Eqs.~\eqref{eq:langmuir_nonlin} and \eqref{eq:SIPS_nonlin}, respectively:
+
+\begin{align}
+	\text{Langmuir:}\quad 
+	\frac{E_0}{RT} \;&=\; \ln\!\big(K_L\,C^\circ\big),
+	\label{eq:E_langmuir}\\[6pt]
+	\text{Sips:}\quad 
+	\frac{E_0}{RT} \;&=\; \frac{1}{n}\,\ln\!\big(K_S\,(C^\circ)^{n}\big),
+	\label{eq:E_sips}
+\end{align}
+
+where the factor \(1/n\) in Eq.~\eqref{eq:E_sips} accounts for the empirical heterogeneity exponent, enabling a formal comparison between Langmuir and Sips affinities. These relations are thus comparative rather than strictly thermodynamic.
+
+A higher E$^0$/RT value corresponds to a stronger adsorption affinity and therefore indicates a more favorable adsorption process.
+
+%\end{bgblock}
+
+\begin{comment}
+
+
+% Elige una concentración estándar C^\circ (misma unidad que C_e), p.ej. C^\circ = 1 ppm.
+% Así, K_eq C^\circ es adimensional.
+
+% Definición termodinámica
+\begin{equation}
+	\Delta G_{\mathrm{ads}} \;=\; -\,RT\,\ln\!\big(K_{\mathrm{eq}}\,C^\circ\big).
+\end{equation}
+
+% Definimos energía de afinidad positiva
+\begin{equation}
+	E \;\equiv\; -\,\Delta G_{\mathrm{ads}}
+	\quad\Rightarrow\quad
+	\;\frac{E}{RT} \;=\; \ln\!\big(K_{\mathrm{eq}}\,C^\circ\big)\;
+\end{equation}
+
+where C$^\circ$ in unitary and has inverse units of K$_{\mathrm{eq}}$ to obtain a dimensionless variable inside the logarithm.
+
+% Casos prácticos
+% 1) Langmuir (K_L en 1/ppm si C^\circ=1 ppm)
+
+Applying from the Langmuir expression, \ref{eq:langmuir_nonlin} 
+
+\begin{equation}
+	\text{Langmuir:}\qquad
+	\frac{E_0}{RT} \;=\; \ln\!\big(K_L\,C^\circ\big).
+\end{equation}
+
+
+Applying from the Sips expression, \ref{eq:SIPS_nonlin} 
+% 2) Sips (K_S en (1/ppm)^n si C^\circ=1 ppm)
+\begin{equation}
+	\text{Sips:}\qquad
+	\frac{E_0}{RT} \;=\; \frac{1}{n}\,\ln\!\big(K_S\,(C^\circ)^{n}\big).
+	\label{sipt_E}
+\end{equation}
+
+% Nota de unidades
+\noindent\textbf{Nota:} Usa \(C^\circ\) en la misma unidad que \(C_e\).
+
+In this case, the factor $1/n$ in \ref{eq:sipt_E} allows to compare K$_L$ and K$_S$ 
+
+
+
+and intruducing activity,
+\begin{equation}
+	a \;=\; \frac{C_e}{C^\circ},
+\end{equation}
+and apply the condensation approximation, which relates the activity to an adsorption energy:
+\begin{equation}
+	a \;=\; \exp\!\left(-\frac{E}{RT}\right)
+	\quad\Longrightarrow\quad
+	C_e \;=\; C^\circ\,\exp\!\left(-\frac{E}{RT}\right).
+	\label{eq:activity}
+\end{equation}
+
+Defining the dimensionless constant \(K^{\ast} = K_L\,C^\circ\), Eq.~\eqref{eq:langmuir_nonlin} becomes:
+\begin{equation}
+	q(E) \;=\;
+	\frac{Q_{\text{max}}\,K^{\ast}\,e^{-E/RT}}
+	{1 + K^{\ast}\,e^{-E/RT}}.
+	\label{eq:q_of_E}
+\end{equation}
+
+According to the condensation approximation method
+\cite{cerofolini_condensation,carter_energy_distribution},
+the site energy distribution is obtained as the negative derivative of
+\(q(E)\) with respect to \(E\):
+\begin{equation}
+	f(E) \;=\; -\frac{dq}{dE}.
+\end{equation}
+
+Differentiating Eq.~\eqref{eq:q_of_E} yields
+\begin{align}
+	\frac{dq}{dE}
+	&=\;
+	Q_{\text{max}}
+	\frac{K^{\ast} e^{-E/RT}}{(1 + K^{\ast} e^{-E/RT})^2}
+	\!\left(-\frac{1}{RT}\right),
+	\\[6pt]
+	\Rightarrow\quad
+	f(E)
+	&=\;
+	\frac{Q_{\text{max}}}{RT}\,
+	\frac{K^{\ast} e^{-E/RT}}{(1 + K^{\ast} e^{-E/RT})^2}.
+	\label{eq:f_E}
+\end{align}
+
+Normalizing by \(Q_{\text{max}}\), the probability density function is:
+\begin{equation}
+	p(E)
+	\;=\;
+	\frac{1}{RT}\,
+	\frac{K^{\ast} e^{-E/RT}}{(1 + K^{\ast} e^{-E/RT})^2}.
+	\label{eq:pdf}
+\end{equation}
+
+Define
+\begin{equation}
+	E_0 \;=\; RT\,\ln(K^{\ast})
+	\;=\; RT\,\ln(K_L\,C^\circ),
+	\qquad
+	s \;=\; RT.
+\end{equation}
+
+Equation~\eqref{eq:pdf} can be rewritten as
+\begin{equation}
+	p(E)
+	\;=\;
+	\frac{1}{s}\,
+	\frac{e^{-(E-E_0)/s}}{\big(1 + e^{-(E-E_0)/s}\big)^2},
+	\label{eq:logistic_pdf}
+\end{equation}
+which corresponds exactly to a \textbf{logistic distribution} with
+location parameter \(E_0\) and scale parameter \(s\).
+
+For the logistic distribution, the mean and standard deviation are:
+\begin{align}
+	\mu_E &= E_0, \\[3pt]
+	\sigma_E &= \frac{\pi}{\sqrt{3}}\,s.
+\end{align}
+
+Substituting \(E_0\) and \(s\) we obtain:
+\begin{equation}
+	\boxed{
+		\mu_E \;=\; RT\,\ln(K_L\,C^\circ),
+		\qquad
+		\sigma_E \;=\; \frac{\pi}{\sqrt{3}}\,RT.
+	}
+	\label{eq:langmuir_mu_sigma}
+\end{equation}
+
+If \(C^\circ = 1~\mathrm{ppm}\) and \(K_L\) is expressed in \((\mathrm{ppm})^{-1}\),
+Eq.~\eqref{eq:langmuir_mu_sigma} simplifies to
+\(\mu_E = RT\ln K_L\) and
+\(\sigma_E = (\pi/\sqrt{3})RT\).
+The mean energy \(\mu_E\) coincides with the adsorption energy
+at half saturation (\(q=Q_{\text{max}}/2\)).
+
+
+
+
+
+
+
+
+We define the adsorption affinity energy reference (in units of $RT$) for a given isotherm parameter set as
+\begin{equation}
+	\frac{E_0}{RT} \;=\; \ln\!\big(K_{\rm eq}\,C^\circ\big),
+	\label{eq:E0_def}
+\end{equation}
+where $K_{\rm eq}$ is the equilibrium constant associated with the isotherm (for Langmuir $K_{\rm eq}=K_L$, for Sips $K_{\rm eq}=(K_S)^{1/a}$ when the Sips form is \cref{eq:SIPS_nonlin}. Energies below and above $E_0$ are measured in units of $RT$.
+
+\paragraph{Langmuir}
+In the classical Langmuir model (Eq.~\eqref{eq:langmuir_nonlin}), the surface is considered energetically homogeneous, meaning that all adsorption sites have the same adsorption energy \(E_0\), see Rouquerol \textit{et al.}~\cite{rouquerol_adsorption_2013}.
+
+
+\paragraph{Sips}
+The Sips isotherm represents an adsorption model that assumes an energetic distribution of adsorption sites. It behaves as a Freundlich isotherm at low equilibrium concentrations ($C_e$), reflecting heterogeneous adsorption, and tends toward the Langmuir limit at high $C_e$, where saturation occurs. As noted in \Cref{Aff_const}, the Henry constant ($K_H$) is not uniquely defined in either the Freundlich or Sips formulations, since both describe systems without a single characteristic adsorption energy.
+
+
+
+
+Under the condensation / log-logistic approximation the Sips isotherm implies a unimodal \cite{debord_modified_2016}, symmetric CDF shape in the affinity variable after mapping affinities to energies. If we measure energies relative to $E_0$ in units of $RT$, define the dimensionless shift
+\[
+\varepsilon \;=\; \frac{E - E_0}{RT}.
+\]
+Then the logistic approximation gives the following probability density function (PDF) for $\varepsilon$:
+\begin{equation}
+	f_{\rm Sips}^{\rm (logistic)}(\varepsilon)
+	\;=\;
+	\frac{a\,e^{a\varepsilon}}{\big(1+e^{a\varepsilon}\big)^2},
+	\qquad -\infty<\varepsilon<\infty,
+	\label{eq:sips_logistic_pdf}
+\end{equation}
+where $a$ is the Sips heterogeneity exponent (same symbol as in the isotherm). The corresponding cumulative distribution function (CDF) is
+\begin{equation}
+	F_{\rm Sips}^{\rm (logistic)}(\varepsilon)
+	\;=\; \frac{e^{a\varepsilon}}{1+e^{a\varepsilon}}.
+	\label{eq:sips_logistic_cdf}
+\end{equation}
+Useful properties (all energies in units of $RT$):
+\begin{align}
+	&\text{Median:}\quad \varepsilon_{0.5}=0  \quad\Rightarrow\quad E_{\rm med}=E_0, \\
+	&\text{Quantile:}\quad \varepsilon_{P}=\frac{1}{a}\ln\!\Big(\frac{P}{1-P}\Big), \\
+	&\text{IQR:}\quad \mathrm{IQR} \;=\; \varepsilon_{0.75}-\varepsilon_{0.25}
+	\;=\; \frac{2\ln 3}{a}. \label{eq:sips_iqr}
+\end{align}
+If you prefer an effective standard deviation for comparison with Gaussian measures, use
+\begin{equation}
+	\sigma_{\rm eff}\approx \frac{\mathrm{IQR}}{1.349}
+	\;=\; \frac{2\ln 3}{1.349\,a}\approx\frac{1.628}{a}.
+	\label{eq:sips_sigma_eff}
+\end{equation}
+
+\paragraph{Mapping from Sips parameters to the logistic form}
+Given the Sips fitted parameters \((q_{\max},K_S,a)\) (Sips written as $q=q_{\max}(K_S C)^a/[1+(K_S C)^a]$), define the Sips effective equilibrium constant
+\[
+K_{\rm eq}^{(S)} \;=\; (K_S)^{1/a},
+\]
+and set $E_0/RT=\ln\!\big(K_{\rm eq}^{(S)}C^\circ\big)$ as in Eq.~\eqref{eq:E0_def}. Then the logistic PDF \eqref{eq:sips_logistic_pdf} describes the distribution of $(E-E_0)/RT$.
+
+\paragraph{Sips exact (condensation approximation, gas/liquid mapping) --- sketch}
+If higher accuracy is required (beyond the logistic envelope), the condensation approximation yields an explicit formula for the energy distribution in terms of the original Sips constants. In the notation where the Sips exponent is $m_s$ and the constant is $K_s$ (gas notation), the PDF of site energies $E^\ast$ (energies measured in the Polanyi variable) takes the form
+\begin{equation}
+	f_{\rm Sips}^{\rm (exact)}(E^\ast)
+	\;=\;
+	\frac{q_{\max}\,K_s\,m_s\,P_s^{\,m_s}\,e^{-m_s E^\ast/RT}}
+	{RT\left[1+K_s\,P_s^{\,m_s}\,e^{-m_s E^\ast/RT}\right]^2},
+	\label{eq:sips_exact_pdf}
+\end{equation}
+where $P_s$ (or equivalently a reference activity/concentration) is used in the mapping $P/P_s \sim \exp(-E^\ast/RT)$. For liquids replace $P_s$ with a reference concentration scale (or use the equivalent activity mapping). Eq.~\eqref{eq:sips_exact_pdf} integrates to the total adsorbed site density and reduces to the logistic envelope \eqref{eq:sips_logistic_pdf} in the appropriate limit. Use this expression when you need precise tails or exact percentiles; use the logistic form for quick, robust estimates.
+
+
+
+
+\paragraph{Practical recipe to compare materials}
+\begin{enumerate}
+	\item Fit Langmuir and Sips to your experimental data and choose a common reference concentration $C^\circ$ (e.g., geometric center of your working range).
+	\item For Langmuir: compute $E_0^{(L)}/RT=\ln(K_L C^\circ)$ and represent the energy distribution by Eq.~\eqref{eq:lang_pdf} (delta at $E_0^{(L)}$).
+	\item For Sips: compute $K_{\rm eq}^{(S)}=(K_S)^{1/a}$ and $E_0^{(S)}/RT=\ln(K_{\rm eq}^{(S)} C^\circ)$. Use the logistic PDF \eqref{eq:sips_logistic_pdf} with parameter $a$ to obtain IQR by Eq.~\eqref{eq:sips_iqr} and $\sigma_{\rm eff}$ by Eq.~\eqref{eq:sips_sigma_eff}. If tails matter, evaluate the exact PDF \eqref{eq:sips_exact_pdf} (with appropriate replacement of pressure by concentration/activity).
+	\item Report for each material: $E_0/RT$, IQR (in $RT$ units), and $\sigma_{\rm eff}$. These three numbers summarize the central affinity and the energetic dispersion in a comparable way.
+\end{enumerate}
+
+\paragraph{Notes and caveats}
+\begin{itemize}
+	\item All energies above are dimensionless (units of $RT$); to convert to kJ mol$^{-1}$ multiply by $RT$ at the chosen temperature.
+	\item The logistic approximation is accurate and algebraically convenient for many practical $a$ ranges; when $\mathrm{frac}(a)$ is not small or extreme tail accuracy is needed, prefer the exact condensation formula \eqref{eq:sips_exact_pdf}.
+	\item Keep the same $C^\circ$ across all materials to make $E_0/RT$ directly comparable.
+\end{itemize}
+
+\end{comment}
+
+
+
+
+
+\subsection{PFOS adsorption isotherms}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{PFOS_Ny_isotherms.png}
+    \caption{PFOS adsorption isotherm in Nylon mesh}
+    \label{fig:Nylon_PFOS}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{PFOS_PU_isotherms.png}
+    \caption{PFOS adsorption isotherm in PU nanofibers}
+    \label{fig:PU_PFOS}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{PFOS_PA66_isotherms.png}
+    \caption{PFOS adsorption isotherm in PA nanofibers}
+    \label{fig:PA66_PFOS}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{PFOS_PA66M_isotherms.png}
+    \caption{PFOS adsorption isotherm in PA-MOF nanofibers}
+    \label{fig:PA66MOF_PFOS}
+\end{figure}
+
+\subsection{PFOA adsorption isotherms}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{PFOA_Ny_isotherms.png}
+    \caption{PFOA adsorption isotherm in Nylon mesh}
+    \label{fig:Nylon_PFOA}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{PFOA_PU_isotherms.png}
+    \caption{PFOA adsorption isotherm in PU nanofibers}
+    \label{fig:PU_PFOA}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{PFOA_PA_isotherms.png}
+    \caption{PFOA adsorption isotherm in PA nanofibers}
+    \label{fig:PA66_PFOA}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{PFOA_PA66M_isotherms.png}
+    \caption{PFOA adsorption isotherm in PA-MOF nanofibers}
+    \label{fig:PA66MOF_PFOA}
+\end{figure}
+
+
+
+
+\subsection{Non‑Linearized isotherm parameters - PFOS adsorption}
+\begin{table}[H]
+  \centering
+	\caption{Non‑linearized isotherm parameters for PFOA adsorption.  \textcolor{red}{Overfitted models parameters are highlighted in red}, \textcolor{ForestGreen} {best models are highlighted in green}. L = Langmuir, F = Freundlich, S = SIPS and DL = Double‑Langmuir}
+  \label{table:non-linearized_PFOS}
+  \rowcolors{1}{gray!10}{white}
+  \begin{tabular}{c | c | c c | c c | c c c c | c}
+  	\hline
+    Sample & Model              & $Q_{\max}$ & $K_{L/S}$   & $K_F$  & $n$   & $Q_{\max,1}$ & $K_{L,1}$  & $Q_{\max,2}$ & $K_{L,2}$  & R$^2$   \\
+    \hline
+    Ny     & L           &  1.19      & 0.21  & --     & --    & --           & --     & --           & --     & 0.9862  \\
+    Ny     & F         & --         & --    & 0.23   & 1.84  & --           & --     & --           & --     & 0.9985  \\
+    Ny     & S               &183.64      & 5e-6  & --     & 0.54  & --           & --     & --           & --     & 0.9985  \\
+    \rowcolor{lime!25} Ny     & DL    & --         & --    & --     & --    & 0.20         & 2.99   & 2.05         & 0.04   & 0.9992  \\
+    \hline
+    PA   & L           & 78.89      & 0.85  & --     & --    & --           & --     & --           & --     & 0.9769  \\
+    PA   & F         & --         & --    & 33.91  & 2.80  & --           & --     & --           & --     & 0.9788  \\
+    PA   & S               &110.77      & 0.31  & --     & 0.58  & --           & --     & --           & --     & 0.9915  \\
+    \rowcolor{lime!25} PA   & DL    & --         & --    & --     & --    & 65.41        & 0.22   & 28.23        & 11.02  & 0.9933  \\
+    \hline
+    PA-MOF  & L           & 90.07      & 1.25  & --     & --    & --           & --     & --           & --     & 0.9729  \\
+    PA-MOF  & F         & --         & --    & 43.51  & 3.29  & --           & --     & --           & --     & 0.9833  \\
+    PA-MOF  & S               &133.17      & 0.32  & --     & 0.51  & --           & --     & --           & --     & 0.9947  \\
+    \rowcolor{lime!25} PA-MOF  & DL    & --         & --    & --     & --    & 73.68        & 0.36   & 28.06        & 25.96  & 0.9957  \\
+    \hline
+    PU     & L           &  1.35      & 0.16  & --     & --    & --           & --     & --           & --     & 0.9948  \\
+    PU     & F         & --         & --    & 0.21   & 1.67  & --           & --     & --           & --     & 0.9970  \\
+    \rowcolor{lime!25} PU     & S               &  2.68      & 0.03  & --     & 0.74  & --           & --     & --           & --     & 0.9982  \\
+    PU     & DL    & --         & --    & --     & --    & 0.12         & 2.57   & 1.63         & 0.08   & 0.9982  \\
+    \hline
+  \end{tabular}
+\end{table}
+
+
+\subsection{Non‑Linearized isotherm parameters - PFOA adsorption}
+\begin{table}[H]
+	\centering
+	\caption{Non‑linearized isotherm parameters for PFOA adsorption.  \textcolor{red}{Overfitted models parameters are highlighted in red}, \textcolor{ForestGreen} {best models are highlighted in green}. L = Langmuir, F = Freundlich, S = SIPS and DL = Double‑Langmuir}
+	\label{table:non-linearized_PFOA}
+	\rowcolors{1}{gray!10}{white}
+	\begin{tabular}{c | c | c c | c c | c c c c | c}
+		\hline
+		Sample & Model              & $Q_{\max}$ & $K_{L/S}$   & $K_F$  & $n$   & $Q_{\max,1}$ & $K_{L,1}$  & $Q_{\max,2}$ & $K_{L,2}$  & R$^2$   \\
+		\hline
+		\rowcolor{lime!25} Ny     & L           &  2.41      & 0.25  & –      & –     & –            & –      & –            & –         & 0.9791  \\
+		Ny     & F         & –          & –     & 0.62   & 2.42  & –            & –      & –            & –         & 0.9617  \\
+		Ny     & S               &  2.56      & 0.22  & –      & 0.91  & –            & –      & –            & –         & 0.9795  \\
+		Ny     & DL    & –          & –     & –      & –     & 0.26         & 1.66   & 2.26         & 0.18      & 0.9798  \\
+		\hline
+		PA     & L           & 15.93      & 1.49  & –      & –     & –            & –      & –            & –         & 0.9750  \\
+		PA     & F         & –          & –     & 8.11   & 3.86  & –            & –      & –            & –         & 0.9527  \\
+		\rowcolor{lime!25} PA     & S               & 18.38      & 0.90  & –      & 0.68  & –            & –      & –            & –         & 0.9893  \\
+		PA     & \textcolor{red}{DL}
+		& –          & –     & –      & –     & \textcolor{red}{12.92}
+		& \textcolor{red}{2.39}
+		& \textcolor{red}{3.7e5}
+		& \textcolor{red}{5.9E-07}
+		& \textcolor{red}{0.9981} \\
+		\hline
+		PA-MOF  & L           & 30.77      & 0.27  & –      & –     & –            & –      & –            & –         & 0.9785  \\
+		PA-MOF  & F         & –          & –     & 7.57   & 2.23  & –            & –      & –            & –         & 0.9375  \\
+		\rowcolor{lime!25} PA-MOF  & S               & 27.17      & 0.36  & –      & 1.32  & –            & –      & –            & –         & 0.9820  \\
+		PA-MOF  & \textcolor{red}{DL}    & –          & –     & –      & –     & \textcolor{red}{15.38}        & \textcolor{red}{0.27}   & \textcolor{red}{15.38}        & \textcolor{red}{0.28}      & \textcolor{red}{0.9785}  \\
+		\hline
+		PU     & L           &  3.40      & 1.42e-4  & –      & –     & –            & –      & –            & –         & 0.9927  \\
+		PU     & F         & –          & –     & 0.02   & 1.97  & –            & –      & –            & –         & 0.9829  \\
+		PU     & S               &  4.03      & 9.45e-5  & –      & 0.84  & –            & –      & –            & –         & 0.9944  \\
+		\rowcolor{lime!25} PU     & DL    & –          & –     & –      & –     & 0.25         & 2.36e-3   & 3.42         & 1.02e‑4    & 0.9951  \\
+		\hline
+	\end{tabular}
+\end{table}     
+  
+
+\subsection{Error Analysis of the Non-Linearized Models} \label{section:Error_analysis}
+
+\subsection{Definitions}
+
+In order to determine the best model through statistical methods, the coefficient of determination (R$^2$) and other error functions were analyzed according to Subramanyam et al\cite{Subramanyam2014}.
+\begin{itemize}
+
+\item \textbf{ Average Relative Error Deviation (ARED)}  
+\\ Measures the average relative difference between experimental and predicted values, expressed as a percentage.
+\[
+\text{ARED} = \frac{100}{n} \sum_{i=1}^{n} \left| \frac{Qe_{\text{exp},i} - Qe_{\text{pred},i}}{Qe_{\text{exp},i}} \right|
+\]
+
+\item \textbf{ Median Percentage Squared Error Deviation (MPSED)}  
+\\ Uses the median of squared relative errors to reduce the effect of outliers.
+\[
+\text{MPSED} = 100 \times \text{median} \left( \left( \frac{Qe_{\text{exp},i} - Qe_{\text{pred},i}}{Qe_{\text{exp},i}} \right)^2 \right)
+\]
+
+\item \textbf{ Hybrid Fractional Error Function (HYBRID)}  
+\\ Combines absolute and relative errors, normalized by the degrees of freedom $(n - p)$.
+\[
+\text{HYBRID} = \frac{100}{n - p} \sum_{i=1}^{n} \frac{(Qe_{\text{exp},i} - Qe_{\text{pred},i})^2}{Qe_{\text{exp},i}}
+\]
+
+\item \textbf{ Sum of Squared Errors (SSE)}  
+\\ Measures the total squared differences between experimental and predicted values.
+\[
+\text{SSE} = \sum_{i=1}^{n} \left( Qe_{\text{exp},i} - Qe_{\text{pred},i} \right)^2
+\]
+
+\item \textbf{Mean Absolute Residual (RESID)}  
+\\ The average of the absolute residuals; shows average prediction error.
+\[
+\text{Mean Absolute Residual} = \frac{1}{n} \sum_{i=1}^{n} \left| Qe_{\text{exp},i} - Qe_{\text{pred},i} \right|
+\]
+
+\item \textbf{ Sum of Absolute Errors (EABS)}  
+\\ Sum of the absolute differences between predicted and experimental values.
+\[
+\text{EABS} = \sum_{i=1}^{n} \left| Qe_{\text{exp},i} - Qe_{\text{pred},i} \right|
+\]
+
+\end{itemize}
+
+\subsection{Error Parameters for PFOS Adsorption}
+
+\begin{table}[H]
+	\centering
+	\rowcolors{1}{gray!10}{white}
+	\begin{tabular}{|c|c|c|c|c|c|c|c|}
+		\hline
+		Substrate & Model & ARED (\%) & MPSED (\%) & HYBRID & SSE & RESID & EABS \\
+		\hline
+		Ny & L & 17.270 & 1.670 & 1.412 & \num{1.377e-02} & \num{3.653e-02} & \num{2.557e-01} \\
+		%\hline
+		Ny & DL & \cellcolor{lime!25}2.571 & \num{4.094e-02} & \cellcolor{lime!25}\num{5.552e-02} & \cellcolor{lime!25}\num{6.674e-04} &\cellcolor{lime!25} \num{8.702e-03} & \cellcolor{lime!25}\num{6.091e-02} \\
+		%\hline
+		Ny & F & 3.582 & \cellcolor{lime!25}\num{2.010e-02} & \num{9.008e-02} & \num{1.141e-03} & \num{9.784e-03} & \num{6.849e-02} \\
+		%\hline
+		Ny & S & N/A & N/A & N/A & N/A & N/A & N/A \\
+		\hline
+		PA & L & \cellcolor{lime!25}28.447 & 1.005 & \cellcolor{lime!25}195.062 & 164.259 & 2.969 & 26.720 \\
+		%\hline
+		PA & DL & 35.865 & \cellcolor{lime!25}\num{9.297e-02} & 246.755 & \cellcolor{lime!25}47.733 & \cellcolor{lime!25}1.841 & \cellcolor{lime!25}16.569 \\
+		%\hline
+		PA & F & 72.201 & 1.129 & 543.616 & 150.496 & 3.667 & 33.005 \\
+		%\hline
+		PA & S & 38.501 & \num{1.076e-01} & 219.368 & 60.419 & 2.090 & 18.806 \\
+		\hline
+		PA-MOF & L & 35.838 & 1.767 & 240.048 & 309.753 & 4.511 & 45.111 \\
+		%\hline
+		PA-MOF & DL & \cellcolor{lime!25}4.456 & \cellcolor{lime!25}\num{1.192e-01} & \cellcolor{lime!25}11.747 & \cellcolor{lime!25}49.004 & \cellcolor{lime!25}1.685 & \cellcolor{lime!25}16.849 \\
+		%\hline
+		PA-MOF & F & 49.333 & \num{4.347e-01} & 302.229 & 190.698 & 3.640 & 36.405 \\
+		%\hline
+		PA-MOF & S & 15.360 & \num{2.650e-01} & 38.433 & 60.798 & 2.100 & 20.999 \\
+		\hline
+		PU & L & 21.431 & \num{3.1	 34e-01} & \num{6.085e-01} & \num{4.272e-03} & \num{1.827e-02} & \num{1.461e-01} \\
+		%\hline
+		PU & DL & 17.316 & \num{5.189e-01} & \num{4.928e-01} & \num{1.507e-03} & \cellcolor{lime!25}\num{1.221e-02} & \cellcolor{lime!25}\num{9.766e-02} \\
+		%\hline
+		PU & F & \cellcolor{lime!25}13.548 & \cellcolor{lime!25}\num{3.133e-01} & \cellcolor{lime!25}\num{2.829e-01} & \num{2.419e-03} & \num{1.497e-02} & \num{1.198e-01} \\
+		%\hline
+		PU & S & 15.535 & \num{5.435e-01} & \num{3.229e-01} & \cellcolor{lime!25}\num{1.496e-03} & \num{1.229e-02} & \num{9.833e-02} \\
+		\hline
+	\end{tabular}
+	\caption{Error parameters for PFOS adsorption across isotherm models. L = Langmuir, F = Freundlich, S = SIPS and DL = Double‑Langmuir.  \textcolor{red}{Overfitted models parameters are highlighted in red}, \textcolor{ForestGreen} {best models are highlighted in green}.}
+	\label{table:error_PFOS}	
+\end{table}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.45\linewidth]{PFOS_ARED_heatmap.png}
+	\includegraphics[width=0.45\linewidth]{PFOS_EABS_heatmap.png}
+	\includegraphics[width=0.45\linewidth]{PFOS_HYBRID_heatmap.png}
+	\includegraphics[width=0.45\linewidth]{PFOS_RESID_heatmap.png}
+	\includegraphics[width=0.45\linewidth]{PFOS_MPSED_heatmap.png}
+	\includegraphics[width=0.45\linewidth]{PFOS_SSE_heatmap.png}
+	\caption{Log$_{10}$-transformed heatmaps of PFOS adsorption model error parameters by substrate and model. Error metrics were transformed using base-10 logarithms to enhance visualization across different value ranges.}
+	\label{fig:heatmap_PFOS_errors}
+\end{figure}
+
+
+\subsection{Error Parameters for PFOA Adsorption}
+
+\begin{table}[H]
+	\centering
+	\rowcolors{1}{gray!10}{white}
+	\begin{tabular}{|c|c|c|c|c|c|c|c|}
+		\hline
+		Substrate & Model & ARED (\%) & MPSED (\%) & HYBRID & SSE & RESID & EABS \\
+		\hline
+		Ny & L & \cellcolor{lime!25}6.046 & \cellcolor{lime!25}\num{7.74e-2} & \cellcolor{lime!25}1.220 & \num{7.53e-2} & \cellcolor{lime!25}\num{7.51e-2} & \cellcolor{lime!25}\num{2.557e-1} \\
+		%\hline
+		Ny & F & 346.885 & \num{7.48e-1} & 32.765 & \num{1.38e-1} & \num{1.18e-1} & \num{8.24e-1} \\
+		%\hline
+		Ny & S & 15.911 & \num{7.56e-1} & 1.482 & \cellcolor{lime!25}\num{7.38e-2} & \num{7.90e-2} & \num{5.53e-1} \\
+		%\hline
+		Ny & DL & 12.52 & \num{7.71e-1} & 1.941 & \num{7.27e-2} & \num{7.97e-2} & \num{5.58e-1} \\
+		\hline
+		PA & DL & \cellcolor{red!25}2.870 & \cellcolor{red!25}\num{3.73e-2} & \cellcolor{red!25}1.713 & \cellcolor{red!25}\num{3.01e-1} & \cellcolor{red!25}\num{1.82e-1} & \cellcolor{red!25}\num{1.273e0} \\
+		%\hline
+		PA & L & 6.951 & \num{4.96e-1} & 7.146 & \num{3.89e0} & \num{6.63e-1} & \num{4.644e0} \\
+		%\hline
+		PA & F & 14.080 & \num{1.69e-1} & 31.714 & \num{7.35e0} & \num{7.91e-1} & \num{5.537e0} \\
+		%\hline
+		PA & S & \cellcolor{lime!25}5.918 & \cellcolor{lime!25}\num{1.52e-1} &\cellcolor{lime!25} 5.993 & \cellcolor{lime!25}\num{1.66e0} & \cellcolor{lime!25}\num{3.97e-1} & \cellcolor{lime!25}\num{2.778e0} \\
+		\hline
+		PA-MOF & S & 30.898 & \cellcolor{lime!25}\num{2.81e0} & 51.836 & \cellcolor{lime!25}\num{13.6} & \num{1.13e0} & \num{9.025e0} \\
+		%\hline
+		PA-MOF & F & 55.398 & \num{4.07e0} & 121.224 & \num{47.1} & \num{2.04e0} & \num{16.28e0} \\
+		%\hline
+		PA-MOF & L & \cellcolor{lime!25}19.638 & \num{2.86e0} & \cellcolor{lime!25}28.056 & \num{16.2} & \cellcolor{lime!25}\num{1.09e0} & \cellcolor{lime!25}\num{8.738e0} \\
+		%\hline
+		PA-MOF & DL & \cellcolor{red!25}19.638 & \cellcolor{red!25}\num{2.86e0} & \cellcolor{red!25}42.086 & \cellcolor{red!25}\num{16.2} & \cellcolor{red!25}\num{1.09e0} & \cellcolor{red!25}\num{8.738e0} \\
+		\hline
+		PU & DL & 9.093 & \cellcolor{lime!25}\num{2.71e-1} & 1.301 & \cellcolor{lime!25}\num{2.36e-2} & \cellcolor{lime!25}\num{6.04e-2} & \cellcolor{lime!25}	\num{3.622e-1} \\
+		%\hline
+		PU & S & \cellcolor{lime!25}7.859 & \num{3.43e-1} & \cellcolor{lime!25}\num{8.18e-1} & \num{2.70e-2} & \num{6.30e-2} & \num{3.781e-1} \\
+		%\hline
+		PU & F & 25.131 & \num{5.28e-1} & 5.051 & \num{8.20e-2} & \num{1.02e-1} & \num{6.150e-1} \\
+		%\hline
+		PU & L & 9.668 & \num{3.99e-1} & 1.169 & \num{3.49e-2} & \num{6.54e-2} & \num{3.921e-1} \\
+		\hline
+	\end{tabular}
+	\caption{Error parameters for PFOA adsorption. L = Langmuir, F = Freundlich, S = SIPS and DL = Double‑Langmuir.  \textcolor{red}{Overfitted models parameters are highlighted in red}, \textcolor{ForestGreen} {best models are highlighted in green}.}
+	\label{table:error_PFOA}
+\end{table}
+
+
+
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\linewidth]{PFOA_ARED_heatmap.png}
+    \includegraphics[width=0.45\linewidth]{PFOA_EABS_heatmap.png}
+    \includegraphics[width=0.45\linewidth]{PFOA_HYBRID_heatmap.png}
+    \includegraphics[width=0.45\linewidth]{PFOA_RESID_heatmap.png}
+    \includegraphics[width=0.45\linewidth]{PFOA_MPSED_heatmap.png}
+    \includegraphics[width=0.45\linewidth]{PFOA_SSE_heatmap.png}
+    \caption{Log$_{10}$-transformed heatmaps of PFOA adsorption model error parameters by substrate and model. Error metrics were transformed using base-10 logarithms to enhance visualization across different value ranges.}
+    \label{fig:heatmap_PFOA_errors}
+\end{figure}
+
+\clearpage
+
+
+
+\begin{comment}
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.48\linewidth}
+		\centering
+		\begin{overpic}[width=\linewidth]{PFOA_circular_error_w_DL.png}
+			\put(10,70){\color{black}\textbf{\large A}}
+		\end{overpic}
+		
+		\label{fig:PFOS_polar_Ny}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.48\linewidth}
+		\centering
+		\begin{overpic}[width=\linewidth]{PFOS_circular_error_w_DL.png}
+			\put(10,70){\color{black}\textbf{\large B}}
+		\end{overpic}
+		
+		\label{fig:PFOA_polar_Ny}
+	\end{subfigure}
+	\caption{Polar plots of complement normalized performance metrics for adsorption models across substrates (Ny, PA, PU, PA66M): (A) PFOS and (B) PFOA.}
+	\label{fig:PFOS_PFOA_polar}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.48\linewidth}
+		\centering
+		\begin{overpic}[width=\linewidth]{PFOA_circular_error.png}
+			\put(10,70){\color{black}\textbf{\large A}}
+		\end{overpic}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.48\linewidth}
+		\centering
+		\begin{overpic}[width=\linewidth]{PFOS_circular_error.png}
+			\put(10,70){\color{black}\textbf{\large B}}
+		\end{overpic}
+	\end{subfigure}
+	\caption{Polar plots of complement normalized performance metrics for adsorption models across substrates (Ny, PA, PU, PA66M): (A) PFOS and (B) PFOA.}
+	\label{fig:PFOS_PFOA_polar}
+\end{figure}
+
+
+
+\begin{table}[H]
+\centering
+\caption{Comparative table of the Removal $\%$ and Q$_{max}$ for PFOA and PFOS for our hybrid materials with other MOFs-based materials found in literature.}
+\label{tab:SI_comparative}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\hline
+Material & Fiber diameter (nm) & [PFAS] (mg/L) & PFOS removal $\%$ & PFOA removal $\%$ & \begin{tabular}[c]{@{}c@{}}Q$_{max}$ PFOS \\ (mg/g)\end{tabular} & R$^2$ (PFOS) & \begin{tabular}[c]{@{}c@{}}Q$_{max}$ PFOA\\  (mg/g)\end{tabular} & R$^2$ (PFOA) & Reference \\ \hline
+PA66 & 145$\pm$10 & 0.200 & 96.2 & 56.4 & 79$\pm$6 & 0.9933 & 16$\pm$1 & 0.99981 & our work \\ \hline
+PA66MOF & 135$\pm$10 & 0.200 & 96.2 & 55.6 & 90$\pm$5 & 0.9957 & 31$\pm$1 & 0.9785 & our work \\ \hline
+Nylon (NY) & 10000 & 0.200 & 74.0 & 6.3 & 1.2$\pm$0.1 & 0.9748 & 2.4$\pm$0.2 & 0.9791 & our work \\ \hline
+PU & 288$\pm$10 & 0.200 & 25.0 & 3.7 & 1.3$\pm$0.1 & 0.9947 & 3.4$\pm$0.3 & 0.9927 & our work \\ \hline
+UiO-66 & bulk material & 500 & - & - & 160 & - & 388 & - & Ref. \cite{Sini2018MOFsPFAS} \\ \hline
+UiO-67 & bulk material & 500 & - & - & 580 & - & 700 & - & Ref. \cite{Sini2018MOFsPFAS} \\ \hline
+PVA@UiO-66-NH2/GO & bulk material & 10.0 & - & 98 & - & - & 9.90 & - & Ref. \cite{Thang2024UiO66NH2GO} \\ \hline
+UiO66-F4/polyacrylonitrile & 30-150 & 1.0 & 45 & 10 & - & - & - & - & Ref. \cite{Deji2022UIO66F}\\ \hline
+\end{tabular}%
+}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Comparative table of the Removal $\%$ and Q$_{max}$ for PFOA and PFOS for our hybrid materials with other MOFs-based materials found in literature.}
+\label{tab:SI_comparative}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\hline
+Material & \begin{tabular}[c]{@{}c@{}}Fiber \\ diameter \\ (nm)\end{tabular} & \begin{tabular}[c]{@{}c@{}}[PFAS] \\ concentration \\ (mg/L)\end{tabular} & \begin{tabular}[c]{@{}c@{}}PFOS \\ removal \\ (\%)\end{tabular} & \begin{tabular}[c]{@{}c@{}}PFOA \\ removal \\ (\%)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Q$_{max}$ \\ PFOS \\ (mg/g)\end{tabular} & \begin{tabular}[c]{@{}c@{}}R$^2$ \\ PFOS\end{tabular} & \begin{tabular}[c]{@{}c@{}}Q$_{max}$ \\ PFOA \\ (mg/g)\end{tabular} & \begin{tabular}[c]{@{}c@{}}R$^2$ \\ PFOA\end{tabular} & Reference \\ \hline
+PA66 & 145$\pm$10 & 0.200 & 96.2 & 56.4 & 79$\pm$6 & 0.9933 & 16$\pm$1 & 0.99981 & our work \\ \hline
+PA66MOF & 135$\pm$10 & 0.200 & 96.2 & 55.6 & 90$\pm$5 & 0.9957 & 31$\pm$1 & 0.9785 & our work \\ \hline
+Nylon (NY) & 10000 & 0.200 & 74.0 & 6.3 & 1.2$\pm$0.1 & 0.9748 & 2.4$\pm$0.2 & 0.9791 & our work \\ \hline
+PU & 288$\pm$10 & 0.200 & 25.0 & 3.7 & 1.3$\pm$0.1 & 0.9947 & 3.4$\pm$0.3 & 0.9927 & our work \\ \hline
+UiO-66 & bulk material & 500 & - & - & 160 & - & 388 & - & Ref. \cite{Sini2018MOFsPFAS} \\ \hline
+UiO-67 & bulk material & 500 & - & - & 580 & - & 700 & - & Ref. \cite{Sini2018MOFsPFAS} \\ \hline
+\begin{tabular}[c]{@{}c@{}}PVA@UiO-66-\\NH$_2$/GO\end{tabular} & bulk material & 10.0 & - & 98 & - & - & 9.90 & - & Ref. \cite{Thang2024UiO66NH2GO} \\ \hline
+\begin{tabular}[c]{@{}c@{}}UiO66-F4/\\polyacrylonitrile\end{tabular} & 30-150 & 1.0 & 45 & 10 & - & - & - & - & Ref. \cite{Deji2022UIO66F} \\ \hline
+\end{tabular}%
+}
+\end{table}
+\end{comment}
+
+
+
+
+	
+	
+	
+\clearpage
+\begin{landscape}
+	
+	% \begin{bgblock}
+		
+		%\textbf{\textcolor{red}{Reviewer 4, Question 4.}}
+\subsection{Comparison of different materials for PFOS adsorption}
+\begin{table}[H]
+	\centering
+	\caption{Comparative removal percentage, maximum adsorption capacity (Q$_{\max}$), and adsorption affinity constant (K$_L$) for PFOS across different materials. \\ \textbf{Note:} PASNTs = polyaniline emeraldine salt nanotubes, PABNTs = polyaniline emeraldine base nanotubes, Q-PAN = PAN-derived quaternary ammonium and Q-PVDF = PVDF-derived quaternary ammonium, Q$_{\max}^\mathrm{eff}$ refers to \cref{eq:L_Ce_max_sum}, K$^\mathrm{eff}$ refers to \cref{eq:KL-eff}}
+	\label{table:PFOS_comparative}
+	% Alternate row colors (starting from row 2)
+	\rowcolors{1}{gray!10}{white}
+	\begin{tabular}{
+			>{\centering\arraybackslash}m{3cm}  % Material
+			>{\centering\arraybackslash}m{2.0cm} % Fiber diameter
+			>{\centering\arraybackslash}m{1.2cm} % [PFAS]
+			>{\centering\arraybackslash}m{1.2cm} % PFOS removal
+			>{\centering\arraybackslash}m{1.0cm} % Model
+			>{\centering\arraybackslash}m{2.3cm} % Qmax
+			>{\centering\arraybackslash}m{1.3cm} % Qmax
+			>{\centering\arraybackslash}m{2.5cm} % Ka
+			>{\centering\arraybackslash}m{1.0cm} % Keff
+			>{\centering\arraybackslash}m{1.5cm} % R2
+			>{\centering\arraybackslash}m{1.9cm} % Reference
+		}
+		\hline
+		Material & 
+		\makecell{Fiber \\ diameter \\ (nm)} &
+		\makecell{[PFOS] \\ (mg/L)} &
+		\makecell{PFOS \\ removal \\ (\%)} &
+		Model &
+		Q$_{\max}$ (mg/g) &
+		Q$_{\max}^\mathrm{eff}$ (mg/g) &
+		K$_L$ (L/mg)&
+		K$^\mathrm{eff}$ &
+		R$^2$ &
+		Ref \\
+		\hline
+		PA                       & 145$\pm$10        & 0.200 & 96.2 & DL & 65.4 - 28.2   & 93.6 & 0.22 - 11.02 & 3.47 & 0.9933 & our work  \\
+		PA-MOF                   & 135$\pm$10        & 0.200 & 96.2  & DL & 73.7 - 28.1  & 101.8 & 0.36 - 25.96 & 7.42 & 0.9957 & our work  \\
+		% Ny                       & 10000             & 0.200 & 74.0  & DL & 1.2$\pm$0.1 & 0.02 & & 0.9748 & our work  \\
+		% PU                       & 288$\pm$10        & 0.200 & 25.0  & F & 1.3$\pm$0.1 & 0.01 & & 0.9947 & our work  \\
+		\hline
+		UiO-66                   & bulk      & -- & -- & L & 366     &    & 0.0513 & & 0.995      & Ref. \cite{endoh_amino-functionalized_2021}  \\
+		UiO-66                   & bulk      & -- & -- & L & 160      &   & 0.0466 & & 0.9803      & Ref. \cite{sini_metal-organic_2019}  \\
+		UiO-66-NH$_2$            & bulk      & -- & -- & L & 541    &     & 0.0121 & & 0.983      & Ref. \cite{endoh_amino-functionalized_2021}  \\
+		UiO-67                   & bulk      & -- & -- & L & 580   &      & 0.0884 & & 0.9805      & Ref. \cite{sini_metal-organic_2019}  \\
+		MOF-808                   & bulk      & -- & -- & L & 939   &      & 0.028 & & 0.99   & Ref. \cite{chang_novel_2022}  \\
+		PCN-222                   & bulk      & -- & -- & L & 2257   &      & 0.0358 & & 0.99   & Ref. \cite{chang_synthesis_2023}  \\
+		ZIF-67 - macro            & bulk      & -- & -- & L & 802     &    & 0.0852 & & 0.991   & Ref. \cite{konno_surfactant-assisted_2020}  \\
+		ZIF-67 - nano            & bulk      & -- & -- & L & 846   &      & 0.0477 & & 0.998   & Ref. \cite{konno_surfactant-assisted_2020}  \\
+		\hline
+		PEI-PVC                       & 200        & -- & -- & L & 320  &  & 0.20  & & 0.951 & Ref. \cite{kang_removal_2023}  \\
+		PASNTs                       & 200        & -- & -- & L & 1651 &   & 0.0716  & & 0.9884 & Ref. \cite{xu_adsorption_2015}  \\
+		PABNTs                       & 200        & -- & -- & L & 1540 &   & 0.0348  & & 0.9844 & Ref. \cite{xu_adsorption_2015}  \\
+		Q-PAN                       & --        & -- & -- & L &1240 &   & 1.012  & & 0.874 & Ref. \cite{chen_facile_2017}  \\
+		Q-PVDF                       & --        & -- & -- & L & 325 &   & 0.223  & & 0.99 & Ref. \cite{wan_ph-swing_2024}  \\
+
+		\hline
+	\end{tabular}
+\end{table}
+
+%\makecell{PVA \\ UiO-66-NH$_2$ \\ GO} & bulk material & 10.0 & - & - & - & - & Ref. \cite{Thang2024UiO66NH2GO} \\
+%\makecell{UiO66-F4 \\ polyacrylonitrile} & 30--150 & 1.0 & 45 & - & - & - & Ref. \cite{Deji2022UIO66F} \\
+
+\clearpage
+
+\subsection{Comparison of different materials for PFOA adsorption}
+\begin{table}[H]
+	\centering
+	\caption{Comparative removal percentage, maximum adsorption capacity (Q$_{\max}$), and adsorption affinity constant (K$_L$) for PFOA across different materials. \\ \textbf{Note:} PASNTs = polyaniline emeraldine salt nanotubes, PABNTs = polyaniline emeraldine base nanotubes, Q-PAN = PAN-derived quaternary ammonium and Q-PVDF = PVDF-derived quaternary ammonium, ln K$^\mathrm{eff}$,  refers to \cref{eq:KL-eff}}
+	\label{table:PFOA_comparative}
+	% Alternate row colors (starting from row 2)
+	\rowcolors{1}{gray!10}{white}
+	\begin{tabular}{
+		>{\centering\arraybackslash}m{3cm}  % Material
+		>{\centering\arraybackslash}m{2.0cm} % Fiber diameter
+		>{\centering\arraybackslash}m{1.2cm} % [PFAS]
+		>{\centering\arraybackslash}m{1.2cm} % PFOS removal
+		>{\centering\arraybackslash}m{1.0cm} % Model
+		% >{\centering\arraybackslash}m{1.3cm} % Qmax
+		>{\centering\arraybackslash}m{1.3cm} % Qeff
+		>{\centering\arraybackslash}m{2.5cm} % Ka
+		>{\centering\arraybackslash}m{1.0cm} % Keff
+		>{\centering\arraybackslash}m{1.5cm} % R2
+		>{\centering\arraybackslash}m{1.9cm} % Reference
+	}
+	\hline
+	Material & 
+	\makecell{Fiber \\ diameter \\ (nm)} &
+	\makecell{[PFOS] \\ (mg/L)} &
+	\makecell{PFOS \\ removal \\ (\%)} &
+	Model &
+	Q$_{\max}$ (mg/g) &
+	% Q$_{\max}^\mathrm{eff}$ (mg/g) &
+	K$_\mathrm{L/S}$ / n &
+	$\ln K^\mathrm{eff}$  &
+	R$^2$ &
+	Ref \\
+		\hline
+		PA                       & 145$\pm$10        & 0.200 & 56.4  & S & 18.4    & 0.90 / 0.68  & -0.15 & 0.9998 & our work \\
+		PA-MOF                   & 135$\pm$10        & 0.200 & 55.6  & S & 27.2    & 0.36 / 1.32   & -0.77 & 0.9785 & our work \\
+		% Ny                       & 10000             & 0.200 & 6.3   & L & 2.4$\pm$0.2 & 0.01   & & 0.9791 & our work \\
+		% PU                       & 288$\pm$10        & 0.200 & 3.7   & DL& 3.4$\pm$0.3 & 0.02   & & 0.9927 & our work \\
+		\hline
+		UiO-66                   & bulk          & --  &   & L & 388         & 0.0182  & -4.00 &.9718      & Ref. \cite{sini_metal-organic_2019} \\	
+		\makecell{UiO-66-NH$_2$ \\ no defects}                    &  bulk      & --   & --     & L & 324  &        0.0037  & -5.60 & 0.9987      & Ref. \cite{wei_enhanced_2025} \\
+		\makecell{UiO-66-NH$_2$ \\ 25\% defects}                   & bulk      & --   & --     & L & 414   &       0.0097  & -4.63 & 0.9963      & Ref. \cite{wei_enhanced_2025} \\
+		\makecell{UiO-66-NH$_2$ \\ 47\% defects}                   & bulk      & --   & --     & L & 739    &      0.0064  & -5.05 & 0.9915      & Ref. \cite{wei_enhanced_2025} \\
+		UiO-67                   & bulk      &  --  & --     & L & 700       & 0.1143  & -2.17  & 0.9740      & Ref. \cite{sini_metal-organic_2019} \\
+		\hline
+		PEI-PVC                       & 200        & -- & --  & L & 234    & 0.12   &  -2.12 & 0.962 & Ref. \cite{kang_removal_2023} \\
+		PASNTs                       & 200        & -- & --  & L & 1100    & 0.0674   &  -2.70 & 0.98928 & Ref. \cite{xu_adsorption_2015} \\
+		PABNTs                       & 200        & -- & --  & L & 1111    & 0.0173  &  -4.06 & 0.9975 & Ref. \cite{xu_adsorption_2015} \\
+		TPU/PEI                      & --       & -- & --  & L & 385.8    & 0.491   & -0.71  & 0.924 & Ref. \cite{sun_tpupei_2024} \\
+		Q-PAN                       & --        & -- & --  & L & 998    & 0.152   &  -1.88 & 0.862 & Ref. \cite{chen_facile_2017} \\
+		Q-PVDF                       & --        & -- & --  & L & 182    & 0.0992   &  -2.31 & 0.99 & Ref. \cite{wan_ph-swing_2024} \\
+		\hline
+	\end{tabular}
+\end{table}
+%\end{bgblock}
+\end{landscape}
+\clearpage
+
+% \makecell{PVA \\ UiO-66-NH$_2$ \\ GO} & bulk material & 10.0 & 98 & 9.90 & - & - & Ref. \cite{Thang2024UiO66NH2GO} \\
+% \makecell{UiO66-F4 \\ polyacrylonitrile} & 30--150 & 1.0 & 10 & - & - & - & Ref. \cite{Deji2022UIO66F} \\
+
+\begin{comment}
+\subsection{Estimation of the required Langmuir constant for EPA compliance}
+
+At low solute concentrations ($K_L C_e \ll 1$), the Langmuir model can be approximated by its linear form:
+\begin{equation}
+	q = Q_{max} K_L C_e
+\end{equation}
+
+Considering mass balance between the liquid and solid phases:
+\begin{equation}
+	C_0 - C_e = \frac{m}{V} q
+\end{equation}
+
+Substituting and rearranging gives:
+\begin{equation}
+	\frac{C_e}{C_0} = \frac{1}{1 + K_L \frac{m}{V}}
+	\label{eq:Ce_C0_ratio_new}
+\end{equation}
+
+To determine the required affinity constant $K_L$ for a target concentration $C_e$, Eq.~\ref{eq:Ce_C0_ratio_new} can be rearranged as:
+\begin{equation}
+	K_L = \frac{\frac{C_0}{C_e} - 1}{\frac{m}{V}}
+	\label{eq:KL_required_new}
+\end{equation}
+
+For compliance with the EPA limit \cite{us_epa_per-_2021} of $C_e = 4\times10^{-6}\,\text{mg\,L}^{-1}$ (4 ng L$^{-1}$), using a typical dose $\frac{m}{V} = 1\,\text{g\,L}^{-1}$ and representative urban drinking-water concentrations as initial conditions:
+\[
+C_0(\text{PFOS}) = 8.6~\text{ng\,L}^{-1} = 8.6\times10^{-6}~\text{mg\,L}^{-1},\quad
+C_0(\text{PFOA}) = 12.87~\text{ng\,L}^{-1} = 12.87\times10^{-6}~\text{mg\,L}^{-1},
+\]
+the single-stage $K_L$ requirements are:
+\begin{align}
+	K_L^{\star}(\text{PFOS}) &= \frac{8.6\times10^{-6}/(4\times10^{-6}) - 1}{1} \approx 1.15~\text{L\,mg}^{-1},\\
+	K_L^{\star}(\text{PFOA}) &= \frac{12.87\times10^{-6}/(4\times10^{-6}) - 1}{1} \approx 2.22~\text{L\,mg}^{-1}.
+\end{align}
+
+\subsection{Multi-stage adsorption model}
+
+Assuming each adsorption stage operates in the linear regime of the Langmuir model, the concentration after $n$ identical stages is:
+\begin{equation}
+	C_n = \frac{C_0}{\left(1 + K_L \frac{m}{V}\right)^n}.
+	\label{eq:Cn_new}
+\end{equation}
+Compliance with the EPA limit ($C_{lim}$) requires $C_n \le C_{lim}$, hence the minimum number of stages is:
+\begin{equation}
+	n = \frac{\ln(C_{lim}/C_0)}{\ln\!\left[\frac{1}{1 + K_L \frac{m}{V}}\right]}.
+	\label{eq:n_required_new}
+\end{equation}
+
+\paragraph{PFOS case ($C_0 = 8.6$ ng L$^{-1}$, $C_{lim} = 4$ ng L$^{-1}$, $m/V = 1$ g L$^{-1}$).}
+\begin{table}[H]
+	\centering
+	\caption{Estimated stages to reach 4 ng L$^{-1}$ for PFOS with different $K_L$.}
+	\begin{tabular}{ccc}
+		\hline
+		$K_L$ (L mg$^{-1}$) & $(1 + K_L \frac{m}{V})$ & Required stages $n$ \\
+		\hline
+		0.5  & 1.5   & 2 \\
+		1    & 2     & 2 \\
+		2    & 3     & 1 \\
+		5    & 6     & 1 \\
+		25   & 26    & 1 \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\paragraph{PFOA case ($C_0 = 12.87$ ng L$^{-1}$, $C_{lim} = 4$ ng L$^{-1}$, $m/V = 1$ g L$^{-1}$).}
+\begin{table}[H]
+	\centering
+	\caption{Estimated stages to reach 4 ng L$^{-1}$ for PFOA with different $K_L$.}
+	\begin{tabular}{ccc}
+		\hline
+		$K_L$ (L mg$^{-1}$) & $(1 + K_L \frac{m}{V})$ & Required stages $n$ \\
+		\hline
+		0.18 & 1.18 & 8 \\
+		0.5  & 1.5  & 3 \\
+		1    & 2    & 2 \\
+		2    & 3    & 2 \\
+		5    & 6    & 1 \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\subsection{Stage estimation for PA--MOF at urban $C_0$ values}
+
+Using the experimental PA--MOF affinities ($K_L^{\text{PFOS}} = 0.50$ L mg$^{-1}$, $K_L^{\text{PFOA}} = 0.18$ L mg$^{-1}$), with $m/V = 1$ g L$^{-1}$ and the urban $C_0$ values above:
+\begin{table}[H]
+	\centering
+	\caption{Estimated stages for PA--MOF to reach the EPA limit at urban drinking-water $C_0$.}
+	\begin{tabular}{lccccc}
+		\hline
+		PFAS & $K_L$ (L mg$^{-1}$) & $C_0$ (ng L$^{-1}$) & $C_{lim}$ (ng L$^{-1}$) & $m/V$ (g L$^{-1}$) & Required stages $n$ \\
+		\hline
+		PFOS & 0.50 & 8.6   & 4 & 1 & \textbf{2} \\
+		PFOA & 0.18 & 12.87 & 4 & 1 & \textbf{8} \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\noindent
+These results show that, at realistic urban drinking-water concentrations, a modest increase in affinity or multi-stage configuration enables EPA compliance, with PFOS requiring only two stages at $K_L = 0.50$ L mg$^{-1}$ and PFOA requiring about eight stages at $K_L = 0.18$ L mg$^{-1}$, for a dose of $m/V = 1$ g L$^{-1}$.
+
+
+
+\end{comment}
+
+
+\newpage
+
+% \bibliographystyle{achemso}
+\bibliography{references}
+
+\end{document}

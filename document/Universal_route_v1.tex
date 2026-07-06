@@ -1,0 +1,302 @@
+\documentclass[12pt]{article}
+
+% Packages
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+
+% No indentation
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\begin{document}
+	
+	\title{A Universal Route to $Q_{\max}$ and $K_{\mathrm{aff}}$ for PFAS Adsorption in Solids - V1}
+	\author{}
+	\date{}
+	\maketitle
+	
+	\section{Scope and minimal assumptions}
+	
+	We consider equilibrium adsorption from aqueous solution at fixed temperature $T$ and fixed chemistry (pH, ionic strength, background ions, cosolutes). Let $C \ge 0$ be the equilibrium aqueous concentration and $q(C)$ the equilibrium uptake per adsorbent mass.
+	
+	A practically useful, model-agnostic extraction of $Q_{\max}$ and an effective affinity constant $K_{\mathrm{aff}}$ is possible under the following minimal assumptions:
+	
+	\begin{itemize}
+		\item[A1.] (Independent-site superposition) The adsorption can be represented as a superposition of independent Langmuir site classes (heterogeneous energies are allowed, but there are no lateral interactions or cooperativity in the site filling step).
+		\item[A2.] (Finite saturating capacity for the saturating fraction) A finite saturating capacity exists for the saturating part of adsorption.
+		\item[A3.] (Sufficient experimental coverage) The dataset contains points in the Henry regime ($C \to 0$) and in a high-concentration regime that either approaches a plateau or can be extrapolated to a plateau.
+	\end{itemize}
+	
+	For PFAS on many solids, a second contribution is sometimes present, a linear partition-like term that does not saturate within the measured range. We therefore treat two cases:
+	(i) purely saturating adsorption, and (ii) partition plus saturating adsorption.
+	
+	\section{General heterogeneous Langmuir representation}
+	
+	\subsection{Purely saturating heterogeneous adsorption}
+	
+	We represent heterogeneity by a nonnegative ``capacity density'' $\rho(K)$ over affinity constants $K>0$:
+	\begin{equation}
+		q(C) = \int_{0}^{\infty} \rho(K)\,\frac{K C}{1 + K C}\,dK,
+		\qquad \rho(K)\ge 0.
+		\label{eq:het_langmuir}
+	\end{equation}
+	Here $\rho(K)\,dK$ is the saturation capacity carried by site classes with affinities in $[K,K+dK]$.
+	
+	Define the total saturating capacity and the normalized affinity distribution:
+	\begin{equation}
+		Q_{\max} \equiv \int_0^\infty \rho(K)\,dK,
+		\qquad
+		f(K) \equiv \frac{\rho(K)}{Q_{\max}},
+		\qquad
+		\int_0^\infty f(K)\,dK = 1.
+		\label{eq:f_def}
+	\end{equation}
+	Then Eq.~\eqref{eq:het_langmuir} becomes
+	\begin{equation}
+		q(C) = Q_{\max}\int_0^\infty \frac{K C}{1 + K C}\,f(K)\,dK.
+		\label{eq:het_langmuir_norm}
+	\end{equation}
+	
+	\subsection{Partition plus saturating adsorption (common in PFAS)}
+	
+	If a linear, nonsaturating contribution is present (partition into organic matter, swelling domains, or other linear uptake), we write
+	\begin{equation}
+		q(C) = K_p\,C + \int_{0}^{\infty} \rho(K)\,\frac{K C}{1 + K C}\,dK,
+		\qquad K_p \ge 0,
+		\label{eq:partition_plus_langmuir}
+	\end{equation}
+	where $K_p$ has units of $q/C$ and captures the linear component. The saturating part is still described by $\rho(K)$.
+	
+	\section{Universal invariants: $Q_{\max}$, $K_H$, and $K_{\mathrm{aff}}$}
+	
+	\subsection{Saturation capacity}
+	
+	For the purely saturating case, since $\frac{K C}{1+K C}\to 1$ as $C\to\infty$ for every fixed $K>0$, dominated convergence yields
+	\begin{equation}
+		\lim_{C\to\infty} q(C) = \int_0^\infty \rho(K)\,dK = Q_{\max}.
+		\label{eq:Qmax_limit}
+	\end{equation}
+	
+	For the partition plus saturating case, the total $q(C)$ does not approach a finite limit if $K_p>0$. In that situation, $Q_{\max}$ refers to the saturating fraction only:
+	\begin{equation}
+		Q_{\max} = \int_0^\infty \rho(K)\,dK,
+		\qquad
+		\text{while}\quad
+		q(C)\sim K_p C + Q_{\max}\quad (C \to \infty \text{ in the model}).
+	\end{equation}
+	
+	\subsection{Henry constant and its meaning under heterogeneity}
+	
+	For small $C$, the kernel satisfies
+	\[
+	\frac{K C}{1+K C} = K C + O(C^2).
+	\]
+	If the first moment $\int_0^\infty K\,\rho(K)\,dK$ is finite, differentiation under the integral gives a well-defined Henry constant for the saturating part:
+	\begin{equation}
+		K_H \equiv \left.\frac{dq}{dC}\right|_{C\to 0}
+		= \int_0^\infty K\,\rho(K)\,dK
+		= Q_{\max}\int_0^\infty K f(K)\,dK.
+		\label{eq:KH_moment}
+	\end{equation}
+	In the partition plus saturating case,
+	\begin{equation}
+		\left.\frac{dq}{dC}\right|_{C\to 0} = K_p + K_H,
+		\label{eq:KH_total_partition}
+	\end{equation}
+	so one must separate $K_p$ if it is present.
+	
+	\subsection{A universal effective affinity constant}
+	
+	A single effective affinity constant that is consistent with both the saturating capacity and the Henry slope of the saturating fraction is
+	\begin{equation}
+		K_{\mathrm{aff}} \equiv \frac{K_H}{Q_{\max}}.
+		\label{eq:Kaff_def}
+	\end{equation}
+	Combining Eqs.~\eqref{eq:KH_moment} and \eqref{eq:Kaff_def} shows that
+	\begin{equation}
+		K_{\mathrm{aff}} = \int_0^\infty K\,f(K)\,dK,
+		\label{eq:Kaff_mean}
+	\end{equation}
+	that is, $K_{\mathrm{aff}}$ is the capacity-weighted mean affinity over the (unknown) site distribution. This statement does not require any parametric form of $f(K)$.
+	
+	\subsection{Optional energetic interpretation}
+	
+	To compare materials on a common energetic scale, define a dimensionless effective equilibrium constant using a standard concentration $C^0$ (often $1~\mathrm{mol\,L^{-1}}$):
+	\begin{equation}
+		K_{\mathrm{aff}}^\ast = K_{\mathrm{aff}}\,C^0,
+		\qquad
+		\Delta G_{\mathrm{ads}}^{0,\mathrm{eff}} = -RT\ln(K_{\mathrm{aff}}^\ast),
+		\qquad
+		E_{\mathrm{aff}}^{\mathrm{eff}} = RT\ln(K_{\mathrm{aff}}^\ast).
+	\end{equation}
+	
+	\section{How to carry out the fit in practice}
+	
+	This section describes a robust workflow that does not assume a specific $f(K)$, and returns $Q_{\max}$ and $K_{\mathrm{aff}}$ (and optionally $K_p$).
+	
+	\subsection{Step 0: data preparation}
+	
+	Let the experimental dataset be $\{(C_i,q_i,\sigma_i)\}_{i=1}^N$, where $\sigma_i$ is the standard deviation (or an estimated uncertainty). If $\sigma_i$ is unavailable, set $\sigma_i=\sigma$ (constant), or use relative weights, for example $\sigma_i \propto q_i$.
+	
+	Define weights $w_i \equiv 1/\sigma_i^2$ for weighted regression steps below.
+	
+	\subsection{Step 1: decide whether a partition term is needed}
+	
+	A practical diagnostic is the high-concentration behavior:
+	
+	\begin{itemize}
+		\item If $q(C)$ approaches a clear plateau, set $K_p=0$ and treat the system as purely saturating.
+		\item If $q(C)$ continues to increase approximately linearly at the highest $C$ and no plateau is visible, include $K_p$ and fit the saturating fraction on top of the linear trend.
+	\end{itemize}
+	
+	In PFAS systems, the second case is common in soils, sediments, and mixed organic matrices.
+	
+	\subsection{Step 2: estimate $Q_{\max}$ (saturating capacity) without choosing $f(K)$}
+	
+	\subsubsection{Case A: plateau is observed}
+	
+	If a plateau is observed, estimate $Q_{\max}$ by a weighted average over the plateau region $\mathcal{I}_\infty$:
+	\begin{equation}
+		\widehat{Q}_{\max} =
+		\frac{\sum_{i\in\mathcal{I}_\infty} w_i q_i}{\sum_{i\in\mathcal{I}_\infty} w_i}.
+		\label{eq:Qmax_plateau}
+	\end{equation}
+	Choose $\mathcal{I}_\infty$ as the set of the highest-concentration points for which the incremental slope is statistically indistinguishable from zero. A simple operational rule is to require that a local regression of $q$ versus $\ln C$ over the last $m$ points yields a slope whose confidence interval contains zero.
+	
+	\subsubsection{Case B: plateau is not perfectly reached, use a $1/C$ extrapolation}
+	
+	From Eq.~\eqref{eq:het_langmuir}, the high-$C$ expansion of the saturating part is
+	\begin{equation}
+		q(C) = Q_{\max} - \frac{A_1}{C} + O\!\left(\frac{1}{C^2}\right),
+		\qquad
+		A_1 \equiv \int_0^\infty \frac{\rho(K)}{K}\,dK,
+		\label{eq:highC_expansion}
+	\end{equation}
+	provided $A_1$ is finite. Therefore, in a high-concentration window $\mathcal{I}_\infty$ where $1/C$ is small, one can fit
+	\begin{equation}
+		q_i \approx Q_{\max} - \frac{A_1}{C_i}
+		\label{eq:Qmax_linfit}
+	\end{equation}
+	by weighted linear regression of $q_i$ versus $x_i = 1/C_i$:
+	\begin{equation}
+		q_i \approx \beta_0 + \beta_1 x_i,
+		\qquad
+		\widehat{Q}_{\max} = \widehat{\beta}_0,
+		\qquad
+		\widehat{A}_1 = -\widehat{\beta}_1.
+	\end{equation}
+	
+	\subsubsection{If a partition term is present}
+	
+	If Eq.~\eqref{eq:partition_plus_langmuir} applies, subtract the linear trend first (estimated in Step 3 below), and apply the plateau or $1/C$ extrapolation to the residual:
+	\[
+	q_{\mathrm{sat}}(C) \equiv q(C) - K_p C.
+	\]
+	Then use Eqs.~\eqref{eq:Qmax_plateau} or \eqref{eq:Qmax_linfit} on $q_{\mathrm{sat}}$ to estimate $Q_{\max}$.
+	
+	\subsection{Step 3: estimate the Henry slope $K_H$ (and $K_p$ if needed)}
+	
+	\subsubsection{Estimate $K_H$ for the saturating fraction}
+	
+	In the Henry regime, Eq.~\eqref{eq:KH_moment} implies
+	\begin{equation}
+		q(C) \approx K_H\,C
+		\qquad (C \to 0)
+		\label{eq:henry_local}
+	\end{equation}
+	for the purely saturating case. Estimate $K_H$ by weighted least squares on a low-concentration subset $\mathcal{I}_0$:
+	\begin{equation}
+		\widehat{K}_H =
+		\arg\min_{K_H}\sum_{i\in\mathcal{I}_0} w_i\,(q_i - K_H C_i)^2
+		=
+		\frac{\sum_{i\in\mathcal{I}_0} w_i\,C_i q_i}{\sum_{i\in\mathcal{I}_0} w_i\,C_i^2}.
+		\label{eq:KH_fit}
+	\end{equation}
+	Choose $\mathcal{I}_0$ as the lowest-concentration points for which curvature is negligible. An operational rule is to increase the number of included points until the fitted slope changes beyond a chosen tolerance or the residuals show systematic curvature.
+	
+	\subsubsection{Estimate $K_p$ if a partition term is present}
+	
+	If Eq.~\eqref{eq:partition_plus_langmuir} is needed, estimate $K_p$ from the highest concentrations where the saturating term is close to $Q_{\max}$:
+	\begin{equation}
+		q(C) \approx K_p C + Q_{\max}
+		\qquad (C \text{ large}).
+		\label{eq:highC_partition}
+	\end{equation}
+	Using the already estimated $\widehat{Q}_{\max}$ (Step 2), fit $K_p$ by weighted least squares over a high-concentration subset $\mathcal{I}_\infty$:
+	\begin{equation}
+		\widehat{K}_p =
+		\arg\min_{K_p}\sum_{i\in\mathcal{I}_\infty} w_i\,(q_i - \widehat{Q}_{\max} - K_p C_i)^2
+		=
+		\frac{\sum_{i\in\mathcal{I}_\infty} w_i\,C_i\,(q_i-\widehat{Q}_{\max})}{\sum_{i\in\mathcal{I}_\infty} w_i\,C_i^2}.
+		\label{eq:Kp_fit}
+	\end{equation}
+	Then define the saturating-component data $q_{i,\mathrm{sat}} = q_i - \widehat{K}_p C_i$, and re-estimate $\widehat{Q}_{\max}$ from $q_{i,\mathrm{sat}}$ if necessary. In practice, Steps 2 and 3 can be iterated once or twice to self-consistency.
+	
+	\subsection{Step 4: compute the universal affinity constant}
+	
+	With $\widehat{Q}_{\max}$ and $\widehat{K}_H$ for the saturating fraction,
+	\begin{equation}
+		\widehat{K}_{\mathrm{aff}} = \frac{\widehat{K}_H}{\widehat{Q}_{\max}}.
+		\label{eq:Kaff_est}
+	\end{equation}
+	This quantity is universal within the heterogeneous Langmuir class because it equals the capacity-weighted mean affinity, Eq.~\eqref{eq:Kaff_mean}, without requiring explicit recovery of $f(K)$.
+	
+	\subsection{Uncertainty and goodness-of-fit (recommended)}
+	
+	A practical and defensible uncertainty estimate is a nonparametric bootstrap:
+	resample the dataset with replacement, recompute $\widehat{Q}_{\max}$ and $\widehat{K}_H$, then use the empirical distribution of $\widehat{K}_{\mathrm{aff}}$ for confidence intervals. Report:
+	\[
+	\widehat{Q}_{\max}\pm \text{CI},\qquad
+	\widehat{K}_{\mathrm{aff}}\pm \text{CI},
+	\]
+	and show that results are stable with respect to reasonable choices of $\mathcal{I}_0$ and $\mathcal{I}_\infty$.
+	
+	\section{Optional: fitting the full isotherm while remaining distribution-agnostic}
+	
+	If you want to fit the entire curve without assuming a parametric $f(K)$, you can reconstruct an effective distribution numerically, but this is optional. Importantly, $Q_{\max}$ and $K_{\mathrm{aff}}$ do not require this step.
+	
+	\subsection{Nonparametric distribution fit by a discretized mixture of Langmuir sites}
+	
+	Choose a logarithmic grid of affinities $\{K_j\}_{j=1}^M$ covering the experimental concentration window, for example
+	\[
+	K_{\min} = \frac{0.1}{C_{\max}},\qquad
+	K_{\max} = \frac{10}{C_{\min}},
+	\]
+	and approximate Eq.~\eqref{eq:het_langmuir} by
+	\begin{equation}
+		q(C_i) \approx K_p C_i + \sum_{j=1}^{M} q_{m,j}\,\frac{K_j C_i}{1+K_j C_i},
+		\qquad q_{m,j}\ge 0.
+		\label{eq:disc_mix}
+	\end{equation}
+	Define the kernel matrix
+	\begin{equation}
+		A_{ij} \equiv \frac{K_j C_i}{1+K_j C_i}.
+	\end{equation}
+	Then Eq.~\eqref{eq:disc_mix} is linear in the unknown nonnegative coefficients $\bm{q}_m=(q_{m,1},\dots,q_{m,M})^T$.
+	
+	A stable inversion solves a regularized, nonnegative weighted least-squares problem:
+	\begin{equation}
+		\min_{\bm{q}_m\ge 0,\,K_p\ge 0}\;
+		\sum_{i=1}^{N} w_i\left(q_i - K_p C_i - \sum_{j=1}^{M} A_{ij} q_{m,j}\right)^2
+		+ \lambda \|\bm{L}\bm{q}_m\|_2^2,
+		\label{eq:nnls_reg}
+	\end{equation}
+	where $\bm{L}$ is a smoothness operator (for example a second-difference matrix in $\log K$ space) and $\lambda>0$ controls the smoothness.
+	
+	After solving, recover
+	\begin{equation}
+		\widehat{Q}_{\max} = \sum_{j=1}^{M} \widehat{q}_{m,j},
+		\qquad
+		\widehat{K}_H = \sum_{j=1}^{M} K_j\,\widehat{q}_{m,j},
+		\qquad
+		\widehat{K}_{\mathrm{aff}} = \frac{\widehat{K}_H}{\widehat{Q}_{\max}}.
+	\end{equation}
+	As a consistency check, compare these with the direct asymptotic estimates from Steps 2 to 4.
+	
+	\subsection{Why the asymptotic method is the recommended default}
+	
+	The nonparametric reconstruction in Eq.~\eqref{eq:nnls_reg} is an ill-conditioned inverse problem, so the recovered distribution depends on the regularization choice. In contrast, the invariants $Q_{\max}$ and $K_H$ (hence $K_{\mathrm{aff}}$) are directly anchored by the $C\to\infty$ and $C\to 0$ limits, and are therefore substantially more robust and easier to defend in peer review.
+	
+\end{document}

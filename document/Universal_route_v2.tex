@@ -1,0 +1,489 @@
+\documentclass[12pt]{article}
+
+% Packages
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+% No indentation
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\begin{document}
+
+\title{A Practical Model-Agnostic Protocol for Extracting\\
+$Q_{\max}$ and $K_{\mathrm{aff}}$ from Adsorption Data\\[6pt]
+\large (Corrected and expanded version)}
+\author{}
+\date{}
+\maketitle
+
+% ======================================================================
+\section{Scope and minimal assumptions}
+% ======================================================================
+
+We consider equilibrium adsorption from aqueous solution at fixed
+temperature $T$ and fixed chemistry (pH, ionic strength, background ions,
+cosolutes).  Let $C\ge 0$ be the equilibrium aqueous concentration and
+$q(C)$ the equilibrium uptake per adsorbent mass.
+
+A model-agnostic extraction of $Q_{\max}$ and an effective affinity
+constant $K_{\mathrm{aff}}$ is possible under the following assumptions:
+
+\begin{itemize}
+  \item[A1.] \textbf{Independent-site superposition.}  The adsorption
+        can be represented as a superposition of independent Langmuir
+        site classes (heterogeneous energies allowed, no lateral
+        interactions or cooperativity in the site-filling step).
+        This is the standard integral equation of adsorption on
+        heterogeneous surfaces~\cite{Sips1948,Jaroniec1988,Rudzinski1992}.
+  \item[A2.] \textbf{Finite saturating capacity.}  A finite saturating
+        capacity exists for the saturating part of adsorption, i.e.,
+        $Q_{\max}=\int_0^\infty\rho(K)\,dK<\infty$.
+  \item[A3.] \textbf{Finite first moment (Henry constant).}  The first
+        moment $\int_0^\infty K\rho(K)\,dK<\infty$ is finite, so that a
+        well-defined Henry constant exists.
+        \emph{Note:} This condition is violated by pure Freundlich
+        systems ($f(K)\propto K^{n-1}$, $n<1$) and Sips systems with
+        $m<1$ in the thermodynamic limit.  In practice, any real
+        adsorbent has a finite maximum affinity, so $K_H$ is always
+        finite experimentally, but it may be very sensitive to the
+        high-affinity tail.  See Section~\ref{sec:convergence} for
+        discussion.
+  \item[A4.] \textbf{Sufficient experimental coverage.}  The dataset
+        contains points in the Henry regime ($C\to 0$) and in a
+        high-concentration regime that either approaches a plateau or
+        can be extrapolated to a plateau.
+\end{itemize}
+
+\textbf{Scope of A1.}  Assumption A1 excludes cooperative binding
+(Hill isotherm with $n_H>1$), adsorbate--adsorbate lateral interactions
+(Fowler--Guggenheim), and multilayer adsorption (BET).  The protocol
+should \emph{not} be applied to sigmoidal isotherms or isotherms with
+inflection points, as these indicate mechanisms outside the heterogeneous
+Langmuir class.
+
+For PFAS on many solids, a second contribution is sometimes present: a
+linear partition-like term that does not saturate within the measured
+range~\cite{Vieth1976}.  We therefore treat two cases:
+(i)~purely saturating adsorption, and
+(ii)~partition plus saturating adsorption.
+
+% ======================================================================
+\section{General heterogeneous Langmuir representation}
+% ======================================================================
+
+\subsection{Purely saturating heterogeneous adsorption}
+
+We represent heterogeneity by a nonnegative ``capacity density''
+$\rho(K)$ over affinity constants $K>0$~\cite{Sips1948,Jaroniec1988}:
+\begin{equation}
+  q(C) = \int_{0}^{\infty} \rho(K)\,\frac{KC}{1+KC}\,dK,
+  \qquad \rho(K)\ge 0.
+  \label{eq:het_langmuir}
+\end{equation}
+Here $\rho(K)\,dK$ is the saturation capacity carried by site classes
+with affinities in $[K,K+dK]$.  The normalised distribution is
+\begin{equation}
+  Q_{\max} \equiv \int_0^\infty \rho(K)\,dK,
+  \qquad
+  f(K) \equiv \frac{\rho(K)}{Q_{\max}},
+  \qquad
+  \int_0^\infty f(K)\,dK = 1.
+  \label{eq:f_def}
+\end{equation}
+
+\subsection{Partition plus saturating adsorption}
+
+If a linear, nonsaturating contribution is present (partition into
+organic matter, swelling domains, or other linear
+uptake)~\cite{Vieth1976,Paul1976}, we write
+\begin{equation}
+  q(C) = K_p\,C + \int_{0}^{\infty} \rho(K)\,\frac{KC}{1+KC}\,dK,
+  \qquad K_p \ge 0,
+  \label{eq:partition_plus_langmuir}
+\end{equation}
+where $K_p$ has units of $q/C$ and captures the linear component.
+
+% ======================================================================
+\section{Invariants: $Q_{\max}$, $K_H$, and $K_{\mathrm{aff}}$}
+% ======================================================================
+
+\subsection{Saturation capacity}
+
+For the purely saturating case, since $KC/(1+KC)\to 1$ as
+$C\to\infty$ for every fixed $K>0$, dominated convergence gives
+\begin{equation}
+  \lim_{C\to\infty} q(C)
+  = \int_0^\infty \rho(K)\,dK = Q_{\max}.
+  \label{eq:Qmax_limit}
+\end{equation}
+
+For the partition-plus-saturating case, $Q_{\max}$ refers to the
+saturating fraction only:
+\begin{equation}
+  q(C) \sim K_p C + Q_{\max}
+  \quad (C\to\infty).
+\end{equation}
+
+\subsection{Henry constant under heterogeneity}
+
+For small $C$, the Langmuir kernel satisfies
+$KC/(1+KC) = KC + O(C^2)$.
+If Assumption~A3 holds ($\int_0^\infty K\rho(K)\,dK<\infty$),
+differentiation under the integral gives~\cite{Jaroniec1988,Rudzinski1992}
+\begin{equation}
+  K_H \equiv \left.\frac{dq}{dC}\right|_{C\to 0}
+  = \int_0^\infty K\,\rho(K)\,dK
+  = Q_{\max}\int_0^\infty K f(K)\,dK.
+  \label{eq:KH_moment}
+\end{equation}
+
+In the partition-plus-saturating case,
+\begin{equation}
+  \left.\frac{dq}{dC}\right|_{C\to 0} = K_p + K_H,
+  \label{eq:KH_total_partition}
+\end{equation}
+so one must separate $K_p$ if present.
+
+\subsection{Effective affinity constant}
+\label{sec:Kaff}
+
+A single effective affinity constant consistent with both the saturating
+capacity and the Henry slope of the saturating fraction
+is~\cite{Klotz1971,Nederlof1990}
+\begin{equation}
+  K_{\mathrm{aff}} \equiv \frac{K_H}{Q_{\max}}
+  = \int_0^\infty K\,f(K)\,dK,
+  \label{eq:Kaff_def}
+\end{equation}
+i.e., $K_{\mathrm{aff}}$ is the capacity-weighted mean affinity over the
+(unknown) site distribution.  This does not require any parametric form
+of $f(K)$.
+
+\subsection{Convergence conditions and limitations}
+\label{sec:convergence}
+
+\textbf{When $K_H$ diverges.}
+For the Freundlich isotherm $q=K_F C^{1/n}$ ($0<1/n<1$), the underlying
+distribution $f(K)\propto K^{1/n-1}$ is a power law whose first moment
+diverges: $\int_0^\infty K f(K)\,dK=\infty$.  Similarly, the Sips
+isotherm with heterogeneity index $m<1$ has a logistic $f(K)$ whose
+first moment diverges~\cite{Jaroniec1988}.
+
+In these cases, the mathematical $K_H$ does not exist, and the low-$C$
+slope depends on the lowest concentration measured.
+\emph{Operationally}, one can still define
+\begin{equation}
+  K_H^{\mathrm{oper}} \equiv
+  \frac{\sum_{i\in\mathcal{I}_0} w_i C_i q_i}
+       {\sum_{i\in\mathcal{I}_0} w_i C_i^2},
+  \label{eq:KH_operational}
+\end{equation}
+but this ``Henry constant'' depends on $\mathcal{I}_0$ and is not a
+material constant in the strict thermodynamic sense.  One should report
+the concentration range used and note this limitation.
+
+\textbf{When $A_1$ diverges.}
+The high-$C$ expansion Eq.~\eqref{eq:highC_expansion} requires
+$A_1=\int_0^\infty\rho(K)/K\,dK<\infty$.  If $\rho(K)$ has substantial
+weight near $K=0$ (e.g., certain Toth distributions with strong
+asymmetry), $A_1$ may diverge and the $1/C$ extrapolation for
+$Q_{\max}$ converges slowly.
+
+\subsection{Optional energetic interpretation}
+
+To compare materials on a common energetic scale, define
+\begin{equation}
+  K_{\mathrm{aff}}^\ast = K_{\mathrm{aff}}\,C^0,
+  \qquad
+  \Delta G_{\mathrm{ads}}^{0,\mathrm{eff}} = -RT\ln(K_{\mathrm{aff}}^\ast),
+  \qquad
+  E_{\mathrm{aff}}^{\mathrm{eff}} = RT\ln(K_{\mathrm{aff}}^\ast),
+\end{equation}
+where $C^0$ is a standard concentration (often $1~\mathrm{mol\,L^{-1}}$).
+
+% ======================================================================
+\section{Practical workflow}
+% ======================================================================
+
+This section describes a robust workflow that does not assume a specific
+$f(K)$, and returns $Q_{\max}$ and $K_{\mathrm{aff}}$ (and optionally $K_p$).
+
+\subsection{Step 0: Data preparation}
+
+Let the dataset be $\{(C_i,q_i,\sigma_i)\}_{i=1}^N$, sorted by
+$C_i$ in ascending order, where $\sigma_i$ is the standard deviation.
+If $\sigma_i$ is unavailable, set $\sigma_i=\sigma$ (constant), or
+use relative weights $\sigma_i\propto q_i$.  Define weights
+$w_i\equiv 1/\sigma_i^2$.
+
+\subsection{Step 1: Decide whether a partition term is needed}
+\label{sec:step1}
+
+\textbf{Quantitative diagnostic:}
+\begin{enumerate}[nosep]
+  \item Select the highest-$C$ subset $\mathcal{I}_\infty$ (e.g., last $m$ points, $m\ge 4$).
+  \item Fit $q_i = \beta_0 + \beta_1 C_i$ over $\mathcal{I}_\infty$ by weighted least squares.
+  \item Compute $t = \widehat{\beta}_1 / \mathrm{SE}(\widehat{\beta}_1)$ and test $H_0:\beta_1=0$ at significance level $\alpha=0.05$.
+  \item If $H_0$ is rejected (slope statistically positive), set $K_p>0$ and use the partition-plus-saturating model.
+  \item Otherwise, set $K_p=0$.
+\end{enumerate}
+
+\subsection{Step 2: Estimate $Q_{\max}$}
+
+\subsubsection{Case A: Plateau observed ($K_p=0$ and data level off)}
+
+Estimate $Q_{\max}$ by a weighted average over the plateau region
+$\mathcal{I}_\infty$:
+\begin{equation}
+  \widehat{Q}_{\max} =
+  \frac{\sum_{i\in\mathcal{I}_\infty} w_i q_i}
+       {\sum_{i\in\mathcal{I}_\infty} w_i}.
+  \label{eq:Qmax_plateau}
+\end{equation}
+
+\textbf{Selection of $\mathcal{I}_\infty$:}
+Start from the last $m_0=3$ points and increase $m$ until the slope
+$\widehat{\beta}_1$ of $q$ vs.\ $\ln C$ over the last $m$ points
+becomes significant ($|t|>t_{\alpha/2,m-2}$).  Set
+$\mathcal{I}_\infty$ as the last $m-1$ points.
+
+\subsubsection{Case B: Plateau not reached, use $1/C$ extrapolation}
+
+From Eq.~\eqref{eq:het_langmuir}, the high-$C$ expansion is
+\begin{equation}
+  q(C) = Q_{\max} - \frac{A_1}{C} + O\!\left(\frac{1}{C^2}\right),
+  \qquad
+  A_1 \equiv \int_0^\infty \frac{\rho(K)}{K}\,dK,
+  \label{eq:highC_expansion}
+\end{equation}
+provided $A_1<\infty$.  Fit $q_i \approx \beta_0 + \beta_1/C_i$ over
+$\mathcal{I}_\infty$:
+\begin{equation}
+  \widehat{Q}_{\max} = \widehat{\beta}_0,
+  \qquad \widehat{A}_1 = -\widehat{\beta}_1.
+\end{equation}
+
+\textbf{Diagnostic:} Check that $\widehat{A}_1>0$ (i.e.,
+$\widehat{\beta}_1<0$).  If $\widehat{A}_1\le 0$, the $1/C$
+extrapolation is inappropriate (the data may still be far from
+saturation).
+
+\subsubsection{If a partition term is present}
+
+If Eq.~\eqref{eq:partition_plus_langmuir} applies, subtract the linear
+trend:
+\[
+  q_{\mathrm{sat}}(C) \equiv q(C) - K_p C,
+\]
+and apply the plateau or $1/C$ extrapolation to $q_{\mathrm{sat}}$.
+
+\subsection{Step 3: Estimate $K_H$ (and $K_p$ if needed)}
+
+\subsubsection{Estimate $K_H$ for the saturating fraction}
+\label{sec:henry_region}
+
+In the Henry regime, $q(C)\approx K_H C$.  Estimate $K_H$ by weighted
+least squares over a low-$C$ subset $\mathcal{I}_0$:
+\begin{equation}
+  \widehat{K}_H =
+  \frac{\sum_{i\in\mathcal{I}_0} w_i C_i q_i}
+       {\sum_{i\in\mathcal{I}_0} w_i C_i^2}.
+  \label{eq:KH_fit}
+\end{equation}
+
+\textbf{Selection of $\mathcal{I}_0$ (quantitative criterion):}
+\begin{enumerate}[nosep]
+  \item Start with $\mathcal{I}_0 = \{1,2,3\}$ (the 3 lowest-$C$ points).
+  \item For each candidate $\mathcal{I}_0=\{1,\dots,m\}$, fit both a linear model ($q=K_H C$) and a quadratic model ($q=K_H C + \alpha C^2$).
+  \item Apply an $F$-test for the significance of the $\alpha C^2$ term.
+  \item Set $\mathcal{I}_0$ as the largest subset for which the  curvature term is not significant at $\alpha=0.05$.
+\end{enumerate}
+
+\subsubsection{Estimate $K_p$ if partition is present}
+
+Using $\widehat{Q}_{\max}$ from Step~2, fit $K_p$ by WLS over the
+high-$C$ subset:
+\begin{equation}
+  \widehat{K}_p =
+  \frac{\sum_{i\in\mathcal{I}_\infty} w_i C_i (q_i-\widehat{Q}_{\max})}
+       {\sum_{i\in\mathcal{I}_\infty} w_i C_i^2}.
+  \label{eq:Kp_fit}
+\end{equation}
+
+\textbf{Iterative refinement:}
+\begin{enumerate}[nosep]
+  \item Compute $q_{i,\mathrm{sat}}=q_i-\widehat{K}_p C_i$.
+  \item Re-estimate $\widehat{Q}_{\max}$ from $q_{i,\mathrm{sat}}$.
+  \item Re-estimate $\widehat{K}_p$ from the updated  $\widehat{Q}_{\max}$.
+  \item Repeat until $|\Delta\widehat{K}_p/\widehat{K}_p|<\varepsilon$ (default $\varepsilon=10^{-4}$) or a maximum of 20~iterations.
+\end{enumerate}
+
+\subsection{Step 4: Compute the effective affinity constant}
+
+With $\widehat{Q}_{\max}$ and $\widehat{K}_H$ for the saturating
+fraction,
+\begin{equation}
+  \widehat{K}_{\mathrm{aff}} = \frac{\widehat{K}_H}{\widehat{Q}_{\max}}.
+  \label{eq:Kaff_est}
+\end{equation}
+
+\subsection{Step 5: Uncertainty estimation (bootstrap)}
+
+\begin{enumerate}[nosep]
+  \item Resample the dataset with replacement $B$ times (default $B=2000$).
+  \item For each bootstrap sample, repeat Steps 1--4 to obtain $\widehat{Q}_{\max}^{(b)}$, $\widehat{K}_H^{(b)}$, $\widehat{K}_{\mathrm{aff}}^{(b)}$.
+  \item Report the 2.5th and 97.5th percentiles as 95\% confidence intervals.
+  \item \textbf{Sensitivity check:} Repeat the analysis with different choices of $\mathcal{I}_0$ and $\mathcal{I}_\infty$ boundaries  and report the range of $K_{\mathrm{aff}}$.
+\end{enumerate}
+
+% ======================================================================
+\section{Optional: Nonparametric distribution recovery}
+% ======================================================================
+
+If you want to fit the entire curve without assuming a parametric $f(K)$,
+discretize the integral on a logarithmic
+grid~\cite{Umpleby2001,Umpleby2004,Nederlof1990}.
+
+\subsection{Discretized Langmuir mixture}
+
+Choose $M$ affinities on a log-spaced grid:
+\[
+  K_{\min} = \frac{0.1}{C_{\max}},\qquad
+  K_{\max} = \frac{10}{C_{\min}},
+\]
+and approximate Eq.~\eqref{eq:het_langmuir} by
+\begin{equation}
+  q(C_i) \approx K_p C_i + \sum_{j=1}^{M} q_{m,j}\,\frac{K_j C_i}{1+K_j C_i},
+  \qquad q_{m,j}\ge 0.
+  \label{eq:disc_mix}
+\end{equation}
+
+Define the kernel matrix $A_{ij}=K_j C_i/(1+K_j C_i)$.  Solve the
+regularized NNLS problem~\cite{Tikhonov1977,Hansen1998}:
+\begin{equation}
+  \min_{\bm{q}_m\ge 0,\,K_p\ge 0}\;
+  \sum_{i=1}^{N} w_i\left(q_i - K_p C_i
+    - \sum_{j=1}^{M} A_{ij}\,q_{m,j}\right)^2
+  + \lambda \|\bm{L}\bm{q}_m\|_2^2,
+  \label{eq:nnls_reg}
+\end{equation}
+where $\bm{L}$ is a second-difference matrix in $\log K$ space.
+
+\subsection{Regularization parameter selection}
+
+The regularization parameter $\lambda$ controls the trade-off between
+data fidelity and smoothness.  Standard approaches:
+\begin{enumerate}[nosep]
+  \item \textbf{L-curve method}~\cite{Hansen1992}: Plot  $\log\|\bm{r}\|$ vs.\ $\log\|\bm{L}\bm{q}_m\|$ for a range  of $\lambda$ and choose $\lambda$ at the corner of maximum curvature.
+  \item \textbf{Generalized cross-validation (GCV):} Minimize the  GCV functional $V(\lambda)=\|W^{1/2}\bm{r}\|^2/(N-\mathrm{tr}(H_\lambda))^2$,  where $H_\lambda$ is the hat matrix.
+  \item \textbf{Discrepancy principle:} Choose $\lambda$ such that $\|\bm{r}\|^2\approx N\sigma^2$, matching the residual to the expected noise level.
+\end{enumerate}
+
+\subsection{Consistency check}
+
+After solving, recover
+\begin{equation}
+  \widehat{Q}_{\max}^{\mathrm{NNLS}} = \sum_{j=1}^{M}\widehat{q}_{m,j},
+  \qquad
+  \widehat{K}_H^{\mathrm{NNLS}} = \sum_{j=1}^{M} K_j\widehat{q}_{m,j},
+  \qquad
+  \widehat{K}_{\mathrm{aff}}^{\mathrm{NNLS}}
+    = \frac{\widehat{K}_H^{\mathrm{NNLS}}}{\widehat{Q}_{\max}^{\mathrm{NNLS}}}.
+\end{equation}
+Compare with the direct asymptotic estimates from Steps~2--4.
+Agreement within bootstrap confidence intervals provides a valuable
+consistency check.
+
+\subsection{Why the asymptotic method is the recommended default}
+
+The nonparametric reconstruction is an ill-conditioned inverse problem
+(Fredholm integral equation of the first kind), so the recovered
+distribution depends on the regularization~\cite{Hansen1998}.  In
+contrast, $Q_{\max}$ and $K_H$ (hence $K_{\mathrm{aff}}$) are
+directly anchored by the $C\to\infty$ and $C\to 0$ limits and are
+substantially more robust.
+
+% ======================================================================
+\section*{References}
+% ======================================================================
+
+\begin{thebibliography}{99}
+
+\bibitem{Sips1948}
+R.~Sips, ``On the structure of a catalyst surface,''
+\textit{J.\ Chem.\ Phys.}\ \textbf{16}, 490--495 (1948).
+
+\bibitem{Jaroniec1988}
+M.~Jaroniec and R.~Madey,
+\textit{Physical Adsorption on Heterogeneous Solids},
+Elsevier, Amsterdam (1988).
+
+\bibitem{Rudzinski1992}
+W.~Rudzinski and D.H.~Everett,
+\textit{Adsorption of Gases on Heterogeneous Surfaces},
+Academic Press, London (1992).
+
+\bibitem{Klotz1971}
+I.M.~Klotz and D.L.~Hunston,
+``Properties of graphical representations of multiple classes of
+binding sites,''
+\textit{Biochemistry} \textbf{10}, 3065--3069 (1971).
+
+\bibitem{Nederlof1990}
+M.M.~Nederlof, W.H.~van Riemsdijk, and L.K.~Koopal,
+``Determination of adsorption affinity distributions: A general framework
+for methods related to local isotherm approximations,''
+\textit{J.\ Colloid Interface Sci.}\ \textbf{135}, 410--426 (1990).
+
+\bibitem{Umpleby2001}
+R.J.~Umpleby, S.C.~Baxter, Y.~Chen, R.N.~Shah, and K.D.~Shimizu,
+``Characterization of molecularly imprinted polymers with the
+Langmuir--Freundlich isotherm,''
+\textit{Anal.\ Chem.}\ \textbf{73}, 4584--4591 (2001).
+
+\bibitem{Umpleby2004}
+R.J.~Umpleby, S.C.~Baxter, A.M.~Rampey, G.T.~Rushton, Y.~Chen, and
+K.D.~Shimizu,
+``Characterization of the heterogeneous binding site affinity
+distributions in molecularly imprinted polymers,''
+\textit{J.\ Chromatogr.\ B} \textbf{804}, 141--149 (2004).
+
+\bibitem{Vieth1976}
+W.R.~Vieth, J.M.~Howell, and J.H.~Hsieh,
+``Dual sorption theory,''
+\textit{J.\ Membr.\ Sci.}\ \textbf{1}, 177--220 (1976).
+
+\bibitem{Paul1976}
+D.R.~Paul and W.J.~Koros,
+``Effect of partially immobilizing sorption on permeability and the
+diffusion time lag,''
+\textit{J.\ Polym.\ Sci.}\ \textbf{14}, 675--685 (1976).
+
+\bibitem{Tikhonov1977}
+A.N.~Tikhonov and V.Y.~Arsenin,
+\textit{Solutions of Ill-Posed Problems},
+Winston, Washington, DC (1977).
+
+\bibitem{Hansen1998}
+P.C.~Hansen,
+\textit{Rank-Deficient and Discrete Ill-Posed Problems},
+SIAM, Philadelphia (1998).
+
+\bibitem{Hansen1992}
+P.C.~Hansen,
+``Analysis of discrete ill-posed problems by means of the L-curve,''
+\textit{SIAM Rev.}\ \textbf{34}, 561--580 (1992).
+
+\bibitem{Efron1979}
+B.~Efron,
+``Bootstrap methods: Another look at the jackknife,''
+\textit{Ann.\ Statist.}\ \textbf{7}, 1--26 (1979).
+
+\end{thebibliography}
+
+\end{document}

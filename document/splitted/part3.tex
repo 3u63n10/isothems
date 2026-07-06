@@ -1,0 +1,239 @@
+﻿	\section{Error handling}
+
+	All isotherm models should be fitted to experimental data using
+	\emph{non-linear} regression (e.g.\ Levenberg--Marquardt or
+	trust-region algorithms) applied directly to the original equation
+	$q_e = f(C_e;\,\boldsymbol{\theta})$, where
+	$\boldsymbol{\theta}$ is the parameter vector.
+	Linearised forms (e.g.\ $1/q_e$ vs.\ $1/C_e$ for Langmuir) should
+	be avoided because the transformation distorts the error structure
+	and biases the estimated parameters.
+
+	\subsubsection{Residual error metrics}
+
+	Let $n$ be the number of experimental points,
+	$q_{e,i}^{\exp}$ the measured value,
+	$q_{e,i}^{\mathrm{pred}}$ the model prediction, and $p$ the
+	number of fitted parameters. The following metrics quantify the
+	goodness of fit.
+
+	\paragraph{Sum of Squared Errors (SSE).}
+	The SSE is the most fundamental measure of total discrepancy
+	between model and data. It sums the squared residuals, thereby
+	giving greater weight to large deviations. Because it is
+	unbounded and depends on the units and magnitude of $q_e$, SSE
+	values can only be compared across models fitted to the
+	\emph{same} dataset. It is the objective function minimised in
+	ordinary least-squares regression:
+	\begin{equation}
+		\mathrm{SSE}
+		= \sum_{i=1}^{n}
+		\bigl(q_{e,i}^{\exp} - q_{e,i}^{\mathrm{pred}}\bigr)^{2}.
+		\label{eq:SSE}
+	\end{equation}
+	A smaller SSE indicates a better fit. However, SSE always
+	decreases (or stays the same) when parameters are added, so it
+	cannot by itself distinguish between a genuinely better model and
+	overfitting.
+
+	\paragraph{Coefficient of determination ($R^{2}$).}
+	$R^{2}$ normalises the SSE by the total sum of squares (SST),
+	giving a dimensionless measure of the fraction of variance in the
+	data that is explained by the model:
+	\begin{equation}
+		R^{2} = 1 - \frac{\mathrm{SSE}}{\mathrm{SST}},
+		\qquad
+		\mathrm{SST} = \sum_{i=1}^{n}
+		\bigl(q_{e,i}^{\exp} - \bar{q}_e^{\exp}\bigr)^{2},
+		\label{eq:R2}
+	\end{equation}
+	where $\bar{q}_e^{\exp}$ is the mean of the experimental values.
+	$R^{2} = 1$ means a perfect fit; $R^{2} = 0$ means the model
+	is no better than a horizontal line at $\bar{q}_e$. Although
+	widely reported, $R^{2}$ has important limitations: (i)~it cannot
+	penalise over-parameterisation (a model with $p = n$ always
+	gives $R^{2} = 1$); (ii)~for non-linear models, $R^{2}$ is not
+	guaranteed to lie between 0 and 1; (iii)~a high $R^{2}$ does not
+	guarantee that the model captures the correct physics.
+
+	\paragraph{Adjusted $R^{2}$.}
+	The adjusted coefficient of determination corrects $R^{2}$ for
+	the number of fitted parameters, penalising unnecessary complexity.
+	When an additional parameter does not improve the fit sufficiently,
+	$R^{2}_{\mathrm{adj}}$ can actually \emph{decrease}, unlike
+	$R^{2}$:
+	\begin{equation}
+		R_{\mathrm{adj}}^{2}
+		= 1 - \frac{n - 1}{n - p - 1}\,(1 - R^{2}).
+		\label{eq:R2adj}
+	\end{equation}
+	The factor $(n-1)/(n-p-1)$ inflates the residual variance when
+	$p$ is large relative to $n$, making $R^{2}_{\mathrm{adj}}$ a
+	more honest indicator than $R^{2}$ in model comparison.
+
+	\paragraph{Sum of Absolute Errors (EABS).}
+	EABS replaces the squared residuals of SSE with absolute values,
+	making it less sensitive to outliers. A single anomalous data
+	point that would dominate the SSE contributes only linearly to
+	EABS:
+	\begin{equation}
+		\mathrm{EABS}
+		= \sum_{i=1}^{n}
+		\bigl|q_{e,i}^{\exp} - q_{e,i}^{\mathrm{pred}}\bigr|.
+		\label{eq:EABS}
+	\end{equation}
+	Like SSE, EABS is scale-dependent and should only be compared
+	across models fitted to the same dataset.
+
+	\paragraph{Mean Absolute Residual (RESID).}
+	RESID is simply the EABS divided by $n$, giving the average
+	absolute prediction error in the same units as $q_e$. It
+	provides an intuitive measure of ``how wrong, on average, is
+	the model prediction'':
+	\begin{equation}
+		\mathrm{RESID}
+		= \frac{1}{n}\sum_{i=1}^{n}
+		\bigl|q_{e,i}^{\exp} - q_{e,i}^{\mathrm{pred}}\bigr|.
+		\label{eq:RESID}
+	\end{equation}
+	For example, $\mathrm{RESID} = 0.5$~mg/g means the model
+	predictions deviate from the data by 0.5~mg/g on average.
+
+	\paragraph{Average Relative Error Deviation (ARED).}
+	ARED expresses the error as a percentage of the experimental
+	value, making it dimensionless and comparable across datasets
+	with different $q_e$ magnitudes. It is particularly useful for
+	adsorption data where $q_e$ spans several orders of magnitude,
+	because it gives equal weight to low-loading and high-loading
+	points:
+	\begin{equation}
+		\mathrm{ARED}
+		= \frac{100}{n}\sum_{i=1}^{n}
+		\left|
+		\frac{q_{e,i}^{\exp} - q_{e,i}^{\mathrm{pred}}}
+		{q_{e,i}^{\exp}}
+		\right|.
+		\label{eq:ARED}
+	\end{equation}
+	Caution: ARED can become very large (or undefined) if
+	$q_{e,i}^{\exp}$ is close to zero; data points with very small
+	$q_e$ should be checked for excessive influence on ARED.
+
+	\paragraph{Marquardt's Percent Standard Deviation (MPSED).}
+	MPSED uses the \emph{median} (instead of the mean) of the
+	squared relative errors, making it a robust statistic that is
+	largely immune to outliers. A single bad data point that
+	inflates ARED will have minimal effect on MPSED:
+	\begin{equation}
+		\mathrm{MPSED}
+		= 100 \times \mathrm{median}\!\left[
+		\left(
+		\frac{q_{e,i}^{\exp} - q_{e,i}^{\mathrm{pred}}}
+		{q_{e,i}^{\exp}}
+		\right)^{\!2}
+		\right].
+		\label{eq:MPSED}
+	\end{equation}
+	MPSED is especially valuable when the dataset contains a few
+	points with large experimental uncertainty (e.g.\ near the
+	detection limit).
+
+	\paragraph{Hybrid Fractional Error Function (HYBRID).}
+	The HYBRID function combines features of SSE and ARED: it sums
+	squared residuals weighted by $1/q_{e,i}^{\exp}$, giving a
+	balance between absolute and relative errors. The normalisation
+	by the degrees of freedom $(n-p)$ instead of $n$ penalises
+	models with more parameters:
+	\begin{equation}
+		\mathrm{HYBRID}
+		= \frac{100}{n - p}\sum_{i=1}^{n}
+		\frac{\bigl(q_{e,i}^{\exp} - q_{e,i}^{\mathrm{pred}}\bigr)^{2}}
+		{q_{e,i}^{\exp}}.
+		\label{eq:HYBRID}
+	\end{equation}
+	Because the denominator is $q_{e,i}^{\exp}$ (not its square),
+	the HYBRID function gives intermediate sensitivity between SSE
+	(which favours fitting high-$q_e$ points) and ARED (which
+	favours fitting low-$q_e$ points). The built-in degrees-of-freedom
+	correction makes HYBRID one of the most balanced error functions
+	for isotherm model comparison.
+
+	\subsubsection{Information criteria for model selection}
+
+	When comparing models with different numbers of parameters, pure
+	error metrics (SSE, $R^{2}$) are insufficient because a model with
+	more parameters will always fit better. Information criteria
+	penalise model complexity and are the correct tool for model
+	selection.
+
+	\paragraph{Akaike Information Criterion (AIC).}
+	\begin{equation}
+		\mathrm{AIC}
+		= n\,\ln\!\left(\frac{\mathrm{SSE}}{n}\right) + 2p.
+		\label{eq:AIC}
+	\end{equation}
+	For small sample sizes ($n/p < 40$), the corrected version should
+	be used:
+	\begin{equation}
+		\mathrm{AIC}_c
+		= \mathrm{AIC} + \frac{2p(p+1)}{n - p - 1}.
+		\label{eq:AICc}
+	\end{equation}
+
+	\paragraph{Bayesian Information Criterion (BIC).}
+	Applies a stronger penalty for additional parameters:
+	\begin{equation}
+		\mathrm{BIC}
+		= n\,\ln\!\left(\frac{\mathrm{SSE}}{n}\right)
+		+ p\,\ln n.
+		\label{eq:BIC}
+	\end{equation}
+
+	In both cases, the model with the \emph{lowest} AIC (or BIC) is
+	preferred. The difference $\Delta\mathrm{AIC}_i = \mathrm{AIC}_i
+	- \mathrm{AIC}_{\min}$ can be used to rank models:
+	\begin{itemize}
+		\item $\Delta\mathrm{AIC} < 2$: substantial support for
+		the model.
+		\item $4 < \Delta\mathrm{AIC} < 7$: considerably less support.
+		\item $\Delta\mathrm{AIC} > 10$: essentially no support.
+	\end{itemize}
+
+	\subsubsection{F-test for nested models}
+
+	When a simpler model (model~1, $p_1$ parameters) is a special case
+	of a more complex model (model~2, $p_2 > p_1$ parameters), the
+	F-test determines whether the improvement in fit justifies the
+	additional parameters:
+	\begin{equation}
+		F = \frac{(\mathrm{SSE}_1 - \mathrm{SSE}_2)\,/\,
+			(p_2 - p_1)}
+		{\mathrm{SSE}_2\,/\,(n - p_2)}.
+		\label{eq:Ftest}
+	\end{equation}
+	Under the null hypothesis (simpler model is adequate), $F$ follows
+	an $F$-distribution with $(p_2 - p_1,\; n - p_2)$ degrees of
+	freedom. If $F > F_{\alpha}$, the more complex model is
+	statistically justified at significance level $\alpha$.
+
+	Example: Langmuir ($p_1 = 2$) vs.\ Sips ($p_2 = 3$), or
+	Langmuir ($p_1 = 2$) vs.\ Double Langmuir ($p_2 = 4$).
+
+	\subsubsection{Practical recommendations}
+
+	\begin{enumerate}
+		\item Always report \emph{at least} $R^{2}$, SSE, and one
+		relative metric (ARED or HYBRID).
+		\item When comparing models with different $p$, use AIC$_c$
+		or BIC rather than $R^{2}$.
+		\item Use the F-test for nested model pairs
+		(Langmuir vs.\ Double Langmuir, Langmuir vs.\ Sips).
+		\item Visualise residuals: non-random patterns indicate
+		systematic model inadequacy regardless of the $R^{2}$ value.
+		\item Report confidence intervals on fitted parameters
+		(from the Jacobian or bootstrap), not just point estimates.
+		\item For heatmap visualisation of error metrics across
+		materials and models, apply a $\log_{10}$ transformation to
+		compress the dynamic range.
+	\end{enumerate}
+
