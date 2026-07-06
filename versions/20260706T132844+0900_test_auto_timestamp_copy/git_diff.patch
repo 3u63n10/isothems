@@ -1,0 +1,67 @@
+diff --git a/scripts/stamp_snapshot.ps1 b/scripts/stamp_snapshot.ps1
+index 123d796..53383f2 100644
+--- a/scripts/stamp_snapshot.ps1
++++ b/scripts/stamp_snapshot.ps1
+@@ -6,6 +6,18 @@ $TS = python scripts/timestamp.py
+ $DEST = "versions/${TS}_${Label}"
+ New-Item -ItemType Directory -Force -Path $DEST | Out-Null
+ 
++# Automatically create YYYYMMDD_HHMM timestamped copy of main.tex and SI.tex in the root folder
++$TS_SHORT = python -c "from datetime import datetime; import zoneinfo; print(datetime.now(zoneinfo.ZoneInfo('Asia/Tokyo')).strftime('%Y%m%d_%H%M'))" 2>$null
++if ($null -eq $TS_SHORT) {
++    $TS_SHORT = Get-Date -Format "yyyyMMdd_HHmm"
++}
++if (Test-Path "main.tex") {
++    Copy-Item "main.tex" -Destination "main_${TS_SHORT}.tex" -Force -ErrorAction SilentlyContinue
++}
++if (Test-Path "SI.tex") {
++    Copy-Item "SI.tex" -Destination "SI_${TS_SHORT}.tex" -Force -ErrorAction SilentlyContinue
++}
++
+ $lightDirs = @("memory", "manuscript", "scripts", "prompts", ".codex", ".gemini", "docs")
+ foreach ($d in $lightDirs) {
+     if (Test-Path $d) {
+diff --git a/scripts/stamp_snapshot.py b/scripts/stamp_snapshot.py
+index 3a097b5..c7c44d1 100644
+--- a/scripts/stamp_snapshot.py
++++ b/scripts/stamp_snapshot.py
+@@ -15,6 +15,19 @@ def stamp_snapshot(label="snapshot"):
+     dest = f"versions/{ts}_{label}"
+     os.makedirs(dest, exist_ok=True)
+     
++    # Automatically create YYYYMMDD_HHMM timestamped copy of main.tex and SI.tex in the root folder
++    ts_short = datetime.now(tz).strftime("%Y%m%d_%H%M")
++    if os.path.exists("main.tex"):
++        try:
++            shutil.copy("main.tex", f"main_{ts_short}.tex")
++        except Exception:
++            pass
++    if os.path.exists("SI.tex"):
++        try:
++            shutil.copy("SI.tex", f"SI_{ts_short}.tex")
++        except Exception:
++            pass
++    
+     light_dirs = ["memory", "manuscript", "scripts", "prompts", ".codex", ".gemini", "docs"]
+     for d in light_dirs:
+         if os.path.exists(d):
+diff --git a/scripts/stamp_snapshot.sh b/scripts/stamp_snapshot.sh
+index 616b8f9..74c9a95 100644
+--- a/scripts/stamp_snapshot.sh
++++ b/scripts/stamp_snapshot.sh
+@@ -5,6 +5,15 @@ TS=$(python scripts/timestamp.py)
+ DEST="versions/${TS}_${LABEL}"
+ mkdir -p "$DEST"
+ 
++# Automatically create YYYYMMDD_HHMM timestamped copy of main.tex and SI.tex in the root folder
++TS_SHORT=$(python -c "from datetime import datetime; import zoneinfo; print(datetime.now(zoneinfo.ZoneInfo('Asia/Tokyo')).strftime('%Y%m%d_%H%M'))" 2>/dev/null || date +"%Y%m%d_%H%M")
++if [ -f "main.tex" ]; then
++  cp "main.tex" "main_${TS_SHORT}.tex" 2>/dev/null || true
++fi
++if [ -f "SI.tex" ]; then
++  cp "SI.tex" "SI_${TS_SHORT}.tex" 2>/dev/null || true
++fi
++
+ # Default snapshots are light: manuscript, memory, scripts, prompts, configs, and git diff.
+ # Raw data/PDFs can be huge and are not supposed to change. Set SNAPSHOT_RAW=1 to copy them too.
+ LIGHT_DIRS=(memory manuscript scripts prompts .codex .gemini docs)

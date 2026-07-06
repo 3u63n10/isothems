@@ -1,0 +1,8 @@
+ M scripts/stamp_snapshot.ps1
+ M scripts/stamp_snapshot.py
+ M scripts/stamp_snapshot.sh
+?? SI_20260706_1328.tex
+?? acs-SI_20260706_1323.bib
+?? acs-main_20260706_1323.bib
+?? main_20260706_1328.tex
+?? versions/20260706T132844+0900_test_auto_timestamp_copy/
