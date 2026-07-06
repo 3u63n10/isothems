@@ -5,6 +5,15 @@ TS=$(python scripts/timestamp.py)
 DEST="versions/${TS}_${LABEL}"
 mkdir -p "$DEST"
 
+# Automatically create YYYYMMDD_HHMM timestamped copy of main.tex and SI.tex in the root folder
+TS_SHORT=$(python -c "from datetime import datetime; import zoneinfo; print(datetime.now(zoneinfo.ZoneInfo('Asia/Tokyo')).strftime('%Y%m%d_%H%M'))" 2>/dev/null || date +"%Y%m%d_%H%M")
+if [ -f "main.tex" ]; then
+  cp "main.tex" "main_${TS_SHORT}.tex" 2>/dev/null || true
+fi
+if [ -f "SI.tex" ]; then
+  cp "SI.tex" "SI_${TS_SHORT}.tex" 2>/dev/null || true
+fi
+
 # Default snapshots are light: manuscript, memory, scripts, prompts, configs, and git diff.
 # Raw data/PDFs can be huge and are not supposed to change. Set SNAPSHOT_RAW=1 to copy them too.
 LIGHT_DIRS=(memory manuscript scripts prompts .codex .gemini docs)

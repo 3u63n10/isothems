@@ -15,6 +15,19 @@ def stamp_snapshot(label="snapshot"):
     dest = f"versions/{ts}_{label}"
     os.makedirs(dest, exist_ok=True)
     
+    # Automatically create YYYYMMDD_HHMM timestamped copy of main.tex and SI.tex in the root folder
+    ts_short = datetime.now(tz).strftime("%Y%m%d_%H%M")
+    if os.path.exists("main.tex"):
+        try:
+            shutil.copy("main.tex", f"main_{ts_short}.tex")
+        except Exception:
+            pass
+    if os.path.exists("SI.tex"):
+        try:
+            shutil.copy("SI.tex", f"SI_{ts_short}.tex")
+        except Exception:
+            pass
+    
     light_dirs = ["memory", "manuscript", "scripts", "prompts", ".codex", ".gemini", "docs"]
     for d in light_dirs:
         if os.path.exists(d):

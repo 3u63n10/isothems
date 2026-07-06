@@ -6,6 +6,18 @@ $TS = python scripts/timestamp.py
 $DEST = "versions/${TS}_${Label}"
 New-Item -ItemType Directory -Force -Path $DEST | Out-Null
 
+# Automatically create YYYYMMDD_HHMM timestamped copy of main.tex and SI.tex in the root folder
+$TS_SHORT = python -c "from datetime import datetime; import zoneinfo; print(datetime.now(zoneinfo.ZoneInfo('Asia/Tokyo')).strftime('%Y%m%d_%H%M'))" 2>$null
+if ($null -eq $TS_SHORT) {
+    $TS_SHORT = Get-Date -Format "yyyyMMdd_HHmm"
+}
+if (Test-Path "main.tex") {
+    Copy-Item "main.tex" -Destination "main_${TS_SHORT}.tex" -Force -ErrorAction SilentlyContinue
+}
+if (Test-Path "SI.tex") {
+    Copy-Item "SI.tex" -Destination "SI_${TS_SHORT}.tex" -Force -ErrorAction SilentlyContinue
+}
+
 $lightDirs = @("memory", "manuscript", "scripts", "prompts", ".codex", ".gemini", "docs")
 foreach ($d in $lightDirs) {
     if (Test-Path $d) {
