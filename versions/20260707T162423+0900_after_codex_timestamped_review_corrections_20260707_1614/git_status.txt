@@ -1,0 +1,11 @@
+ M SI_20260706_2228.tex
+ M main_20260706_2227.tex
+?? Isotherms_02.drawio_A.png
+?? Isotherms_02.drawio_B.png
+?? Isotherms_02.drawio_C.png
+?? SI_20260707_1614.tex
+?? SI_20260707_1624.tex
+?? acs-main_20260706_2227.bib
+?? main_20260707_1614.tex
+?? main_20260707_1624.tex
+?? versions/20260707T162423+0900_after_codex_timestamped_review_corrections_20260707_1614/

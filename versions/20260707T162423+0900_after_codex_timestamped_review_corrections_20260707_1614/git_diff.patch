@@ -1,0 +1,278 @@
+diff --git a/SI_20260706_2228.tex b/SI_20260706_2228.tex
+index de0b4db..a11491d 100644
+--- a/SI_20260706_2228.tex
++++ b/SI_20260706_2228.tex
+@@ -1,4 +1,4 @@
+-﻿
++
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %% Optimized preamble for achemso SI (cleaned and conflict-free)
+@@ -274,7 +274,7 @@
+ 	\[
+ 	\{Q_{\max},\,K_{\mathrm{aff}}^{\ast},\,E_{\mathrm{ads}},\,\sigma_H\}.
+ 	\]
+-	Here \(E_{\mathrm{ads}}=RT\ln K_{\mathrm{aff}}^{\ast}\) is the
++	Here \(E_{\mathrm{ads}}= - RT\ln K_{\mathrm{aff}}^{\ast}\) is the
+ 	reported adsorption-energy descriptor. Some derivations use
+ 	\(E_{\mathrm{aff}}\) as an intermediate name for the same quantity.
+ 	The standard-state concentration may appear as \(C^\circ\) or \(C^0\);
+@@ -1676,7 +1676,8 @@ available.
+ \subsection{Specific comparison criteria}
+ \label{sec:si_comparison_criteria}
+ 
+-\paragraph{Langmuir vs.\ Sips.}
++\subsubsection{Langmuir vs.\ Sips.}
++
+ \begin{bluebox}{Model-selection rule}
+ 	Use this rule only after checking the residual plots and information criteria. It is a practical decision aid that connects statistical fit quality with the physical descriptor space used in the manuscript.
+ \begin{equation}
+@@ -1686,11 +1687,12 @@ available.
+ 	\label{eq:si_criterion_LvsS}
+ \end{equation}
+ \end{bluebox}
++
+ with $\alpha \approx 1$ as a practical screening value. Smaller
+ values of $\alpha$ are stricter and collapse toward the Langmuir limit
+ $m \to 1$, where $\sigma_H \to 0$.
+ 
+-\paragraph{Langmuir vs.\ Double Langmuir.}
++\subsubsection{Langmuir vs.\ Double Langmuir.}
+ \begin{bluebox}{Model-selection rule}
+ 	Use this rule only after checking the residual plots and information criteria. It is a practical decision aid that connects statistical fit quality with the physical descriptor space used in the manuscript.
+ \begin{equation}
+@@ -1701,7 +1703,7 @@ $m \to 1$, where $\sigma_H \to 0$.
+ \end{bluebox}
+ with $\beta \approx 2$--$3$ ($K_1/K_2 > 7.4$--$20$).
+ 
+-\paragraph{Sips vs.\ Double Langmuir.}
++\subsubsection{Sips vs.\ Double Langmuir.}
+ \begin{bluebox}{Model-selection rule}
+ 	Use this rule only after checking the residual plots and information criteria. It is a practical decision aid that connects statistical fit quality with the physical descriptor space used in the manuscript.
+ \begin{equation}
+@@ -3330,7 +3332,7 @@ values and keeps only \(C_e>0\) and \(q_e\geq 0\).
+ 	non-linear least squares; the equations are those listed in
+ 	Section~\ref{sec:si_models}.
+ 	\item Inspect the fit plot and residual plot before accepting the numerical
+-	ranking.
++	ranking. See \Cref{fig:si_notebook01_fit_overlay}	
+ 	\item Read the descriptor table. The reportable descriptors are
+ 	\(\{Q_{\max},K_{\mathrm{aff}}^{\ast},E_{\mathrm{ads}},\sigma_H\}\).
+ \end{enumerate}
+@@ -3348,6 +3350,15 @@ values and keeps only \(C_e>0\) and \(q_e\geq 0\).
+ 	\texttt{02\_error\_metrics\_model\_selection.ipynb}.
+ \end{redbox}
+ 
++\begin{figure}[H]
++	\centering
++	\includegraphics[width=0.85\linewidth]{C:/Users/eugen/Dropbox/00000_agents/Writing/Manuscript_20260706_for Agents/notebooks/document/SI_notebook01_fit_overlay.pdf}
++	\caption{Overlay of all converged isotherm model fits generated directly from
++		\texttt{01\_isotherm\_fitting.ipynb}. Experimental data are shown together
++		with the fitted model curves, ordered by increasing SSE in the legend.}
++	\label{fig:si_notebook01_fit_overlay}
++\end{figure}
++
+ \section{Notebook 02: error metrics and model selection}
+ \label{app:si_notebook_02}
+ 
+@@ -3384,11 +3395,10 @@ The notebook produces fit overlays, residual plots, grouped metric bars,
+ AIC$_c$/Akaike-weight summaries, radar charts, parity plots, heatmaps, and
+ covariance-based confidence bands. These figures are diagnostic aids:
+ \begin{itemize}
+-	\item residual plots reveal systematic model failure;
+-	\item parity plots show whether predictions follow the experimental values;
+-	\item heatmaps and radar charts summarize many metrics compactly;
+-	\item confidence bands show how much uncertainty is implied by the local
+-	covariance matrix.
++	\item residual plots reveal systematic model failure; See \Cref{fig:si_notebook01_fits_residuals}
++	\item parity plots show whether predictions follow the experimental values; See \Cref{fig:si_notebook01_residual_diagnostics_top4}
++	\item heatmaps and radar charts summarize many metrics compactly; See \Cref{fig:si_notebook01_model_comparison_heatmap} and \Cref{fig:si_notebook01_radar_top6_error_metrics}
++	\item confidence bands show how much uncertainty is implied by the local covariance matrix. See \Cref{fig:si_notebook01_langmuir_sips_confidence_bands}
+ \end{itemize}
+ 
+ \begin{greenbox}{Decision rule}
+@@ -3397,6 +3407,59 @@ covariance-based confidence bands. These figures are diagnostic aids:
+ 	parameters and descriptors remain physically interpretable.
+ \end{greenbox}
+ 
++\begin{figure}[H]
++	\centering
++	\includegraphics[width=0.90\linewidth]{C:/Users/eugen/Dropbox/00000_agents/Writing/Manuscript_20260706_for Agents/notebooks/document/SI_notebook01_fits_residuals.pdf}
++	\caption{All converged isotherm model fits and residual analysis generated
++		directly from \texttt{01\_isotherm\_fitting.ipynb}. The upper panel shows
++		the experimental adsorption data together with the fitted model curves. The
++		lower panel shows residuals for the five best-ranked models according to
++		AICc.}
++	\label{fig:si_notebook01_fits_residuals}
++\end{figure}
++
++\begin{figure}[H]
++	\centering
++	\includegraphics[width=0.95\linewidth]{C:/Users/eugen/Dropbox/00000_agents/Writing/Manuscript_20260706_for Agents/notebooks/document/SI_notebook01_residual_diagnostics_top4.pdf}
++	\caption{Residual diagnostics for the four best-ranked isotherm models
++		according to AICc. Each row corresponds to one model. The columns show
++		residuals as a function of equilibrium concentration, residuals as a
++		function of predicted adsorption capacity, and the residual distribution.}
++	\label{fig:si_notebook01_residual_diagnostics_top4}
++\end{figure}
++
++\begin{figure}[H]
++	\centering
++	\includegraphics[width=0.95\linewidth]{C:/Users/eugen/Dropbox/00000_agents/Writing/Manuscript_20260706_for Agents/notebooks/document/SI_notebook01_model_comparison_heatmap.pdf}
++	\caption{Model comparison heatmap generated directly from
++		\texttt{01\_isotherm\_fitting.ipynb}. Each row corresponds to a fitting
++		metric or information criterion, normalized independently so that green
++		indicates the best-performing model and red indicates the worst-performing
++		model for that metric.}
++	\label{fig:si_notebook01_model_comparison_heatmap}
++\end{figure}
++
++\begin{figure}[H]
++	\centering
++	\includegraphics[width=0.82\linewidth]{C:/Users/eugen/Dropbox/00000_agents/Writing/Manuscript_20260706_for Agents/notebooks/document/SI_notebook01_radar_top6_error_metrics.pdf}
++	\caption{Radar chart comparing the six best-ranked isotherm models according
++		to AICc. The metrics were independently normalized so that 1 indicates the
++		best-performing model and 0 the worst-performing model for each error
++		criterion.}
++	\label{fig:si_notebook01_radar_top6_error_metrics}
++\end{figure}
++
++\begin{figure}[H]
++	\centering
++	\includegraphics[width=0.95\linewidth]{C:/Users/eugen/Dropbox/00000_agents/Writing/Manuscript_20260706_for Agents/notebooks/document/SI_notebook01_langmuir_sips_confidence_bands.pdf}
++	\caption{Confidence bands for Langmuir and Sips isotherm fits generated
++		directly from \texttt{01\_isotherm\_fitting.ipynb}. The solid lines show
++		the best-fit curves, while the shaded regions indicate the 95\% confidence
++		bands estimated by Monte Carlo sampling from the fitted parameter
++		covariance matrices.}
++	\label{fig:si_notebook01_langmuir_sips_confidence_bands}
++\end{figure}
++
+ \section{Notebook 03: statistical validation}
+ \label{app:si_notebook_03}
+ 
+@@ -3495,7 +3558,7 @@ backward-compatibility step; new tables should use \texttt{sigma\_H}.
+ \end{redbox}
+ 
+ 
+-% \bibliography{references}
++\bibliography{references}
+ 
+ \end{document}
+ 
+diff --git a/main_20260706_2227.tex b/main_20260706_2227.tex
+index 948878a..19e0a4a 100644
+--- a/main_20260706_2227.tex
++++ b/main_20260706_2227.tex
+@@ -186,17 +186,7 @@
+ 	%% if an abstract is not used by the target journal.
+ 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 	\begin{abstract}
+-		This is an example document for the \textsf{achemso} document
+-		class, intended for submissions to the American Chemical Society
+-		for publication. The class is based on the standard \LaTeXe\
+-		\textsf{report} file, and does not seek to reproduce the appearance
+-		of a published paper.
+-		
+-		This is an abstract for the \textsf{achemso} document class
+-		demonstration document.  An abstract is only allowed for certain
+-		manuscript types.  The selection of \texttt{journal} and
+-		\texttt{manuscript} will determine if an abstract is valid.  If
+-		not, the class will issue an appropriate error.
++		Adsorption isotherms are central to water-quality research, yet their fitted parameters are often compared across models as if they were physically interchangeable. This practice can be misleading because common isotherm equations differ in their asymptotic behavior, parameter dimensions, and assumptions about surface heterogeneity. Here, we propose a unified framework for adsorption isotherm analysis aimed at making capacity, affinity, and heterogeneity descriptors comparable across adsorbents, contaminants, and studies. The framework separates fitted model parameters from reportable physical descriptors and defines a minimum descriptor set consisting of the saturation capacity $Q_{\max}$, a dimensionless standard-state affinity $K_{\mathrm{aff}}^{\ast}$, the corresponding adsorption-energy descriptor $E_{\mathrm{ads}}$, and an energy-distribution width $\sigma_E$. We show that $Q_{\max}$ should be reported only for models with a finite saturation plateau, whereas non-saturating models such as Freundlich cannot provide a physically meaningful maximum capacity. Model-dependent affinity constants are recast through a declared standard-state concentration $C^0$, allowing thermodynamic comparison on a common scale. Surface heterogeneity is treated through the energy distributions implied by each isotherm family. In addition, we provide a practical workflow combining non-linear regression, residual metrics, information criteria, F-tests, physical decision rules, and optional KNN/SVM-based material classification. Together, these guidelines provide a reproducible route from raw isotherm data to statistically validated, physically interpretable, and cross-study comparable adsorption descriptors for water-treatment materials.
+ 	\end{abstract}
+ 	
+ 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@@ -368,14 +358,39 @@ See Eq.~\eqref{SI-eq:si_freundlich}.
+ 	\noindent\textbf{Notes.} ``Cond.'' indicates availability only in special parameter limits (e.g., $m=1$, $n_H=1$, $\beta=1$). ``$^*$.'' indicates an effective or operational definition; see the SI for explicit formulas and limits.
+ 	
+ 	
++	%\begin{figure}[H]
++	%	\centering
++	%	\includegraphics[width=\columnwidth]{Isotherms.drawio_crop.png}
++	%\caption{Workflow for adsorption isotherm model selection combining shape-based screening, AIC/F-test ranking, and physical validation via heterogeneity and energy distributions.}
++	%	\label{fig:isotherm_model_selection_workflow}
++	%\end{figure}
++	
+ 	\begin{figure}[H]
+ 		\centering
+-		\includegraphics[width=\columnwidth]{Isotherms.drawio_crop.png}
+-	\caption{Workflow for adsorption isotherm model selection combining shape-based screening, AIC/F-test ranking, and physical validation via heterogeneity and energy distributions.}
++		\includegraphics[width=\columnwidth]{Isotherms_02.drawio_A.png}
++		\caption{
++			Shape-based pre-screening of adsorption isotherm models. Experimental isotherms are first fitted with the full set of 13 candidate equations by non-linear least squares and then classified according to physically observable features, including the presence of a saturation plateau, microporous uptake behavior, sigmoidal adsorption, and restriction to an intermediate concentration range. This first decision layer separates models that can provide finite capacity descriptors from models that are better interpreted as local, empirical, or special-regime descriptions.
++		}
+ 		\label{fig:isotherm_model_selection_workflow}
+ 	\end{figure}
+-	
+-	
++
++	\begin{figure}[H]
++	\centering
++	\includegraphics[width=\columnwidth]{Isotherms_02.drawio_B.png}
++	\caption{
++		Statistical model-selection step used to decide whether a model more complex than Langmuir is justified. Candidate saturating models are ranked by the corrected Akaike information criterion (AIC$_c$), and the best three-parameter model is compared against Langmuir. When the improvement in AIC$_c$ is small or the F-test is not significant, the Langmuir model is retained as an adequate description, avoiding over-interpretation of weak heterogeneity.
++	}
++	\label{fig:isotherm_model_selection_workflow}
++	\end{figure}
++
++	\begin{figure}[H]
++	\centering
++	\includegraphics[width=\columnwidth]{Isotherms_02.drawio_C.png}
++	\caption{
++		Final physical-validation step for assigning the selected isotherm model to a reportable adsorption descriptor set. The best AIC$_c$ model is interpreted in terms of its implied energy-distribution family and limiting behavior. Sips and Tóth fits are checked for proximity to the Langmuir limit, while Jovanovic, UNILAN, Redlich--Peterson, and double-Langmuir outcomes are assigned according to their characteristic heterogeneity signatures. This step links statistical goodness of fit with physically meaningful descriptors such as finite capacity, affinity, and energy-distribution width.
++	}
++	\label{fig:isotherm_model_selection_workflow}
++	\end{figure}
+ 
+ 	% --- 2.2  Why Qmax values are not comparable ---
+ \subsection{Why $Q_{\max}$ values are not always comparable}
+@@ -503,8 +518,8 @@ It should be emphasized that the numerical value of $K_{\mathrm{aff}}^{\ast}$ de
+ 
+ The standard-state adsorption energy is obtained directly from the dimensionless equilibrium constant:
+ \begin{equation}
+-	E_{\mathrm{ads}} = 
+-	- RT \ln K_{\mathrm{aff}}^{\ast}.
++	E_{\mathrm{aff}} = -\Delta G^0_{\mathrm{ads}}
++	= RT \ln K_{\mathrm{aff}}^{\ast}.
+ 	\label{eq:Eads}
+ \end{equation}
+ Because $K_{\mathrm{aff}}^{\ast}$ is dimensionless, the logarithmic term is also dimensionless:
+@@ -1239,7 +1254,7 @@ Importantly, the use of information criteria does not imply that one model is 
+ 	We recommend a seven-step pipeline:
+ 	\begin{enumerate}
+ 		\item \textbf{Data collection.} Record $q_e$--$C_e$ pairs at constant $T$ and pH, with at least $n \geq 8$ points spanning the linear, transition, and plateau regions.
+-		\item \textbf{Non-linear fitting.} Fit all candidate models by non-linear least squares (Section~\ref{sec:fitting}).
++		\item \textbf{Non-linear fitting.} Fit all models as a diagnostic library, but interpret only the models that are physically admissible, statistically supported, and identifiable from the available data. (Section~\ref{sec:fitting}).
+ 		\item \textbf{Error metrics.} Compute SSE, $R^2$, $R^2_{\mathrm{adj}}$, ARED, and HYBRID for each model (Section~\ref{SI-sec:si_residuals}).
+ 		\item \textbf{Model selection.} Rank by AIC$_c$; apply F-tests for nested pairs; apply physical decision criteria (Section~\ref{sec:Ftest}, Figure~\ref{SI-fig:si_decision_tree}).
+ 		\item \textbf{Descriptor extraction.} From the selected model, compute $Q_{\max}$, $K_{\mathrm{aff}}^{\ast}$, $E_{\mathrm{ads}}$, and $\sigma_E$ (Table~\ref{tab:extraction}).
+@@ -1266,6 +1281,19 @@ Importantly, the use of information criteria does not imply that one model is 
+ 	\section{Conclusions}
+ 	\label{sec:conclusions}
+ 
++	
++	Adsorption isotherms remain indispensable tools for evaluating materials for water-quality applications, but their fitted parameters cannot be treated as universally interchangeable quantities. This work shows that many common comparisons in the adsorption literature mix parameters with different dimensions, different limiting behavior, and different physical meaning. In particular, a maximum capacity should only be reported when the selected model contains a finite saturation plateau. Non-saturating models such as Freundlich may be useful empirical descriptions over a limited concentration range, but they do not define an intrinsic \(Q_{\max}\) and should not be used to rank materials by maximum uptake.
++	
++	To address this problem, we proposed a unified reporting framework that separates model fitting from descriptor extraction. The final result of an isotherm analysis should be reduced, whenever possible, to a common descriptor set:
++	\[
++	\{Q_{\max}, K_{\mathrm{aff}}^{\ast}, E_{\mathrm{ads}}, \sigma_H\}.
++	\]
++	Here, \(Q_{\max}\) describes the finite adsorption capacity, \(K_{\mathrm{aff}}^{\ast}\) places affinity on a dimensionless standard-state scale, \(E_{\mathrm{ads}}\) expresses this affinity as an adsorption-energy descriptor, and \(\sigma_H\) quantifies intrinsic surface heterogeneity. This fingerprint allows adsorption data obtained from different isotherm models to be compared in a physically meaningful way, provided that the standard-state concentration \(C^0\), experimental conditions, fitted parameters, and uncertainty metrics are explicitly reported.
++	
++	The framework also provides a practical route for model selection. Rather than relying on \(R^2\) alone, the proposed workflow combines non-linear regression, residual-based metrics, information criteria, nested-model tests, and physical validation based on limiting behavior and energy-distribution families. This approach helps distinguish cases where Langmuir is sufficient from cases where heterogeneous models such as Sips, Tóth, UNILAN, Jovanovic, or double Langmuir are genuinely justified. It also prevents over-interpretation of small statistical improvements that do not correspond to physically meaningful differences in adsorption behavior.
++	
++	Finally, the descriptor-based structure of the framework makes adsorption data more suitable for cross-study comparison, uncertainty analysis, and machine-learning classification. By converting model-specific fitting results into a common set of thermodynamic and heterogeneity descriptors, adsorption studies can move from isolated parameter tables toward reproducible structure--performance relationships across adsorbents, contaminants, and water matrices. The proposed guidelines are therefore not intended to impose a single preferred isotherm model, but to ensure that whichever model is used, the reported quantities remain transparent, comparable, and physically interpretable.
++
+ 	% The current practice of tabulating $Q_{\max}$ and affinity constants from different isotherm models as though they were interchangeable is mathematically inconsistent and physically misleading. Units, asymptotic behavior, and the physical meaning of fitted parameters vary from model to model, making direct comparisons unreliable.
+ 
+ 	% This work proposes a reporting framework that resolves the incompatibility through three measures. First, maximum capacity $Q_{\max}$ should be reported only from isotherm models that define a finite saturation plateau; the Freundlich equation, which lacks this feature, is unsuitable for capacity comparison. Second, raw affinity constants should be replaced by the standard-state adsorption energy $E_{\mathrm{ads}} = RT\ln K_{\mathrm{aff}}^{\ast}$, derived from a dimensionless equilibrium constant normalised by a declared standard-state concentration $C^{0}$. This places all models on a common thermodynamic scale. Third, the energy-distribution width $\sigma_E$ provides a universal measure of surface heterogeneity, enabling differentiation between homogeneous and heterogeneous surfaces regardless of the model chosen.
+@@ -1276,7 +1304,7 @@ Importantly, the use of information criteria does not imply that one model is 
+ 
+ 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 	\begin{acknowledgement}
+-		%TODO
++		This work was partially supported by the J-PEAKS program of JSPS. 
+ 	\end{acknowledgement}
+ 
+ 	\begin{suppinfo}
