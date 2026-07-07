@@ -1,0 +1,53 @@
+diff --git a/SI_20260706_1550.tex b/SI_20260706_1550.tex
+index e08d272..8287187 100644
+--- a/SI_20260706_1550.tex
++++ b/SI_20260706_1550.tex
+@@ -926,8 +926,11 @@ The D-R/D-A isotherms are
+ The D-R model corresponds to $n_{DA} = 2$.
+ Here, $C_{\mathrm{ref}}$ is a reference concentration (typically $1~\mathrm{mg\,L^{-1}}$ or $1~\mathrm{mol\,L^{-1}}$) introduced to maintain dimensional consistency, as adding $1$ to a reciprocal concentration with physical units is mathematically invalid.
+ 
+-\begin{bluebox}{To Discuss: Dubinin Normalization}
+-Do you agree with the explicit use of $C_{\mathrm{ref}}$ in the Polanyi potential to resolve the unit inconsistency in the D-R/D-A equation?
++\begin{bluebox}{Normalization convention}
++The Polanyi potential is written with an explicit reference concentration,
++\(\varepsilon = RT\ln(1+C_{\mathrm{ref}}/C_e)\), so the logarithm remains
++dimensionless. The chosen \(C_{\mathrm{ref}}\) must be reported in the same
++concentration units as \(C_e\).
+ \end{bluebox}
+ 
+ \subsubsection{High concentration limit: finite $Q_{\max}$}
+@@ -2278,7 +2281,9 @@ Langmuir (logistic) distribution.
+ 
+ \paragraph{Polanyi potential.}
+ D-R and D-A operate in the Polanyi adsorption potential
+-$\varepsilon = RT\ln(1 + 1/C_e)$ rather than directly in $E$.
++$\varepsilon = RT\ln(1 + C_{\mathrm{ref}}/C_e)$ rather than directly in $E$.
++Here \(C_{\mathrm{ref}}\) is a declared reference concentration in the same
++units as \(C_e\), ensuring that the logarithm is dimensionless.
+ The isotherm is
+ \begin{equation}
+ 	q_e = Q_{\max}\exp\!\left[-\!\left(\frac{\varepsilon}{E_a}\right)^{\!n_{DA}}\right].
+diff --git a/main_20260706_1550.tex b/main_20260706_1550.tex
+index 8ae0fe4..948878a 100644
+--- a/main_20260706_1550.tex
++++ b/main_20260706_1550.tex
+@@ -268,8 +268,8 @@ See Eq.~\eqref{SI-eq:si_freundlich}.
+ 	See Eq.~\eqref{SI-eq:si_sips}.
+ 
+ 	\begin{mdframed}
+-	\noindent\textbf{To Discuss: Sips Constant Parameterization} \\
+-	Is it appropriate to keep the Sips affinity constant outside the parentheses in the main equation to align with the parameterization used in the SI?
++	\noindent\textbf{Parameterization note.}
++	In this manuscript, the Sips constant is defined outside the concentration exponent, \(K_S C_e^m\), consistently in the main text, SI, and fitting code. With this convention \(K_S\) carries units of \([C]^{-m}\), and the reciprocal-concentration affinity used for descriptor extraction is \(K_S^{1/m}\).
+ 	\end{mdframed}
+ 	
+ 	As shown in Figure~\ref{fig:isotherm_model_selection_workflow}, the model selection procedure combines physical screening, statistical comparison, and physicochemical validation.
+@@ -749,7 +749,7 @@ Thus, $E_{\mathrm{ads}}$ has units of $\mathrm{kJ\,mol^{-1}}$ and is thermodynam
+ 
+ 		\item \textbf{Divergent and non-analytical cases.} Freundlich has $\sigma_E = \infty$, directly reflecting the absence of~$Q_{\max}$. Redlich--Peterson and Radke--Prausnitz yield empirical distributions without closed-form variances.
+ 
+-		\item \textbf{Dubinin models.} D-R and D-A operate in the Polanyi adsorption potential $\varepsilon = RT\ln(1+1/C_e)$. The distribution in $\varepsilon$ is Weibull; the D-R case ($n_{DA} = 2$) gives the Rayleigh distribution with $\sigma_\varepsilon \approx 0.463\,E_a$.
++		\item \textbf{Dubinin models.} D-R and D-A operate in the Polanyi adsorption potential $\varepsilon = RT\ln(1+C_{\mathrm{ref}}/C_e)$, where \(C_{\mathrm{ref}}\) is reported in the same concentration units as \(C_e\). The distribution in $\varepsilon$ is Weibull; the D-R case ($n_{DA} = 2$) gives the Rayleigh distribution with $\sigma_\varepsilon \approx 0.463\,E_a$.
+ 	\end{itemize}
+ 
+ 	% --- 4.3  Physical interpretation of sigma_E ---
