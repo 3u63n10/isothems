@@ -1,0 +1,828 @@
+diff --git a/SI_20260707_1641.tex b/SI_20260707_1641.tex
+index deb833b..64932d9 100644
+--- a/SI_20260707_1641.tex
++++ b/SI_20260707_1641.tex
+@@ -1,4 +1,4 @@
+-﻿% Agent note (Codex, 2026-07-07 16:41 JST):
++% Agent note (Codex, 2026-07-07 16:41 JST):
+ % New no-overwrite supplementary-information copy created after the user
+ % requested correction of the internal timestamp. This version preserves the prior reviewed SI corrections, updates cross-document links to
+ % main_20260707_1641, keeps notebook appendix blocks and exported notebook figures,
+@@ -11,7 +11,7 @@
+ \documentclass[journal=jacsat,manuscript=article]{achemso}
+ 
+ % -------------------------------
+-% --- Encoding and Fonts ---
++% --- Encoding and Fonts ---  
+ % -------------------------------
+ \usepackage[T1]{fontenc}
+ 
+diff --git a/main_20260707_1641.pdf b/main_20260707_1641.pdf
+index dfa7441..c609ac3 100644
+--- a/main_20260707_1641.pdf
++++ b/main_20260707_1641.pdf
+@@ -234,12 +234,12 @@ is retained as an adequate description, avoiding over-interpretation of weak het
+ 
+                                                           9
+     Figure 3: Final physical-validation step for assigning the selected isotherm model to a re-
+-    portable adsorption descriptor set. The best AICc model is interpreted in terms of its im-
+-    plied energy-distribution family and limiting behavior. Sips and TÃ³th fits are checked for
+-    proximity to the Langmuir limit, while Jovanovic, UNILAN, Redlich–Peterson, and double-
+-    Langmuir outcomes are assigned according to their characteristic heterogeneity signatures.
+-    This step links statistical goodness of fit with physically meaningful descriptors such as finite
+-    capacity, affinity, and energy-distribution width.
++    portable adsorption descriptor set. The best AICc model is interpreted in terms of its implied
++    energy-distribution family and limiting behavior. Sips and Tóth fits are checked for proximity
++    to the Langmuir limit, while Jovanovic, UNILAN, Redlich–Peterson, and double-Langmuir
++    outcomes are assigned according to their characteristic heterogeneity signatures. This step
++    links statistical goodness of fit with physically meaningful descriptors such as finite capacity,
++    affinity, and energy-distribution width.
+ 
+ 100 2.2 Why Qmax values are not always comparable
+ 
+@@ -662,7 +662,7 @@ OVL = min[f1(E), f2(E)] dE, 0 ≤ OVL ≤ 1.  (28)
+ 293 low overlap indicates physically distinct heterogeneity patterns.
+ 294 More broadly, the descriptor set
+ 
+-    d = {Qmax, Eads, σH }                 (29)
++    F = {Qmax, Ka∗ff , Eads, σH } .       (29)
+ 
+ 295 defines a compact, physically interpretable feature space for adsorption systems. Within this
+ 
+@@ -849,42 +849,53 @@ BIC = n ln    SSE      + p ln n,                              (32)
+ 399  tion
+ 
+ 400 The KNN and SVM examples are intended as downstream demonstrations of how the stan-
++
+ 401 dardized descriptor table can be used once a sufficiently large labelled dataset exists. They
+-402 are not used here to claim predictive performance of a trained classifier. Once the stan-
+-403 dardized descriptors {Qmax, ln Ka∗ff, σH} (Eq. (11)) have been extracted for a collection of
+-404 adsorbent–adsorbate systems, materials can be classified in this descriptor space without
+-405 imposing a parametric model on the group boundaries. The k-Nearest Neighbours (KNN)
+-406 algorithm assigns a query material to the class most common among its k closest neighbours:
+ 
+-           yˆ(xq) = arg max                            1[yi = c],          (35)
++402 are not used here to claim predictive performance of a trained classifier.
++
++403 For classification and clustering, the reporting fingerprint is converted into the standard-
++
++404 ized feature vector
++
++                         x = (Qmax, ln Ka∗ff , σH ) ,                           (35)
++
++405 where Qmax captures capacity, ln Ka∗ff captures standard-state affinity on an additive scale,
++406 and σH captures the reported model-implied heterogeneity.
++407 Once the feature vector in Eq. (35) has been extracted for a collection of adsorbent–
++408 adsorbate systems, materials can be classified in this descriptor space without imposing a
++409 parametric model on the group boundaries. The k-Nearest Neighbours (KNN) algorithm
++410 assigns a query material to the class most common among its k closest neighbours:
++
++                         yˆ(xq) = arg max              1[yi = c],               (36)
+                                         c
+ 
+                                            i∈Nk (xq )
+ 
+-407 where Nk(xq) denotes the set of k nearest neighbours of the query point xq in the standardised
+-408 descriptor space, and 1[·] is the indicator function. Because KNN is non-parametric and
+-409 requires no assumption about group geometry, it is well suited for exploratory classification
+-410 tasks such as:
++411 where Nk(xq) denotes the set of k nearest neighbours of the query point xq in the standardised
++412 descriptor space, and 1[·] is the indicator function. Because KNN is non-parametric and
++413 requires no assumption about group geometry, it is well suited for exploratory classification
++414 tasks such as:
+ 
+-411 • Performance grouping: sorting adsorbents into high-, medium-, and low-capacity
++415 • Performance grouping: sorting adsorbents into high-, medium-, and low-capacity
+ 
+-412  tiers based on (Qmax, ln Ka∗ff ).
++416  tiers based on (Qmax, ln Ka∗ff ).
+ 
+-413 • Material family identification: given a reference library, predicting whether a new
++                                           27
++417 • Material family identification: given a reference library, predicting whether a new
+ 
+-414  material behaves like an activated carbon, zeolite, MOF, or biochar.
++418  material behaves like an activated carbon, zeolite, MOF, or biochar.
+ 
+-415 • Pollutant selectivity: classifying adsorbent–adsorbate pairs by target contaminant
++419 • Pollutant selectivity: classifying adsorbent–adsorbate pairs by target contaminant
+ 
+-416  class (e.g. heavy metals, dyes, pharmaceuticals, PFAS).
++420  class (e.g. heavy metals, dyes, pharmaceuticals, PFAS).
+ 
+-                                           27
+-417 • Homogeneity screening: separating materials with near-homogeneous surfaces (σH ≈
++421 • Homogeneity screening: separating materials with near-homogeneous surfaces (σH ≈
+ 
+-418  0) from those with broad energy distributions (σH ≫ RT ).
++422  0) from those with broad energy distributions (σH ≫ RT ).
+ 
+-419 Figure 4 illustrates the first of these tasks for three synthetic performance groups projected
+-420 onto the (Qmax, ln Ka∗ff ) plane.
++423 Figure 4 illustrates the first of these tasks for three synthetic performance groups projected
++424 onto the (Qmax, ln Ka∗ff ) plane.
+ 
+      Figure 4: k-Nearest Neighbours classification of adsorbent materials in the standardized de-
+      scriptor space (Qmax, ln Ka∗ff). Three performance groups are shown: Group 1 (low capacity),
+@@ -893,391 +904,361 @@ BIC = n ln    SSE      + p ln n,                              (32)
+      data are shown only to illustrate the classification workflow and should not be interpreted
+      as classifier validation
+ 
+-421 5.5 Material classification by Support Vector Machines
+-
+-422 When the classification task requires a well-defined decision boundary, a Support Vector
+-423 Machine (SVM) finds the maximum-margin separating hyperplane in descriptor space:
+-
+-     min   1  ∥w∥2  +  Creg     ξi,      yi(w · xi + b) ≥ 1 − ξi,  (36)
+-           2
+-     w, b                    i
+-
+-                                     28
+-424 where w is the normal to the hyperplane, b is the bias, ξi are slack variables for misclas-
+-425 sified points, and Creg controls the trade-off between margin width and classification error.
+-426 The support vectors—the data points that lie on or within the margin—define the bound-
+-427 ary entirely. Figure 5a shows a linear SVM separating two classes of adsorbents in the
+-428 (Qmax, ln Ka∗ff ) plane (Eq. (11)).
+-429 When the full harmonized descriptor set {Qmax, ln Ka∗ff, σH} is used, the SVM operates in
+-430 three dimensions and the decision boundary becomes a plane (Figure 5b). For non-linearly
+-431 separable data an RBF kernel K(xi, xj) = exp(−γ∥xi − xj∥2) replaces the linear kernel,
+-432 producing curved decision surfaces that can capture complex group boundaries while still
+-433 being defined entirely by the support vectors.
+-
+-(a)  (b)
++                                                              28
++425 5.5 Material classification by Support Vector Machines
+ 
+-    Figure 5: Support Vector Machine classification of adsorbent materials. (a) Two-dimensional
+-    projection onto the (Qmax, ln Ka∗ff) plane: the solid line is the decision boundary w·x + b =
+-    0; dashed lines indicate the margin boundaries; support vectors are circled. (b) Three-
+-    dimensional descriptor space (Qmax, ln Ka∗ff, σH): decision boundaries are now planes (or
+-    curved surfaces when an RBF kernel is used). Three performance groups and two inter-
+-    group boundaries are shown; support vectors are marked with black circles. Note: These
+-    synthetic data are shown only to illustrate the classification workflow and should not be
+-    interpreted as classifier validation
++426 When the classification task requires a well-defined decision boundary, a Support Vector
++427 Machine (SVM) finds the maximum-margin separating hyperplane in descriptor space:
+ 
+-434 Categorical variables—such as material type (e.g. activated carbon, zeolite, MOF), best-
++min   1  ∥w∥2  +  Creg     ξi,      yi(w · xi + b) ≥ 1 − ξi,  (37)
++      2
++w, b                    i
+ 
+-435 fit isotherm model, or synthesis route—can be incorporated into the SVM framework through
++428 where w is the normal to the hyperplane, b is the bias, ξi are slack variables for misclas-
++429 sified points, and Creg controls the trade-off between margin width and classification error.
++430 The support vectors—the data points that lie on or within the margin—define the bound-
++431 ary entirely. Figure 5a shows a linear SVM separating two classes of adsorbents in the
++432 (Qmax, ln Ka∗ff ) plane (Eq. (11)).
++433 When the full harmonized descriptor set {Qmax, ln Ka∗ff, σH} is used, the SVM operates in
++434 three dimensions and the decision boundary becomes a plane (Figure 5b). For non-linearly
++435 separable data an RBF kernel K(xi, xj) = exp(−γ∥xi − xj∥2) replaces the linear kernel,
++436 producing curved decision surfaces that can capture complex group boundaries while still
++437 being defined entirely by the support vectors.
+ 
+-436 one-hot encoding. Each category is expanded into binary indicator features that enter xi
++                                29
++     (a)      (b)
+ 
+-437 alongside the continuous descriptors (Qmax, ln Ka∗ff, σH). In the resulting augmented feature
++     Figure 5: Support Vector Machine classification of adsorbent materials. (a) Two-dimensional
++     projection onto the (Qmax, ln Ka∗ff) plane: the solid line is the decision boundary w·x + b =
++     0; dashed lines indicate the margin boundaries; support vectors are circled. (b) Three-
++     dimensional descriptor space (Qmax, ln Ka∗ff, σH): decision boundaries are now planes (or
++     curved surfaces when an RBF kernel is used). Three performance groups and two inter-
+ 
+-                                                              29
+-438 space the SVM decision boundary is no longer a plane but a hyperplane whose dimensionality
+-439 equals the total number of features minus one. For a problem with p continuous descriptors
+-440 and q one-hot columns the separating surface lives in Rp+q and its projection onto any two-
+-441 dimensional descriptor pair produces the familiar boundary visualised in Figure 5a. Typical
+-442 SVM classification tasks in adsorption studies include:
++     group boundaries are shown; support vectors are marked with black circles. Note: These
+ 
+-443 • Binary screening: suitable vs. unsuitable adsorbents for a given application (e.g.
++     synthetic data are shown only to illustrate the classification workflow and should not be
+ 
+-444  materials exceeding a regulatory removal threshold for drinking water).
++     interpreted as classifier validation
+ 
+-445 • Model-type separation: distinguishing systems that are best described by a Langmuir-
++438 Categorical variables—such as material type (e.g. activated carbon, zeolite, MOF), best-
++439 fit isotherm model, or synthesis route—can be incorporated into the SVM framework through
++440 one-hot encoding. Each category is expanded into binary indicator features that enter xi
++441 alongside the continuous descriptors (Qmax, ln Ka∗ff, σH). In the resulting augmented feature
++442 space the SVM decision boundary is no longer a plane but a hyperplane whose dimensionality
++443 equals the total number of features minus one. For a problem with p continuous descriptors
++444 and q one-hot columns the separating surface lives in Rp+q and its projection onto any two-
++445 dimensional descriptor pair produces the familiar boundary visualised in Figure 5a. Typical
++446 SVM classification tasks in adsorption studies include:
+ 
+-446  type isotherm (σH ≈ 0) from those requiring a heterogeneous model (Sips, Tóth).
++447 • Binary screening: suitable vs. unsuitable adsorbents for a given application (e.g.
+ 
+-447 • Material-class boundaries: separating material families (activated carbon vs. zeolite
++448       materials exceeding a regulatory removal threshold for drinking water).
+ 
+-448  vs. MOF) in the descriptor space, using one-hot encoded material type as additional
++449 • Model-type separation: distinguishing systems that are best described by a Langmuir-
+ 
+-449  features.
++450       type isotherm (σH ≈ 0) from those requiring a heterogeneous model (Sips, Tóth).
+ 
+-450 • Multi-class ranking: extending the binary SVM via one-vs-one or one-vs-all strate-
++          30
++451 • Material-class boundaries: separating material families (activated carbon vs. zeolite
+ 
+-451  gies to classify adsorbents into three or more performance groups (as in Figure 5b).
++452  vs. MOF) in the descriptor space, using one-hot encoded material type as additional
+ 
+-452 Both KNN and SVM operate on the same standardized descriptor table (Eq. S-191)
+-453 with Euclidean distance (Eq. S-193). Ward’s hierarchical clustering (Eq. S-199) provides
+-454 an unsupervised alternative when class labels are unknown. The key advantage is that all
+-455 three methods operate on model-harmonized descriptors, ensuring that the grouping reflects
+-456 intrinsic adsorption performance rather than artefacts of different fitting models. The full
+-457 mathematical details of all clustering and classification methods are given in Section S-5.
++453  features.
+ 
+-6 458 Worked example: from fits to a reported fingerprint
++454 • Multi-class ranking: extending the binary SVM via one-vs-one or one-vs-all strate-
+ 
+-459 A practical reporting workflow can be summarized as follows. After fitting the candidate
+-460 models, models that fail convergence, physical admissibility, or parameter identifiability
+-461 checks are marked as diagnostic rather than accepted models. Among the remaining models,
++455  gies to classify adsorbents into three or more performance groups (as in Figure 5b).
+ 
+-                                                              30
+-462 information criteria and nested-model tests are used to decide whether the extra parameters
+-463 are justified by the data. The final reported fingerprint is then extracted only from the
+-464 selected physically admissible model:
++456 Both KNN and SVM operate on the same standardized descriptor table (Eq. S-191)
++457 with Euclidean distance (Eq. S-193). Ward’s hierarchical clustering (Eq. S-199) provides
++458 an unsupervised alternative when class labels are unknown. The key advantage is that all
++459 three methods operate on model-harmonized descriptors, ensuring that the grouping reflects
++460 intrinsic adsorption performance rather than artefacts of different fitting models. The full
++461 mathematical details of all clustering and classification methods are given in Section S-5.
+ 
+-                           {Qmax, Ka∗ff , Eads, σH }.
++6 462 Recommended reporting guidelines
+ 
+-     Table 5: Reader-facing example of model triage before descriptor reporting. The numbers
+-     are illustrative; the logic, not the synthetic values, is the point of the table.
++463 The following guidelines distill the preceding analysis into a practical reporting framework.
++464 Their goal is not to prescribe a single isotherm model but to ensure that, regardless of which
++465 model is selected, the published results are sufficient for cross-study comparison.
+ 
+-     Model       Converged Physical  Identifiable Reporting status
++466 6.1 Minimum reporting set
+ 
+-     Langmuir    yes  yes            yes                  admissible baseline
++467 For every adsorbent–adsorbate system analysed, the following quantities should be reported:
+ 
+-     Sips        yes  yes            yes                  selected if ∆AICc justifies heterogeneity
++468 1. Experimental conditions: temperature T , pH, ionic strength, and the declared
+ 
+-     Freundlich  yes  window-only no finite Qmax diagnostic fit, no full fingerprint
++469  standard-state concentration C0 (with units).
+ 
+-     BET         yes  range-limited conditional report only within validated regime
++470 2. Model fit: best-fit model name, all fitted parameters θ with units and confidence
+ 
+-465 This example is intentionally simple. It shows why a visually good fit is not sufficient by
+-466 itself: a model can be useful for interpolation while still being unsuitable for reporting the
+-467 complete thermodynamic fingerprint.
++471  intervals, and at least SSE, R2, ARED, and AICc.
+ 
+-7 468 Recommended reporting guidelines
++472 3. Reported descriptors: Qmax (mg g−1), Ka∗ff (dimensionless), Eads (kJ mol−1), and
+ 
+-469 The following guidelines distill the preceding analysis into a practical reporting framework.
+-470 Their goal is not to prescribe a single isotherm model but to ensure that, regardless of which
+-471 model is selected, the published results are sufficient for cross-study comparison.
++473  σH (kJ mol−1).
+ 
+-472 7.1 Minimum reporting set
++                               31
++474 4. Comparison metrics (when applicable): OVL between competing model distribu-
+ 
+-473 For every adsorbent–adsorbate system analysed, the following quantities should be reported:
++475  tions and/or cluster labels from KNN/SVM classification.
+ 
+-474 1. Experimental conditions: temperature T , pH, ionic strength, and the declared
++476 The complete minimum reporting table is given in Table S-3; the extraction formulas for
++477 each model are collected in Table S-4.
+ 
+-475        standard-state concentration C0 (with units).
++478 6.2 Recommended analysis workflow
+ 
+-                                     31
+-476 2. Model fit: best-fit model name, all fitted parameters θ with units and confidence
++479 We recommend a seven-step pipeline:
+ 
+-477  intervals, and at least SSE, R2, ARED, and AICc.
++480 1. Data collection. Record qe–Ce pairs at constant T and pH, with at least n ≥ 8 points
+ 
+-478 3. Reported descriptors: Qmax (mg g−1), Ka∗ff (dimensionless), Eads (kJ mol−1), and
++481  spanning the linear, transition, and plateau regions.
+ 
+-479  σH (kJ mol−1).
++482 2. Non-linear fitting. Fit all models as a diagnostic library, but interpret only the
+ 
+-480 4. Comparison metrics (when applicable): OVL between competing model distribu-
++483  models that are physically admissible, statistically supported, and identifiable from
+ 
+-481  tions and/or cluster labels from KNN/SVM classification.
++484  the available data. (Section 5.1).
+ 
+-482 The complete minimum reporting table is given in Table S-3; the extraction formulas for
+-483 each model are collected in Table S-4.
++485 3. Error metrics. Compute SSE, R2, Ra2dj, ARED, and HYBRID for each model (Sec-
+ 
+-484 7.2 Recommended analysis workflow
++486  tion S-2.1).
+ 
+-485 We recommend a seven-step pipeline:
++487 4. Model selection. Rank by AICc; apply F-tests for nested pairs; apply physical
+ 
+-486 1. Data collection. Record qe–Ce pairs at constant T and pH, with at least n ≥ 8 points
++488  decision criteria (Section 5.3, Figure S-1).
+ 
+-487  spanning the linear, transition, and plateau regions.
++489 5. Descriptor extraction. From the selected model, compute Qmax, Ka∗ff , Eads, and σH
+ 
+-488 2. Non-linear fitting. Fit all models as a diagnostic library, but interpret only the
++490  (Table 2).
+ 
+-489  models that are physically admissible, statistically supported, and identifiable from
++491 6. Statistical comparison. Compute OVL between energy distributions of alternative
+ 
+-490  the available data. (Section 5.1).
++492  models or between different materials (Section S-3.2).
+ 
+-491 3. Error metrics. Compute SSE, R2, Ra2dj, ARED, and HYBRID for each model (Sec-
++493 7. Classification. Map materials into the standardised descriptor space and apply clus-
+ 
+-492  tion S-2.1).
+-
+-493 4. Model selection. Rank by AICc; apply F-tests for nested pairs; apply physical
+-
+-494  decision criteria (Section 5.3, Figure S-1).
+-
+-495 5. Descriptor extraction. From the selected model, compute Qmax, Ka∗ff , Eads, and σH
+-
+-496  (Table 2).
+-
+-497 6. Statistical comparison. Compute OVL between energy distributions of alternative
+-
+-498  models or between different materials (Section S-3.2).
++494  tering or supervised classification (Section 5.4, Section 5.5).
+ 
+                                          32
+-499 7. Classification. Map materials into the standardised descriptor space and apply clus-
++495 6.3 Practical recommendations
+ 
+-500  tering or supervised classification (Section 5.4, Section 5.5).
++496 • Never linearise. Linearised isotherm forms distort the error structure and bias the
+ 
+-501 7.3 Practical recommendations
++497  fitted parameters. Always use non-linear regression.
+ 
+-502 • Never linearise. Linearised isotherm forms distort the error structure and bias the
++498 • Do not report Qmax from the Freundlich equation. The Freundlich isotherm has
+ 
+-503  fitted parameters. Always use non-linear regression.
++499  no saturation; any “capacity” derived from it is a concentration-window artefact.
+ 
+-504 • Do not report Qmax from the Freundlich equation. The Freundlich isotherm has
++500 • Always declare C0. The numerical value of Eads depends on C0; omitting it renders
+ 
+-505  no saturation; any “capacity” derived from it is a concentration-window artefact.
++501  the result non-reproducible. Differences ∆Eads between materials measured under the
+ 
+-506 • Always declare C0. The numerical value of Eads depends on C0; omitting it renders
++502  same C0 are invariant.
+ 
+-507  the result non-reproducible. Differences ∆Eads between materials measured under the
++503 • Report confidence intervals. Bootstrap or Monte Carlo uncertainties on Qmax,
+ 
+-508  same C0 are invariant.
++504  Eads, and σH should accompany every table entry.
+ 
+-509 • Report confidence intervals. Bootstrap or Monte Carlo uncertainties on Qmax,
++505 • Use σH to assess model necessity. If the best 3-parameter model yields only weak
+ 
+-510  Eads, and σH should accompany every table entry.
++506  heterogeneity, e.g. σH ≤ 2RT or, for Sips, m remains close to 1 within uncertainty, the
+ 
+-511 • Use σH to assess model necessity. If the best 3-parameter model yields only weak
++507  Langmuir model is likely sufficient and the extra parameter is not justified (Eq. S-139).
+ 
+-512  heterogeneity, e.g. σH ≤ 2RT or, for Sips, m remains close to 1 within uncertainty, the
++508 • Prefer the simplest adequate model. Among models with ∆AICc < 2, report the
+ 
+-513  Langmuir model is likely sufficient and the extra parameter is not justified (Eq. S-139).
++509  one with the fewest parameters.
+ 
+-514 • Prefer the simplest adequate model. Among models with ∆AICc < 2, report the
++7 510 Conclusions
+ 
+-515  one with the fewest parameters.
++511 Adsorption isotherms remain indispensable tools for evaluating materials for water-quality
++512 applications, but their fitted parameters cannot be treated as universally interchangeable
++513 quantities. This work shows that many common comparisons in the adsorption literature
++514 mix parameters with different dimensions, different limiting behavior, and different physical
++515 meaning. In particular, a maximum capacity should only be reported when the selected
++516 model contains a finite saturation plateau. Non-saturating models such as Freundlich may
+ 
+-8 516 Conclusions
+-
+-517 Adsorption isotherms remain indispensable tools for evaluating materials for water-quality
+-518 applications, but their fitted parameters cannot be treated as universally interchangeable
+-519 quantities. This work shows that many common comparisons in the adsorption literature
+-520 mix parameters with different dimensions, different limiting behavior, and different physical
+-
+-                                                              33
+-521 meaning. In particular, a maximum capacity should only be reported when the selected
+-522 model contains a finite saturation plateau. Non-saturating models such as Freundlich may
+-523 be useful empirical descriptions over a limited concentration range, but they do not define
+-524 an intrinsic Qmax and should not be used to rank materials by maximum uptake.
+-525 To address this problem, we proposed a unified reporting framework that separates model
+-526 fitting from descriptor extraction. The final result of an isotherm analysis should be reduced,
+-527 whenever possible, to a common descriptor set:
++                                      33
++517 be useful empirical descriptions over a limited concentration range, but they do not define
++518 an intrinsic Qmax and should not be used to rank materials by maximum uptake.
++519 To address this problem, we proposed a unified reporting framework that separates model
++520 fitting from descriptor extraction. The final result of an isotherm analysis should be reduced,
++521 whenever possible, to a common descriptor set:
+ 
+                                                  {Qmax, Ka∗ff , Eads, σH }.
+ 
+-528 Here, Qmax describes the finite adsorption capacity, Ka∗ff places affinity on a dimensionless
+-529 standard-state scale, Eads expresses this affinity as an adsorption-energy descriptor, and σH
+-530 quantifies intrinsic surface heterogeneity. This fingerprint allows adsorption data obtained
+-531 from different isotherm models to be compared in a physically meaningful way, provided
+-532 that the standard-state concentration C0, experimental conditions, fitted parameters, and
+-533 uncertainty metrics are explicitly reported.
+-534 The framework also provides a practical route for model selection. Rather than relying
+-535 on R2 alone, the proposed workflow combines non-linear regression, residual-based metrics,
+-536 information criteria, nested-model tests, and physical validation based on limiting behavior
+-537 and energy-distribution families. This approach helps distinguish cases where Langmuir is
+-538 sufficient from cases where heterogeneous models such as Sips, TÃ³th, UNILAN, Jovanovic,
+-539 or double Langmuir are genuinely justified. It also prevents over-interpretation of small
+-540 statistical improvements that do not correspond to physically meaningful differences in ad-
+-541 sorption behavior.
+-542 Finally, the descriptor-based structure of the framework makes adsorption data more
+-543 suitable for cross-study comparison, uncertainty analysis, and machine-learning classifica-
+-544 tion. By converting model-specific fitting results into a common set of thermodynamic and
++522 Here, Qmax describes the finite adsorption capacity, Ka∗ff places affinity on a dimensionless
++523 standard-state scale, Eads expresses this affinity as an adsorption-energy descriptor, and σH
++524 quantifies intrinsic surface heterogeneity. This fingerprint allows adsorption data obtained
++525 from different isotherm models to be compared in a physically meaningful way, provided
++526 that the standard-state concentration C0, experimental conditions, fitted parameters, and
++527 uncertainty metrics are explicitly reported.
++528 The framework also provides a practical route for model selection. Rather than relying
++529 on R2 alone, the proposed workflow combines non-linear regression, residual-based metrics,
++530 information criteria, nested-model tests, and physical validation based on limiting behavior
++531 and energy-distribution families. This approach helps distinguish cases where Langmuir is
++532 sufficient from cases where heterogeneous models such as Sips, Tóth, UNILAN, Jovanovic, or
++533 double Langmuir are genuinely justified. It also prevents over-interpretation of small statis-
++534 tical improvements that do not correspond to physically meaningful differences in adsorption
++535 behavior.
++536 Finally, the descriptor-based structure of the framework makes adsorption data more
++537 suitable for cross-study comparison, uncertainty analysis, and machine-learning classifica-
++538 tion. By converting model-specific fitting results into a common set of thermodynamic and
++539 heterogeneity descriptors, adsorption studies can move from isolated parameter tables to-
++540 ward reproducible structure–performance relationships across adsorbents, contaminants, and
+ 
+                                                               34
+-545 heterogeneity descriptors, adsorption studies can move from isolated parameter tables to-
+-546 ward reproducible structure–performance relationships across adsorbents, contaminants, and
+-547 water matrices. The proposed guidelines are therefore not intended to impose a single pre-
+-548 ferred isotherm model, but to ensure that whichever model is used, the reported quantities
+-549 remain transparent, comparable, and physically interpretable.
++541 water matrices. The proposed guidelines are therefore not intended to impose a single pre-
++542 ferred isotherm model, but to ensure that whichever model is used, the reported quantities
++543 remain transparent, comparable, and physically interpretable.
++
++544 Acknowledgement
+ 
+-550 Acknowledgement
++545 This work was partially supported by the J-PEAKS program of JSPS.
+ 
+-551 This work was partially supported by the J-PEAKS program of JSPS.
++546 Supporting Information Available
+ 
+-552 Supporting Information Available
++547 References
+ 
+-553 References
++548 (1) Progress on household drinking water, sanitation and hygiene 2000-2022: Spe-
+ 
+-554 (1) Progress on household drinking water, sanitation and hygiene 2000-2022: Spe-
++549  cial focus on gender - UNICEF DATA. https://data.unicef.org/resources/
+ 
+-555  cial focus on gender - UNICEF DATA. https://data.unicef.org/resources/
++550  jmp-report-2023/.
+ 
+-556  jmp-report-2023/.
++551 (2) The United Nations World Water Development Report 2023: partnerships and co-
+ 
+-557 (2) The United Nations World Water Development Report 2023: partnerships and co-
++552  operation for water - UNESCO Digital Library. https://unesdoc.unesco.org/ark:
+ 
+-558  operation for water - UNESCO Digital Library. https://unesdoc.unesco.org/ark:
++553  /48223/pf0000384655.
+ 
+-559  /48223/pf0000384655.
++554 (3) Mekonnen, M. M.; Hoekstra, A. Y. Four billion people facing severe water scarcity.
+ 
+-560 (3) Mekonnen, M. M.; Hoekstra, A. Y. Four billion people facing severe water scarcity.
++555  Science Advances 2016, 2, e1500323.
+ 
+-561  Science Advances 2016, 2, e1500323.
++556 (4) Vörösmarty, C. J.; McIntyre, P. B.; Gessner, M. O.; Dudgeon, D.; Prusevich, A.;
+ 
+-562 (4) Vörösmarty, C. J.; McIntyre, P. B.; Gessner, M. O.; Dudgeon, D.; Prusevich, A.;
++557  Green, P.; Glidden, S.; Bunn, S. E.; Sullivan, C. A.; Liermann, C. R.; Davies, P. M.
+ 
+-563  Green, P.; Glidden, S.; Bunn, S. E.; Sullivan, C. A.; Liermann, C. R.; Davies, P. M.
++558  Global threats to human water security and river biodiversity. Nature 2010, 467, 555–
+ 
+-564  Global threats to human water security and river biodiversity. Nature 2010, 467, 555–
++559  561.
+ 
+-565  561.
++560 (5) Blueprint for Acceleration: Sustainable Development Goal 6 Synthesis Re-
+ 
+                                           35
+-566 (5) Blueprint for Acceleration: Sustainable Development Goal 6 Synthesis Re-
++561  port on Water and Sanitation 2023. https://www.unwater.org/publications/
+ 
+-567  port on Water and Sanitation 2023. https://www.unwater.org/publications/
++562  sdg-6-synthesis-report-2023.
+ 
+-568  sdg-6-synthesis-report-2023.
++563 (6) Crini, G. Non-conventional low-cost adsorbents for dye removal: A review. Bioresource
+ 
+-569 (6) Crini, G. Non-conventional low-cost adsorbents for dye removal: A review. Bioresource
++564  Technology 2006, 97, 1061–1085.
+ 
+-570  Technology 2006, 97, 1061–1085.
++565 (7) Fu, F.; Wang, Q. Removal of heavy metal ions from wastewaters: A review. Journal of
+ 
+-571 (7) Fu, F.; Wang, Q. Removal of heavy metal ions from wastewaters: A review. Journal of
++566  Environmental Management 2011, 92, 407–418.
+ 
+-572  Environmental Management 2011, 92, 407–418.
++567 (8) Ahmaruzzaman, M. Industrial wastes as low-cost potential adsorbents for the treatment
+ 
+-573 (8) Ahmaruzzaman, M. Industrial wastes as low-cost potential adsorbents for the treatment
++568  of wastewater laden with heavy metals. Advances in Colloid and Interface Science 2011,
+ 
+-574  of wastewater laden with heavy metals. Advances in Colloid and Interface Science 2011,
++569  166, 36–59.
+ 
+-575  166, 36–59.
++570 (9) aus der Beek, T.; Weber, F.; Bergmann, A.; Hickmann, S.; Ebert, I.; Hein, A.;
+ 
+-576 (9) aus der Beek, T.; Weber, F.; Bergmann, A.; Hickmann, S.; Ebert, I.; Hein, A.;
++571  Küster, A. Pharmaceuticals in the environment—Global occurrences and perspectives.
+ 
+-577  Küster, A. Pharmaceuticals in the environment—Global occurrences and perspectives.
++572  Environmental Toxicology and Chemistry 2016, 35, 823–835.
+ 
+-578  Environmental Toxicology and Chemistry 2016, 35, 823–835.
++573 (10) Thacharodi, A.; Hassan, S.; Hegde, T. A.; Thacharodi, D. D.; Brindhadevi, K.;
+ 
+-579 (10) Thacharodi, A.; Hassan, S.; Hegde, T. A.; Thacharodi, D. D.; Brindhadevi, K.;
++574  Pugazhendhi, A. Water a major source of endocrine-disrupting chemicals: An overview
+ 
+-580  Pugazhendhi, A. Water a major source of endocrine-disrupting chemicals: An overview
++575  on the occurrence, implications on human health and bioremediation strategies. Envi-
+ 
+-581  on the occurrence, implications on human health and bioremediation strategies. Envi-
++576  ronmental Research 2023, 231, 116097.
+ 
+-582  ronmental Research 2023, 231, 116097.
++577 (11) Li, J.; Liu, H.; Paul Chen, J. Microplastics in freshwater systems: A review on occur-
+ 
+-583 (11) Li, J.; Liu, H.; Paul Chen, J. Microplastics in freshwater systems: A review on occur-
++578  rence, environmental effects, and methods for microplastics detection. Water Research
+ 
+-584  rence, environmental effects, and methods for microplastics detection. Water Research
++579  2018, 137, 362–374.
+ 
+-585  2018, 137, 362–374.
++580 (12) Rahman, M. F.; Peldszus, S.; Anderson, W. B. Behaviour and fate of perfluoroalkyl
+ 
+-586 (12) Rahman, M. F.; Peldszus, S.; Anderson, W. B. Behaviour and fate of perfluoroalkyl
++581  and polyfluoroalkyl substances (PFASs) in drinking water treatment: A review. Water
+ 
+-587  and polyfluoroalkyl substances (PFASs) in drinking water treatment: A review. Water
++582  Research 2014, 50, 318–340.
+ 
+-588  Research 2014, 50, 318–340.
++583 (13) Buck, R. C.; Franklin, J.; Berger, U.; Conder, J. M.; Cousins, I. T.; de Voogt, P.;
++
++584  Jensen, A. A.; Kannan, K.; Mabury, S. A.; van Leeuwen, S. P. Perfluoroalkyl and
+ 
+                                       36
+-589 (13) Buck, R. C.; Franklin, J.; Berger, U.; Conder, J. M.; Cousins, I. T.; de Voogt, P.;
++585  polyfluoroalkyl substances in the environment: Terminology, classification, and origins.
+ 
+-590  Jensen, A. A.; Kannan, K.; Mabury, S. A.; van Leeuwen, S. P. Perfluoroalkyl and
++586  Integrated Environmental Assessment and Management 2011, 7, 513–541.
+ 
+-591  polyfluoroalkyl substances in the environment: Terminology, classification, and origins.
++587 (14) Glüge, J.; Scheringer, M.; Cousins, I. T.; DeWitt, J. C.; Goldenman, G.; Herzke, D.;
+ 
+-592  Integrated Environmental Assessment and Management 2011, 7, 513–541.
++588  Lohmann, R.; Ng, C. A.; Trier, X.; Wang, Z. An overview of the uses of per- and
+ 
+-593 (14) Glüge, J.; Scheringer, M.; Cousins, I. T.; DeWitt, J. C.; Goldenman, G.; Herzke, D.;
++589  polyfluoroalkyl substances (PFAS). Environmental Science: Processes & Impacts 2020,
+ 
+-594  Lohmann, R.; Ng, C. A.; Trier, X.; Wang, Z. An overview of the uses of per- and
++590  22, 2345–2373.
+ 
+-595  polyfluoroalkyl substances (PFAS). Environmental Science: Processes & Impacts 2020,
++591 (15) US EPA, O. PFAS Strategic Roadmap:         EPA’s Commit-
+ 
+-596  22, 2345–2373.
++592  ments to Action 2021-2024. 2021;               https://www.epa.gov/pfas/
+ 
+-597 (15) US EPA, O. PFAS Strategic Roadmap:         EPA’s Commit-
++593  pfas-strategic-roadmap-epas-commitments-action-2021-2024.
+ 
+-598  ments to Action 2021-2024. 2021;               https://www.epa.gov/pfas/
++594 (16) Foo, K. Y.; Hameed, B. H. Insights into the modeling of adsorption isotherm systems.
+ 
+-599  pfas-strategic-roadmap-epas-commitments-action-2021-2024.
++595  Chemical Engineering Journal 2010, 156, 2–10.
+ 
+-600 (16) Foo, K. Y.; Hameed, B. H. Insights into the modeling of adsorption isotherm systems.
++596 (17) Hu, Q.; Lan, R.; He, L.; Liu, H.; Pei, X. A critical review of adsorption isotherm models
+ 
+-601  Chemical Engineering Journal 2010, 156, 2–10.
++597  for aqueous contaminants: Curve characteristics, site energy distribution and common
+ 
+-602 (17) Hu, Q.; Lan, R.; He, L.; Liu, H.; Pei, X. A critical review of adsorption isotherm models
++598  controversies. Journal of Environmental Management 2023, 329, 117104.
+ 
+-603  for aqueous contaminants: Curve characteristics, site energy distribution and common
++599 (18) Langmuir, I. THE ADSORPTION OF GASES ON PLANE SURFACES OF GLASS,
+ 
+-604  controversies. Journal of Environmental Management 2023, 329, 117104.
++600  MICA AND PLATINUM. Journal of the American Chemical Society 1918, 40, 1361–
+ 
+-605 (18) Langmuir, I. THE ADSORPTION OF GASES ON PLANE SURFACES OF GLASS,
++601  1403.
+ 
+-606  MICA AND PLATINUM. Journal of the American Chemical Society 1918, 40, 1361–
++602 (19) Freundlich, H. Über die Adsorption in Lösungen. Zeitschrift für Physikalische Chemie
+ 
+-607  1403.
++603  1907, 57U, 385–470.
+ 
+-608 (19) Freundlich, H. Über die Adsorption in Lösungen. Zeitschrift für Physikalische Chemie
++604 (20) Sips, R. On the Structure of a Catalyst Surface. The Journal of Chemical Physics 1948,
+ 
+-609  1907, 57U, 385–470.
++605  16, 490–495.
+ 
+-610 (20) Sips, R. On the Structure of a Catalyst Surface. The Journal of Chemical Physics 1948,
++606 (21) Latour, R. A. The langmuir isotherm: A commonly applied but mis-
+ 
+-611  16, 490–495.
++607  leading approach for the analysis of protein adsorption behavior. Journal
+ 
+                           37
+-612 (21) Latour, R. A. The langmuir isotherm: A commonly applied but mis-
+-
+-613  leading approach for the analysis of protein adsorption behavior. Journal
+-
+-614  of Biomedical Materials Research Part A 2015, 103, 949–958, _eprint:
++608  of Biomedical Materials Research Part A 2015, 103, 949–958, _eprint:
+ 
+-615  https://onlinelibrary.wiley.com/doi/pdf/10.1002/jbm.a.35235.
++609  https://onlinelibrary.wiley.com/doi/pdf/10.1002/jbm.a.35235.
+ 
+-616 (22) de Vargas Brião, G.; Hashim, M. A.; Chu, K. H. The Sips isotherm equation: Often
++610 (22) de Vargas Brião, G.; Hashim, M. A.; Chu, K. H. The Sips isotherm equation: Often
+ 
+-617  used and sometimes misused. Separation Science and Technology 2023, 58, 884–892,
++611  used and sometimes misused. Separation Science and Technology 2023, 58, 884–892,
+ 
+-618  _eprint: https://doi.org/10.1080/01496395.2023.2167662.
++612  _eprint: https://doi.org/10.1080/01496395.2023.2167662.
+ 
+      38
+-619 TOC Graphic
++613 TOC Graphic
+ 
+-620
++614
+ 
+                                                               39
+ 
+diff --git a/main_20260707_1641.tex b/main_20260707_1641.tex
+index 41efe46..2ba6621 100644
+--- a/main_20260707_1641.tex
++++ b/main_20260707_1641.tex
+@@ -1,4 +1,4 @@
+-﻿% Agent note (Codex, 2026-07-07 16:41 JST):
++% Agent note (Codex, 2026-07-07 16:41 JST):
+ % New no-overwrite manuscript copy created after the user requested correction
+ % of the internal timestamp. This version preserves the prior reviewed science edits, updates cross-document links to SI_20260707_1641, and records that Codex
+ % applied the Gemini/Antigravity-alignment corrections for sigma_H,
+@@ -91,7 +91,6 @@
+ 
+ 
+ %\usepackage[margin=1in]{geometry} % Optional: Adjust page margins
+-\usepackage{lineno}              % Load lineno package
+ \usepackage{titlesec}
+ \usepackage[section]{placeins}
+ 
+@@ -398,7 +397,7 @@ See Eq.~\eqref{SI-eq:si_freundlich}.
+ 	\centering
+ 	\includegraphics[width=\columnwidth]{Isotherms_02.drawio_C.png}
+ 	\caption{
+-		Final physical-validation step for assigning the selected isotherm model to a reportable adsorption descriptor set. The best AIC$_c$ model is interpreted in terms of its implied energy-distribution family and limiting behavior. Sips and TÃ³th fits are checked for proximity to the Langmuir limit, while Jovanovic, UNILAN, Redlich--Peterson, and double-Langmuir outcomes are assigned according to their characteristic heterogeneity signatures. This step links statistical goodness of fit with physically meaningful descriptors such as finite capacity, affinity, and energy-distribution width.
++		Final physical-validation step for assigning the selected isotherm model to a reportable adsorption descriptor set. The best AIC$_c$ model is interpreted in terms of its implied energy-distribution family and limiting behavior. Sips and T\'{o}th fits are checked for proximity to the Langmuir limit, while Jovanovic, UNILAN, Redlich--Peterson, and double-Langmuir outcomes are assigned according to their characteristic heterogeneity signatures. This step links statistical goodness of fit with physically meaningful descriptors such as finite capacity, affinity, and energy-distribution width.
+ 	}
+ 		\label{fig:model_physical_validation}
+ 	\end{figure}
+@@ -871,10 +870,17 @@ model-specific corrections are given in Table~\ref{SI-tab:si_sigma_numerical}.
+ 	High overlap indicates that two models encode essentially the same energetic picture, whereas low overlap indicates physically distinct heterogeneity patterns. % This complements residual-based metrics such as SSE, AIC$_c$, BIC, and F-tests by adding a distribution-level criterion for model comparison. 
+ 	
+ 	More broadly, the descriptor set
+-	\begin{equation}
+-		\mathbf{d} = \{Q_{\max},\, E_{\mathrm{ads}},\, \sigma_H\}
+-		\label{eq:descriptor_bridge}
+-	\end{equation}
++		\begin{equation}
++			\mathcal{F}
++			=
++			\left\{
++			Q_{\max},\,
++			K_{\mathrm{aff}}^{\ast},\,
++			E_{\mathrm{ads}},\,
++			\sigma_H
++			\right\}.
++			\label{eq:reporting_fingerprint}
++		\end{equation}
+ 	defines a compact, physically interpretable feature space for adsorption systems. Within this space, $Q_{\max}$ measures the amount of adsorption, $E_{\mathrm{ads}}$ measures the central energetic level, and $\sigma_H$ measures intrinsic heterogeneity. These descriptors can be used not only to compare fitted models, but also to compare materials, contaminants, or operating conditions on a common basis. They also provide suitable input variables for data-driven analysis, including clustering and supervised classification methods such as k-nearest neighbours (KNN) and support vector machines (SVM), as developed in the following section. In this way, the energy-distribution view links isotherm physics, statistical model discrimination, and descriptor-based classification within a single framework.
+ % =================================================================
+ 	%  SECTION 5 â€” MODEL SELECTION
+@@ -984,7 +990,22 @@ Importantly, the use of information criteria does not imply that one model is ``
+ 
+ 	
+ The KNN and SVM examples are intended as downstream demonstrations of how the standardized descriptor table can be used once a sufficiently large labelled dataset exists. They are not used here to claim predictive performance of a trained classifier.
+-Once the standardized descriptors $\{Q_{\max},\, \ln K_{\mathrm{aff}}^{\ast},\, \sigma_H\}$ (Eq.~\eqref{eq:Eads}) have been extracted for a collection of adsorbent--adsorbate systems, materials can be classified in this descriptor space without imposing a parametric model on the group boundaries. The $k$-Nearest Neighbours (KNN) algorithm assigns a query material to the class most common among its $k$ closest neighbours:
++
++For classification and clustering, the reporting fingerprint is converted into the standardized feature vector 
++\begin{equation}
++	\mathbf{x}
++	=
++	\left(
++	Q_{\max},\,
++	\ln K_{\mathrm{aff}}^{\ast},\,
++	\sigma_H
++	\right).
++	\label{eq:classification_features}
++\end{equation}
++Here, \(Q_{\max}\) captures capacity, \(\ln K_{\mathrm{aff}}^{\ast}\) captures standard-state affinity on an additive scale, and \(\sigma_H\) captures the reported model-implied heterogeneity.
++
++Once the feature vector in Eq.~\eqref{eq:classification_features} has been extracted for a collection of adsorbent--adsorbate systems, materials can be classified in this descriptor space without imposing a parametric model on the group boundaries.
++The $k$-Nearest Neighbours (KNN) algorithm assigns a query material to the class most common among its $k$ closest neighbours:
+ 	\begin{equation}
+ 		\hat{y}(\mathbf{x}_q)
+ 		= \arg\max_{c}\;
+@@ -1055,6 +1076,9 @@ Once the standardized descriptors $\{Q_{\max},\, \ln K_{\mathrm{aff}}^{\ast},\,
+ % =================================================================
+ %  SECTION 6 -- WORKED EXAMPLE
+ % =================================================================
++\begin{comment}
++
++
+ \section{Worked example: from fits to a reported fingerprint}
+ \label{sec:worked_example}
+ 
+@@ -1091,6 +1115,8 @@ BET & yes & range-limited & conditional & report only within validated regime \\
+ This example is intentionally simple. It shows why a visually good fit is not
+ sufficient by itself: a model can be useful for interpolation while still being
+ unsuitable for reporting the complete thermodynamic fingerprint.
++
++\end{comment}
+ % =================================================================
+ 	%  SECTION 7 -- REPORTING GUIDELINES
+ 	% =================================================================
+@@ -1155,7 +1181,7 @@ unsuitable for reporting the complete thermodynamic fingerprint.
+ 	\]
+ 	Here, \(Q_{\max}\) describes the finite adsorption capacity, \(K_{\mathrm{aff}}^{\ast}\) places affinity on a dimensionless standard-state scale, \(E_{\mathrm{ads}}\) expresses this affinity as an adsorption-energy descriptor, and \(\sigma_H\) quantifies intrinsic surface heterogeneity. This fingerprint allows adsorption data obtained from different isotherm models to be compared in a physically meaningful way, provided that the standard-state concentration \(C^0\), experimental conditions, fitted parameters, and uncertainty metrics are explicitly reported.
+ 	
+-	The framework also provides a practical route for model selection. Rather than relying on \(R^2\) alone, the proposed workflow combines non-linear regression, residual-based metrics, information criteria, nested-model tests, and physical validation based on limiting behavior and energy-distribution families. This approach helps distinguish cases where Langmuir is sufficient from cases where heterogeneous models such as Sips, TÃ³th, UNILAN, Jovanovic, or double Langmuir are genuinely justified. It also prevents over-interpretation of small statistical improvements that do not correspond to physically meaningful differences in adsorption behavior.
++	The framework also provides a practical route for model selection. Rather than relying on \(R^2\) alone, the proposed workflow combines non-linear regression, residual-based metrics, information criteria, nested-model tests, and physical validation based on limiting behavior and energy-distribution families. This approach helps distinguish cases where Langmuir is sufficient from cases where heterogeneous models such as Sips, T\'{o}th, UNILAN, Jovanovic, or double Langmuir are genuinely justified. It also prevents over-interpretation of small statistical improvements that do not correspond to physically meaningful differences in adsorption behavior.
+ 	
+ 	Finally, the descriptor-based structure of the framework makes adsorption data more suitable for cross-study comparison, uncertainty analysis, and machine-learning classification. By converting model-specific fitting results into a common set of thermodynamic and heterogeneity descriptors, adsorption studies can move from isolated parameter tables toward reproducible structure--performance relationships across adsorbents, contaminants, and water matrices. The proposed guidelines are therefore not intended to impose a single preferred isotherm model, but to ensure that whichever model is used, the reported quantities remain transparent, comparable, and physically interpretable.
+ 
